@@ -1,34 +1,38 @@
 project made to automate DSA problems commits and google sheet 
 -_- <3
 DSA Dojo Automator
+Overview
 
-DSA Dojo Automator is a utility built to automate problem tracking for Data Structures & Algorithms practice.
-It handles both GitHub repository commits and CSV sheet updates simultaneously, ensuring a smooth workflow.
+As a Problem Designer at a startup, I often need to design, manage, and track large sets of DSA problems. Doing this manually — updating GitHub repositories, syncing CSV sheets, and ensuring no problem is repeated — was slowing me down.
 
-Features
+To solve this, I built DSA Dojo Automator:
+A tool that automates GitHub commits, manages CSV sheets, and ensures non-repetitive problem generation from a structured syllabus, with support for adding custom problems.
 
-▸ GitHub Automation : Uses personal access tokens to perform commits and updates.
+Problem it Solves
 
-▸ CSV Sheet Sync : Full CRUD operations on tracking sheets.
+Manual Git commits after every problem → Automated with GitHub API.
 
-▸ Problem Generator : Generates non-repetitive problems from the belt syllabus.
+Tracking solved/unsolved problems in sheets → Automated CRUD operations on CSV.
 
-▸ Custom Problems : Add and manage your own problem statements.
+Risk of repeating problems from the syllabus → Smart generator avoids duplication.
 
-Technical Highlights
+Adding unique company-specific problems → Custom problem support built-in.
 
-▸ Designed for automation and consistency in DSA practice.
+This makes the workflow scalable, reliable, and efficient for problem curation.
 
-▸ Eliminates redundant manual operations across GitHub and sheets.
 
-▸ Simple, extensible, and developer-focused.
+Why I Built This
 
-Why this Project?
+In my role, I realized the overhead of managing problems was distracting from the actual creative process of designing questions.
+This project automates the repetitive parts so I can spend more time:
 
-Managing problems, commits, and sheet updates was becoming repetitive.
-This tool creates a single automated workflow where:
+Thinking about problem quality.
 
-▸ Problems are generated without repetition.
+Ensuring coverage of concepts.
+
+Innovating around new question types.
+
+With DSA Dojo Automator, problem designing becomes structured, fast, and error-free.
 
 ▸ Git commits are handled automatically.
 
