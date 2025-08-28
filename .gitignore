@@ -3,3 +3,4 @@ generation_history.json
 __pycache__/
 venv/
 repositories
+requirements.txt
