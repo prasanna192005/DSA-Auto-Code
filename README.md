@@ -10,7 +10,8 @@ A tool that automates GitHub commits, manages CSV sheets, and ensures non-repeti
 
 Problem it Solves
 
-Manual Git commits after every problem → Automated with GitHub API.
+Manual Git commits after every problem → Automated using git tokens classic
+
 
 Tracking solved/unsolved problems in sheets → Automated CRUD operations on CSV.
 
