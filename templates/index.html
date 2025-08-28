@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DSA Dojo Automator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    :root {
+      --color-background: #0f172a;
+      --color-surface: #1e293b;
+      --color-border: #334155;
+      --color-text-main: #cbd5e1;
+      --color-text-headings: #f8fafc;
+      --color-primary: #f59e0b;
+      --color-primary-hover: #fbbf24;
+      --color-success-bg: #10B981;
+      --color-error-bg: #EF4444;
+
+      --pico-background-color: var(--color-background);
+      --pico-color: var(--color-text-main);
+      --pico-h1-color: var(--color-text-headings);
+      --pico-h2-color: var(--color-text-headings);
+      --pico-h3-color: var(--color-text-headings);
+      --pico-card-background-color: var(--color-surface);
+      --pico-card-border-radius: 0.8rem;
+      --pico-border-radius: 0.6rem;
+      --pico-form-element-background-color: #334155;
+      --pico-form-element-border-color: var(--color-border);
+      --pico-form-element-focus-border-color: var(--color-primary);
+      --pico-primary: var(--color-primary);
+      --pico-primary-hover: var(--color-primary-hover);
+      --pico-primary-focus: var(--color-primary);
+      --pico-primary-inverse: #0f172a;
+    }
+
+    body {
+      background: var(--color-background);
+      font-family: "Segoe UI", Roboto, sans-serif;
+    }
+
+    main.container {
+      padding: 2rem 1rem;
+      max-width: 900px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+    header p {
+      color: #94a3b8;
+      margin-top: 0.5rem;
+    }
+
+    /* Tabs */
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 2rem;
+    }
+    .tab-link {
+      padding: 0.75rem 1.25rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      font-weight: 500;
+      color: var(--color-text-main);
+      transition: all 0.25s ease;
+    }
+    .tab-link.active {
+      border-bottom-color: var(--color-primary);
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+    .tab-link:hover {
+      color: var(--color-text-headings);
+    }
+    .hidden { display: none; }
+
+    /* Toasts */
+    #status-message-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+    .status-message {
+      padding: 1rem 1.25rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      color: white;
+      animation: slideIn 0.4s ease-out forwards;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+    }
+    .success { background: var(--color-success-bg); }
+    .error { background: var(--color-error-bg); }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(100%); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Loader */
+    .loader-container { text-align: center; margin: 3rem 0; }
+    .loader {
+      border: 4px solid #334155;
+      border-top: 4px solid var(--color-primary);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      margin: auto;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { 0% {transform: rotate(0);} 100% {transform: rotate(360deg);} }
+
+    /* Forms */
+    form button {
+      margin-top: 1rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    form button:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>🥋 DSA Dojo Automator</h1>
+      <p>Generate • Manage • Commit DSA Problems Effortlessly</p>
+    </header>
+
+    <div id="status-message-container"></div>
+
+    <nav class="tab-nav">
+      <a href="#" class="tab-link active" data-tab="create-tab">➕ Create Problem</a>
+      <a href="#" class="tab-link" data-tab="manage-tab">🗂 Manage Problems</a>
+    </nav>
+
+    <div id="loader" class="hidden loader-container">
+      <div class="loader"></div>
+      <p style="margin-top:0.8rem;">Working... please wait</p>
+    </div>
+
+    <!-- Create Tab -->
+    <section id="create-tab" class="tab-panel">
+      <article>
+        <form id="generate-form">
+          <div class="grid">
+            <label>Belt <select name="belt" required>
+              <option>White Belt</option>
+              <option>Yellow Belt</option>
+              <option>Orange Belt</option>
+              <option>Red Belt</option>
+              <option>Green Belt</option>
+              <option>Blue Belt</option>
+              <option>Purple Belt</option>
+            </select></label>
+            <label>Source <select name="source">
+              <option value="ai">Generate with AI</option>
+              <option value="custom">Custom Template</option>
+            </select></label>
+            <label>Quantity <input type="number" name="num_problems" value="1" min="1" max="5"></label>
+          </div>
+          <button type="submit">🚀 Generate Problem(s)</button>
+        </form>
+      </article>
+
+      <div id="problem-selector-container" class="hidden" style="margin-top:2rem;">
+        <label for="problem-selector">Select a Generated Problem</label>
+        <select id="problem-selector"></select>
+      </div>
+
+      <section id="verification-section" class="hidden">
+        <article>
+          <form id="commit-form">
+            <input type="hidden" name="belt" id="verify-belt">
+            <input type="hidden" name="topic" id="verify-topic">
+            <label>Problem Title <input type="text" name="problem_title" id="problem_title" required></label>
+            <div class="grid">
+              <label>Readme Content <textarea name="readme_content" id="readme_content" required></textarea></label>
+              <label>Solution Content <textarea name="solution_content" id="solution_content" required></textarea></label>
+            </div>
+            <fieldset>
+              <legend>Commit Action</legend>
+              <label><input type="radio" name="commit_action" value="now" onclick="toggleSchedule(false)" checked> Commit Now</label>
+              <label><input type="radio" name="commit_action" value="schedule" onclick="toggleSchedule(true)"> Schedule Commit</label>
+            </fieldset>
+            <div id="schedule-section" class="hidden">
+              <label>Schedule Time <input type="datetime-local" name="schedule_time" id="schedule_time"></label>
+            </div>
+            <button type="submit">✅ Approve & Commit</button>
+          </form>
+        </article>
+      </section>
+    </section>
+
+    <!-- Manage Tab -->
+    <section id="manage-tab" class="tab-panel hidden">
+      <article>
+        <p>Select a belt to see its problems. Deleting a problem will leave a gap in the numbering.</p>
+        <form id="delete-form">
+          <div class="grid">
+            <label>Select Belt <select id="delete-belt" name="belt" required>
+              <option disabled selected>-- Select a belt --</option>
+              <option>White Belt</option>
+              <option>Yellow Belt</option>
+              <option>Orange Belt</option>
+              <option>Red Belt</option>
+              <option>Green Belt</option>
+              <option>Blue Belt</option>
+              <option>Purple Belt</option>
+            </select></label>
+            <label>Select Problem <select id="delete-problem-folder" name="problem_folder" required disabled>
+              <option>-- First select a belt --</option>
+            </select></label>
+          </div>
+          <button type="submit" id="delete-btn" class="secondary" disabled>🗑 Delete Problem</button>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const generateForm = document.getElementById('generate-form');
+    const commitForm = document.getElementById('commit-form');
+    const deleteForm = document.getElementById('delete-form');
+    const verificationSection = document.getElementById('verification-section');
+    const loader = document.getElementById('loader');
+    const statusContainer = document.getElementById('status-message-container');
+    const problemSelectorContainer = document.getElementById('problem-selector-container');
+    const problemSelector = document.getElementById('problem-selector');
+    const deleteBeltSelector = document.getElementById('delete-belt');
+    const deleteProblemSelector = document.getElementById('delete-problem-folder');
+    const deleteBtn = document.getElementById('delete-btn');
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    let generatedProblems = [];
+
+    function switchTab(e) {
+      e.preventDefault();
+      const targetTab = e.currentTarget.getAttribute('data-tab');
+      tabLinks.forEach(l => l.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      tabPanels.forEach(p => p.classList.toggle('hidden', p.id !== targetTab));
+      statusContainer.innerHTML = '';
+    }
+    tabLinks.forEach(l => l.addEventListener('click', switchTab));
+
+    function toggleSchedule(show) {
+      document.getElementById('schedule-section').classList.toggle('hidden', !show);
+    }
+    function displayMessage(msg, type) {
+      const el = document.createElement('div');
+      el.className = `status-message ${type}`;
+      el.textContent = msg;
+      statusContainer.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+
+    function populateVerificationForm(idx) {
+      const p = generatedProblems[idx];
+      if (!p) return;
+      document.getElementById('problem_title').value = p.title;
+      document.getElementById('verify-topic').value = p.topic;
+      document.getElementById('readme_content').value = p.readme;
+      document.getElementById('solution_content').value = p.solution;
+    }
+    problemSelector.addEventListener('change', e => populateVerificationForm(e.target.value));
+
+    generateForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      loader.classList.remove('hidden');
+      verificationSection.classList.add('hidden');
+      problemSelectorContainer.classList.add('hidden');
+      const formData = new FormData(generateForm);
+      const res = await fetch('/generate', {method:'POST', body: formData});
+      loader.classList.add('hidden');
+      if (res.ok) {
+        generatedProblems = await res.json();
+        if (generatedProblems.length > 0) {
+          problemSelector.innerHTML = '';
+          generatedProblems.forEach((p,i)=>problemSelector.add(new Option(p.title || `Problem ${i+1}`, i)));
+          problemSelectorContainer.classList.remove('hidden');
+          verificationSection.classList.remove('hidden');
+          document.getElementById('verify-belt').value = formData.get('belt');
+          populateVerificationForm(0);
+        } else displayMessage('No problems generated.', 'error');
+      } else displayMessage('Error generating problems.', 'error');
+    });
+
+    commitForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const formData = new FormData(commitForm);
+      const res = await fetch('/commit', {method:'POST', body: formData});
+      const data = await res.json();
+      if (res.ok) {
+        displayMessage(data.message, 'success');
+        verificationSection.classList.add('hidden');
+        problemSelectorContainer.classList.add('hidden');
+        commitForm.reset();
+      } else displayMessage(data.message, 'error');
+    });
+
+    deleteBeltSelector.addEventListener('change', async e => {
+      deleteProblemSelector.innerHTML = '<option>Loading...</option>';
+      deleteProblemSelector.disabled = true;
+      deleteBtn.disabled = true;
+      const res = await fetch(`/problems/${e.target.value}`);
+      if (res.ok) {
+        const probs = await res.json();
+        deleteProblemSelector.innerHTML = '';
+        if (probs.length) {
+          deleteProblemSelector.add(new Option('-- Select a problem --', '', true, true));
+          probs.forEach(p => deleteProblemSelector.add(new Option(p, p)));
+          deleteProblemSelector.disabled = false;
+          deleteBtn.disabled = false;
+        } else deleteProblemSelector.innerHTML = '<option>-- No problems found --</option>';
+      } else deleteProblemSelector.innerHTML = '<option>-- Error loading --</option>';
+    });
+
+    deleteForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!confirm('Are you sure to delete this problem?')) return;
+      const formData = new FormData(deleteForm);
+      const res = await fetch('/delete', {method:'POST', body: formData});
+      const data = await res.json();
+      if (res.ok) {
+        displayMessage(data.message, 'success');
+        deleteBeltSelector.dispatchEvent(new Event('change'));
+      } else displayMessage(data.message, 'error');
+    });
+  </script>
+</body>
+</html>
