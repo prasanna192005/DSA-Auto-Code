@@ -1,348 +1,351 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DSA Dojo Automator</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-  <style>
-    :root {
-      --color-background: #0f172a;
-      --color-surface: #1e293b;
-      --color-border: #334155;
-      --color-text-main: #cbd5e1;
-      --color-text-headings: #f8fafc;
-      --color-primary: #f59e0b;
-      --color-primary-hover: #fbbf24;
-      --color-success-bg: #10B981;
-      --color-error-bg: #EF4444;
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>DSA Dojo Automator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        :root {
+            --color-background: #111827; /* Slate 900 */
+            --color-surface: #1f2937;    /* Slate 800 */
+            --color-border: #374151;     /* Slate 700 */
+            --color-text-main: #d1d5db;  /* Slate 300 */
+            --color-text-headings: #f9fafb; /* Slate 50 */
+            --color-primary: #f59e0b;    /* Amber 500 */
+            --color-primary-hover: #fbbf24; /* Amber 400 */
+            --color-success-bg: #10B981; /* Emerald 500 */
+            --color-error-bg: #EF4444;  /* Red 500 */
 
-      --pico-background-color: var(--color-background);
-      --pico-color: var(--color-text-main);
-      --pico-h1-color: var(--color-text-headings);
-      --pico-h2-color: var(--color-text-headings);
-      --pico-h3-color: var(--color-text-headings);
-      --pico-card-background-color: var(--color-surface);
-      --pico-card-border-radius: 0.8rem;
-      --pico-border-radius: 0.6rem;
-      --pico-form-element-background-color: #334155;
-      --pico-form-element-border-color: var(--color-border);
-      --pico-form-element-focus-border-color: var(--color-primary);
-      --pico-primary: var(--color-primary);
-      --pico-primary-hover: var(--color-primary-hover);
-      --pico-primary-focus: var(--color-primary);
-      --pico-primary-inverse: #0f172a;
-    }
+            --pico-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --pico-background-color: var(--color-background);
+            --pico-color: var(--color-text-main);
+            --pico-h1-color: var(--color-text-headings);
+            --pico-h2-color: var(--color-text-headings);
+            --pico-h3-color: var(--color-text-headings);
+            --pico-card-background-color: var(--color-surface);
+            --pico-card-border-radius: 0.75rem;
+            --pico-border-radius: 0.5rem;
+            --pico-form-element-background-color: #374151;
+            --pico-form-element-border-color: var(--color-border);
+            --pico-form-element-focus-border-color: var(--color-primary);
+            --pico-primary: var(--color-primary);
+            --pico-primary-hover: var(--color-primary-hover);
+            --pico-primary-focus: var(--color-primary);
+            --pico-primary-inverse: #111827;
+        }
 
-    body {
-      background: var(--color-background);
-      font-family: "Segoe UI", Roboto, sans-serif;
-    }
+        body { font-feature-settings: "cv02","cv03","cv04","cv11"; }
+        main.container { padding: 2rem 1rem; }
+        article { border: 1px solid var(--color-border); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        button, a[role="button"] { transition: all 0.2s ease-in-out; }
+        button:hover, a[role="button"]:hover { transform: translateY(-2px); }
+        button:disabled { cursor: not-allowed; }
 
-    main.container {
-      padding: 2rem 1rem;
-      max-width: 900px;
-    }
+        header { text-align: center; margin-bottom: 3rem; }
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
 
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 800;
-    }
-    header p {
-      color: #94a3b8;
-      margin-top: 0.5rem;
-    }
+        .tab-nav { display: flex; justify-content: center; border-bottom: 1px solid var(--color-border); margin-bottom: 2rem; }
+        .tab-link {
+            padding: 0.75rem 1.25rem; border: none; background: none; cursor: pointer;
+            border-bottom: 3px solid transparent; margin-bottom: -2px; color: var(--color-text-main);
+            transition: all 0.2s ease-in-out; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .tab-link:hover { color: var(--color-text-headings); }
+        .tab-link.active { border-bottom-color: var(--pico-primary); font-weight: 600; color: var(--pico-primary); }
+        .hidden { display: none; }
 
-    /* Tabs */
-    .tab-nav {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      border-bottom: 1px solid var(--color-border);
-      margin-bottom: 2rem;
-    }
-    .tab-link {
-      padding: 0.75rem 1.25rem;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      margin-bottom: -2px;
-      font-weight: 500;
-      color: var(--color-text-main);
-      transition: all 0.25s ease;
-    }
-    .tab-link.active {
-      border-bottom-color: var(--color-primary);
-      color: var(--color-primary);
-      font-weight: 700;
-    }
-    .tab-link:hover {
-      color: var(--color-text-headings);
-    }
-    .hidden { display: none; }
+        #status-message-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 0.5rem; }
+        .status-message {
+            padding: 1rem 1.2rem; border-radius: var(--pico-border-radius); color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); animation: slideIn 0.4s ease-out forwards; border: none;
+        }
+        .success { background-color: var(--color-success-bg); }
+        .error { background-color: var(--color-error-bg); }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
 
-    /* Toasts */
-    #status-message-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      z-index: 1000;
-    }
-    .status-message {
-      padding: 1rem 1.25rem;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      color: white;
-      animation: slideIn 0.4s ease-out forwards;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.35);
-    }
-    .success { background: var(--color-success-bg); }
-    .error { background: var(--color-error-bg); }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(100%); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    /* Loader */
-    .loader-container { text-align: center; margin: 3rem 0; }
-    .loader {
-      border: 4px solid #334155;
-      border-top: 4px solid var(--color-primary);
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      margin: auto;
-      animation: spin 0.9s linear infinite;
-    }
-    @keyframes spin { 0% {transform: rotate(0);} 100% {transform: rotate(360deg);} }
-
-    /* Forms */
-    form button {
-      margin-top: 1rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-    form button:hover { transform: translateY(-2px); }
-  </style>
+        .loader-container { text-align: center; margin: 3rem 0; }
+        .loader {
+            border: 4px solid #374151; border-top: 4px solid var(--color-primary);
+            border-radius: 50%; width: 40px; height: 40px;
+            animation: spin 0.8s linear infinite; margin: auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
-  <main class="container">
-    <header>
-      <h1>🥋 DSA Dojo Automator</h1>
-      <p>Generate • Manage • Commit DSA Problems Effortlessly</p>
-    </header>
+    <main class="container">
+        <header>
+            <h1>🥋 DSA Dojo Automator</h1>
+          
+        </header>
 
-    <div id="status-message-container"></div>
+        <div id="status-message-container"></div>
 
-    <nav class="tab-nav">
-      <a href="#" class="tab-link active" data-tab="create-tab">➕ Create Problem</a>
-      <a href="#" class="tab-link" data-tab="manage-tab">🗂 Manage Problems</a>
-    </nav>
+        <nav class="tab-nav">
+            <a href="#" class="tab-link active" data-tab="create-tab">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Create Problem
+            </a>
+            <a href="#" class="tab-link" data-tab="manage-tab">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                Manage Problems
+            </a>
+        </nav>
 
-    <div id="loader" class="hidden loader-container">
-      <div class="loader"></div>
-      <p style="margin-top:0.8rem;">Working... please wait</p>
-    </div>
+        <div id="loader" class="hidden loader-container">
+            <div class="loader"></div>
+            <p style="margin-top:0.8rem;">Working... please wait</p>
+        </div>
 
-    <!-- Create Tab -->
-    <section id="create-tab" class="tab-panel">
-      <article>
-        <form id="generate-form">
-          <div class="grid">
-            <label>Belt <select name="belt" required>
-              <option>White Belt</option>
-              <option>Yellow Belt</option>
-              <option>Orange Belt</option>
-              <option>Red Belt</option>
-              <option>Green Belt</option>
-              <option>Blue Belt</option>
-              <option>Purple Belt</option>
-            </select></label>
-            <label>Source <select name="source">
-              <option value="ai">Generate with AI</option>
-              <option value="custom">Custom Template</option>
-            </select></label>
-            <label>Quantity <input type="number" name="num_problems" value="1" min="1" max="5"></label>
-          </div>
-          <button type="submit">🚀 Generate Problem(s)</button>
-        </form>
-      </article>
+        <section id="create-tab" class="tab-panel">
+            <article>
+                <form id="generate-form">
+                    <div class="grid">
+                        <label>Belt <select name="belt" required>
+                            <option value="White Belt">White Belt</option>
+                            <option value="Yellow Belt">Yellow Belt</option>
+                            <option value="Orange Belt">Orange Belt</option>
+                            <option value="Red Belt">Red Belt</option>
+                            <option value="Green Belt">Green Belt</option>
+                            <option value="Blue Belt">Blue Belt</option>
+                            <option value="Purple Belt">Purple Belt</option>
+                        </select></label>
+                        <label>Source <select name="source">
+                            <option value="ai">Generate with AI</option>
+                            <option value="custom">Custom Template</option>
+                        </select></label>
+                        <label>Quantity <input type="number" name="num_problems" value="1" min="1" max="5"></label>
+                    </div>
+                    <button type="submit"> Generate Problem(s)</button>
+                </form>
+            </article>
 
-      <div id="problem-selector-container" class="hidden" style="margin-top:2rem;">
-        <label for="problem-selector">Select a Generated Problem</label>
-        <select id="problem-selector"></select>
-      </div>
-
-      <section id="verification-section" class="hidden">
-        <article>
-          <form id="commit-form">
-            <input type="hidden" name="belt" id="verify-belt">
-            <input type="hidden" name="topic" id="verify-topic">
-            <label>Problem Title <input type="text" name="problem_title" id="problem_title" required></label>
-            <div class="grid">
-              <label>Readme Content <textarea name="readme_content" id="readme_content" required></textarea></label>
-              <label>Solution Content <textarea name="solution_content" id="solution_content" required></textarea></label>
+            <div id="problem-selector-container" class="hidden" style="margin-top: 2rem;">
+                <label for="problem-selector">Select a Generated Problem to Verify</label>
+                <select id="problem-selector"></select>
             </div>
-            <fieldset>
-              <legend>Commit Action</legend>
-              <label><input type="radio" name="commit_action" value="now" onclick="toggleSchedule(false)" checked> Commit Now</label>
-              <label><input type="radio" name="commit_action" value="schedule" onclick="toggleSchedule(true)"> Schedule Commit</label>
-            </fieldset>
-            <div id="schedule-section" class="hidden">
-              <label>Schedule Time <input type="datetime-local" name="schedule_time" id="schedule_time"></label>
-            </div>
-            <button type="submit">✅ Approve & Commit</button>
-          </form>
-        </article>
-      </section>
-    </section>
 
-    <!-- Manage Tab -->
-    <section id="manage-tab" class="tab-panel hidden">
-      <article>
-        <p>Select a belt to see its problems. Deleting a problem will leave a gap in the numbering.</p>
-        <form id="delete-form">
-          <div class="grid">
-            <label>Select Belt <select id="delete-belt" name="belt" required>
-              <option disabled selected>-- Select a belt --</option>
-              <option>White Belt</option>
-              <option>Yellow Belt</option>
-              <option>Orange Belt</option>
-              <option>Red Belt</option>
-              <option>Green Belt</option>
-              <option>Blue Belt</option>
-              <option>Purple Belt</option>
-            </select></label>
-            <label>Select Problem <select id="delete-problem-folder" name="problem_folder" required disabled>
-              <option>-- First select a belt --</option>
-            </select></label>
-          </div>
-          <button type="submit" id="delete-btn" class="secondary" disabled>🗑 Delete Problem</button>
-        </form>
-      </article>
-    </section>
-  </main>
+            <section id="verification-section" class="hidden">
+                <article>
+                    <form id="commit-form">
+                        <input type="hidden" name="belt" id="verify-belt">
+                        <input type="hidden" name="topic" id="verify-topic">
+                        <input type="hidden" name="test_cases" id="verify-test-cases">
+                        <label>Problem Title <input type="text" name="problem_title" id="problem_title" required></label>
+                        <div class="grid">
+                            <label>Readme Content (Markdown) <textarea name="readme_content" id="readme_content" required></textarea></label>
+                            <label>Solution Content (Markdown) <textarea name="solution_content" id="solution_content" required></textarea></label>
+                        </div>
+                        <fieldset>
+                            <legend>Commit Action</legend>
+                            <label><input type="radio" name="commit_action" value="now" onclick="toggleSchedule(false)" checked> Commit Now</label>
+                            <label><input type="radio" name="commit_action" value="schedule" onclick="toggleSchedule(true)"> Schedule Commit</label>
+                        </fieldset>
+                        <div id="schedule-section" class="hidden">
+                            <label>Schedule Time <input type="datetime-local" name="schedule_time" id="schedule_time"></label>
+                        </div>
+                        <button type="submit">✅ Approve & Commit</button>
+                    </form>
+                </article>
+            </section>
+        </section>
 
-  <script>
-    const generateForm = document.getElementById('generate-form');
-    const commitForm = document.getElementById('commit-form');
-    const deleteForm = document.getElementById('delete-form');
-    const verificationSection = document.getElementById('verification-section');
-    const loader = document.getElementById('loader');
-    const statusContainer = document.getElementById('status-message-container');
-    const problemSelectorContainer = document.getElementById('problem-selector-container');
-    const problemSelector = document.getElementById('problem-selector');
-    const deleteBeltSelector = document.getElementById('delete-belt');
-    const deleteProblemSelector = document.getElementById('delete-problem-folder');
-    const deleteBtn = document.getElementById('delete-btn');
-    const tabLinks = document.querySelectorAll('.tab-link');
-    const tabPanels = document.querySelectorAll('.tab-panel');
-    let generatedProblems = [];
+        <section id="manage-tab" class="tab-panel hidden">
+            <article>
+                <p>Select a belt to see its problems. Deleting a problem will leave a gap in the numbering.</p>
+                <form id="delete-form">
+                    <div class="grid">
+                        <label>Select Belt <select id="delete-belt" name="belt" required>
+                            <option value="" disabled selected>-- Select a belt --</option>
+                            <option value="White Belt">White Belt</option>
+                            <option value="Yellow Belt">Yellow Belt</option>
+                            <option value="Orange Belt">Orange Belt</option>
+                            <option value="Red Belt">Red Belt</option>
+                            <option value="Green Belt">Green Belt</option>
+                            <option value="Blue Belt">Blue Belt</option>
+                            <option value="Purple Belt">Purple Belt</option>
+                        </select></label>
+                        <label>Select Problem to Delete <select id="delete-problem-folder" name="problem_folder" required disabled>
+                            <option value="">-- First select a belt --</option>
+                        </select></label>
+                    </div>
+                    <button type="submit" id="delete-btn" class="secondary" disabled>🗑️ Delete Problem</button>
+                </form>
+            </article>
+        </section>
+    </main>
 
-    function switchTab(e) {
-      e.preventDefault();
-      const targetTab = e.currentTarget.getAttribute('data-tab');
-      tabLinks.forEach(l => l.classList.remove('active'));
-      e.currentTarget.classList.add('active');
-      tabPanels.forEach(p => p.classList.toggle('hidden', p.id !== targetTab));
-      statusContainer.innerHTML = '';
-    }
-    tabLinks.forEach(l => l.addEventListener('click', switchTab));
+    <script>
+        // ---ELEMENT REFERENCES---
+        const generateForm = document.getElementById('generate-form');
+        const commitForm = document.getElementById('commit-form');
+        const deleteForm = document.getElementById('delete-form');
+        const verificationSection = document.getElementById('verification-section');
+        const loader = document.getElementById('loader');
+        const statusContainer = document.getElementById('status-message-container');
+        const problemSelectorContainer = document.getElementById('problem-selector-container');
+        const problemSelector = document.getElementById('problem-selector');
+        const deleteBeltSelector = document.getElementById('delete-belt');
+        const deleteProblemSelector = document.getElementById('delete-problem-folder');
+        const deleteBtn = document.getElementById('delete-btn');
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabPanels = document.querySelectorAll('.tab-panel');
 
-    function toggleSchedule(show) {
-      document.getElementById('schedule-section').classList.toggle('hidden', !show);
-    }
-    function displayMessage(msg, type) {
-      const el = document.createElement('div');
-      el.className = `status-message ${type}`;
-      el.textContent = msg;
-      statusContainer.appendChild(el);
-      setTimeout(() => el.remove(), 4000);
-    }
+        // ---GLOBAL STATE---
+        let generatedProblems = [];
 
-    function populateVerificationForm(idx) {
-      const p = generatedProblems[idx];
-      if (!p) return;
-      document.getElementById('problem_title').value = p.title;
-      document.getElementById('verify-topic').value = p.topic;
-      document.getElementById('readme_content').value = p.readme;
-      document.getElementById('solution_content').value = p.solution;
-    }
-    problemSelector.addEventListener('change', e => populateVerificationForm(e.target.value));
+        // ---FUNCTIONS---
+        function switchTab(e) {
+            e.preventDefault();
+            const targetTab = e.currentTarget.getAttribute('data-tab');
+            tabLinks.forEach(link => link.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            tabPanels.forEach(panel => panel.classList.toggle('hidden', panel.id !== targetTab));
+            statusContainer.innerHTML = '';
+        }
 
-    generateForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      loader.classList.remove('hidden');
-      verificationSection.classList.add('hidden');
-      problemSelectorContainer.classList.add('hidden');
-      const formData = new FormData(generateForm);
-      const res = await fetch('/generate', {method:'POST', body: formData});
-      loader.classList.add('hidden');
-      if (res.ok) {
-        generatedProblems = await res.json();
-        if (generatedProblems.length > 0) {
-          problemSelector.innerHTML = '';
-          generatedProblems.forEach((p,i)=>problemSelector.add(new Option(p.title || `Problem ${i+1}`, i)));
-          problemSelectorContainer.classList.remove('hidden');
-          verificationSection.classList.remove('hidden');
-          document.getElementById('verify-belt').value = formData.get('belt');
-          populateVerificationForm(0);
-        } else displayMessage('No problems generated.', 'error');
-      } else displayMessage('Error generating problems.', 'error');
-    });
+        function populateVerificationForm(index) {
+            const problem = generatedProblems[index];
+            if (!problem) return;
+            document.getElementById('problem_title').value = problem.title;
+            document.getElementById('verify-topic').value = problem.topic;
+            document.getElementById('readme_content').value = problem.readme;
+            document.getElementById('solution_content').value = problem.solution;
+            document.getElementById('verify-test-cases').value = problem.test_cases || "";
+        }
+        
+        async function fetchProblemsForBelt(beltName) {
+            deleteProblemSelector.innerHTML = '<option value="">Loading...</option>';
+            deleteProblemSelector.disabled = true;
+            deleteBtn.disabled = true;
 
-    commitForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      const formData = new FormData(commitForm);
-      const res = await fetch('/commit', {method:'POST', body: formData});
-      const data = await res.json();
-      if (res.ok) {
-        displayMessage(data.message, 'success');
-        verificationSection.classList.add('hidden');
-        problemSelectorContainer.classList.add('hidden');
-        commitForm.reset();
-      } else displayMessage(data.message, 'error');
-    });
+            const response = await fetch(`/problems/${beltName}`);
+            if (response.ok) {
+                const problems = await response.json();
+                deleteProblemSelector.innerHTML = '';
+                if (problems.length > 0) {
+                    deleteProblemSelector.add(new Option('-- Select a problem --', '', true, true));
+                    problems.forEach(problem => deleteProblemSelector.add(new Option(problem, problem)));
+                    deleteProblemSelector.disabled = false;
+                    deleteBtn.disabled = false;
+                } else {
+                    deleteProblemSelector.innerHTML = '<option value="">-- No problems found --</option>';
+                }
+            } else {
+                deleteProblemSelector.innerHTML = '<option value="">-- Error loading --</option>';
+            }
+        }
 
-    deleteBeltSelector.addEventListener('change', async e => {
-      deleteProblemSelector.innerHTML = '<option>Loading...</option>';
-      deleteProblemSelector.disabled = true;
-      deleteBtn.disabled = true;
-      const res = await fetch(`/problems/${e.target.value}`);
-      if (res.ok) {
-        const probs = await res.json();
-        deleteProblemSelector.innerHTML = '';
-        if (probs.length) {
-          deleteProblemSelector.add(new Option('-- Select a problem --', '', true, true));
-          probs.forEach(p => deleteProblemSelector.add(new Option(p, p)));
-          deleteProblemSelector.disabled = false;
-          deleteBtn.disabled = false;
-        } else deleteProblemSelector.innerHTML = '<option>-- No problems found --</option>';
-      } else deleteProblemSelector.innerHTML = '<option>-- Error loading --</option>';
-    });
+        function toggleSchedule(isScheduled) {
+            document.getElementById('schedule-section').classList.toggle('hidden', !isScheduled);
+        }
 
-    deleteForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      if (!confirm('Are you sure to delete this problem?')) return;
-      const formData = new FormData(deleteForm);
-      const res = await fetch('/delete', {method:'POST', body: formData});
-      const data = await res.json();
-      if (res.ok) {
-        displayMessage(data.message, 'success');
-        deleteBeltSelector.dispatchEvent(new Event('change'));
-      } else displayMessage(data.message, 'error');
-    });
-  </script>
+        function displayMessage(message, type, duration = 4000) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `status-message ${type}`;
+            messageDiv.textContent = message;
+            statusContainer.appendChild(messageDiv);
+            setTimeout(() => { if (messageDiv) messageDiv.remove(); }, duration);
+        }
+
+        // ---EVENT LISTENERS---
+        tabLinks.forEach(link => link.addEventListener('click', switchTab));
+        problemSelector.addEventListener('change', (e) => populateVerificationForm(e.target.value));
+
+        generateForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.currentTarget.querySelector('button');
+            btn.disabled = true;
+            btn.setAttribute('aria-busy', 'true');
+            loader.classList.remove('hidden');
+            verificationSection.classList.add('hidden');
+            problemSelectorContainer.classList.add('hidden');
+            statusContainer.innerHTML = '';
+
+            const formData = new FormData(generateForm);
+            const response = await fetch('/generate', { method: 'POST', body: formData });
+
+            loader.classList.add('hidden');
+            btn.disabled = false;
+            btn.removeAttribute('aria-busy');
+            
+            if (response.ok) {
+                generatedProblems = await response.json();
+                if (generatedProblems && generatedProblems.length > 0) {
+                    problemSelector.innerHTML = '';
+                    generatedProblems.forEach((p, i) => problemSelector.add(new Option(p.title || `Problem ${i + 1}`, i)));
+                    problemSelectorContainer.classList.remove('hidden');
+                    verificationSection.classList.remove('hidden');
+                    document.getElementById('verify-belt').value = formData.get('belt');
+                    populateVerificationForm(0);
+                } else { 
+                    const result = await response.json();
+                    displayMessage(result.message || 'AI generated no problems.', 'error');
+                }
+            } else { displayMessage('Error generating problems. Check server console.', 'error'); }
+        });
+
+        commitForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.currentTarget.querySelector('button');
+            btn.disabled = true;
+            btn.setAttribute('aria-busy', 'true');
+
+            const formData = new FormData(commitForm);
+            const response = await fetch('/commit', { method: 'POST', body: formData });
+            
+            btn.disabled = false;
+            btn.removeAttribute('aria-busy');
+            const result = await response.json();
+            
+            if (response.ok) {
+                displayMessage(result.message, 'success');
+                const committedIndex = parseInt(problemSelector.value);
+                generatedProblems.splice(committedIndex, 1);
+
+                if (generatedProblems.length > 0) {
+                    problemSelector.innerHTML = '';
+                    generatedProblems.forEach((p, i) => problemSelector.add(new Option(p.title || `Problem ${i + 1}`, i)));
+                    populateVerificationForm(0);
+                } else {
+                    verificationSection.classList.add('hidden');
+                    problemSelectorContainer.classList.add('hidden');
+                }
+            } else { displayMessage(result.message, 'error'); }
+        });
+
+        deleteBeltSelector.addEventListener('change', (e) => {
+            const selectedBelt = e.target.value;
+            if (selectedBelt) fetchProblemsForBelt(selectedBelt);
+        });
+
+        deleteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!confirm('Are you sure you want to permanently delete this problem from the repository?')) return;
+
+            const btn = e.currentTarget.querySelector('button');
+            btn.disabled = true;
+            btn.setAttribute('aria-busy', 'true');
+
+            const formData = new FormData(deleteForm);
+            const response = await fetch('/delete', { method: 'POST', body: formData });
+            
+            btn.disabled = false;
+            btn.removeAttribute('aria-busy');
+            const result = await response.json();
+            
+            if (response.ok) {
+                displayMessage(result.message, 'success');
+                fetchProblemsForBelt(deleteBeltSelector.value);
+            } else { displayMessage(result.message, 'error'); }
+        });
+    </script>
 </body>
 </html>

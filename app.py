@@ -5,175 +5,156 @@ import json
 import random
 import re
 import shutil
+import csv
 from datetime import datetime
+from threading import Lock
 from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 import google.generativeai as genai
-
-# import gspread # We will use this later for Google Sheets
 from config import BELT_SYLLABUS, REPO_URL
 
 # --- SETUP ---
 load_dotenv()
 app = Flask(__name__)
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
+model = genai.GenerativeModel('gemini-2.5-flash')
 SCHEDULED_JOBS_FILE = "scheduled_jobs.json"
 REPOS_DIR = "repositories"
 HISTORY_FILE = "generation_history.json"
+LOG_CSV_FILE = "dsa_dojo_log.csv"
+csv_lock = Lock()
 os.makedirs(REPOS_DIR, exist_ok=True)
 
-# --- HISTORY HELPER FUNCTIONS ---
+# --- CSV LOGGER ---
+def log_to_csv(row_data):
+    with csv_lock:
+        file_exists = os.path.isfile(LOG_CSV_FILE)
+        with open(LOG_CSV_FILE, 'a', newline='', encoding='utf-8') as csvfile:
+            writer = csv.writer(csvfile)
+            if not file_exists:
+                headers = [
+                    "ID", "Category", "Concepts", "Question", "Constraints", 
+                    "Sample Input", "Sample Output", "Test Cases", "Solution_C", 
+                    "Solution_Python", "Solution_Java", "Solution_Javascript", "Solution_C++"
+                ]
+                writer.writerow(headers)
+            writer.writerow(row_data)
+        print(f"Successfully logged action to {LOG_CSV_FILE}")
+
+def parse_and_log(belt, problem_number, topic, title, readme_md, solution_md, test_cases_str):
+    """Parses problem data and calls the CSV logger."""
+    try:
+        def parse_section(text, start_heading, end_headings):
+            pattern = f"{start_heading}(.*?)(?={'|'.join(end_headings)}|$)"
+            match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+            return match.group(1).strip() if match else ""
+        def parse_code(text, lang_start):
+            pattern = f"{lang_start}\\s*```[a-zA-Z\\+\\#]*\\n(.*?)\\n```"
+            match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+            return match.group(1).strip() if match else ""
+            
+        readme_headings = ['### Description', '### Constraints', '### Example', '### Concepts Covered']
+        question = parse_section(readme_md, '### Description', readme_headings[1:])
+        constraints = parse_section(readme_md, '### Constraints', readme_headings[2:])
+        example_block = parse_section(readme_md, '### Example', readme_headings[3:])
+        concepts = parse_section(readme_md, '### Concepts Covered', [])
+        sample_input, sample_output = "", ""
+        if "Input:" in example_block and "Output:" in example_block:
+            sample_input = example_block.split("Input:")[1].split("Output:")[0].strip()
+            sample_output = example_block.split("Output:")[1].split("Explanation:")[0].strip()
+
+        sol_headings = ['## C Solution', '## C\\+\\+ Solution', '## Java Solution', '## Python Solution', '## JavaScript Solution']
+        sol_c, sol_cpp, sol_java, sol_python, sol_js = (parse_code(solution_md, h) for h in sol_headings)
+
+        row_data = [
+            f"{belt.split(' ')[0]}-{problem_number}", topic, concepts, question, constraints, 
+            sample_input, sample_output, test_cases_str, sol_c, sol_python, sol_java, sol_js, sol_cpp
+        ]
+        log_to_csv(row_data)
+    except Exception as e:
+        print(f"❗ Error: Failed to parse and log data. {e}")
+
+# --- HISTORY & CORE HELPER FUNCTIONS ---
 def load_history():
     if not os.path.exists(HISTORY_FILE): return {}
     with open(HISTORY_FILE, 'r') as f:
         try: return json.load(f)
         except json.JSONDecodeError: return {}
-
 def save_history(history):
-    with open(HISTORY_FILE, 'w') as f:
-        json.dump(history, f, indent=4)
-
+    with open(HISTORY_FILE, 'w') as f: json.dump(history, f, indent=4)
 def update_history(belt, topic, title):
     history = load_history()
-    if belt not in history:
-        history[belt] = {"topics": [], "titles": []}
-    if "topics" not in history[belt]: history[belt]["topics"] = []
-    if "titles" not in history[belt]: history[belt]["titles"] = []
+    if belt not in history: history[belt] = {"topics": [], "titles": []}
     history[belt]["topics"].append(topic)
     history[belt]["titles"].append(title)
     save_history(history)
-
-# --- GOOGLE SHEETS LOGGER (Placeholder for later) ---
-def log_to_google_sheet(action, belt, problem_title, status):
-    print(f"--- LOGGING ACTION: Google Sheets logging is currently disabled ---")
-
-# --- CORE HELPER FUNCTIONS ---
 def slugify(text):
     return re.sub(r'[^\w\s-]', '', text).strip().lower().replace(' ', '-')
 
+# --- GENERATION FUNCTION ---
 def generate_problem_with_gemini(belt):
     history = load_history()
-    belt_history = history.get(belt, {"topics": [], "titles": []})
-    
-    all_concepts = [concept for category in BELT_SYLLABUS[belt].values() for concept in category]
+    belt_history, used_titles = history.get(belt, {}), history.get(belt, {}).get("titles", [])
+    all_concepts = [c for cat in BELT_SYLLABUS[belt].values() for c in cat]
     used_concepts = belt_history.get("topics", [])
-    used_titles = belt_history.get("titles", [])
-    
     available_concepts = list(set(all_concepts) - set(used_concepts))
-    
     if not available_concepts:
-        print(f"All topics for {belt} exhausted. Resetting topic history for this belt.")
         belt_history["topics"] = []
-        history[belt] = belt_history
         save_history(history)
         available_concepts = all_concepts
-
+    
     for attempt in range(3):
         topic = random.choice(available_concepts)
         print(f"Attempt {attempt + 1}: Generating problem for topic '{topic}'...")
-        
         try:
+            # THIS PROMPT ASKS FOR ALL COMPONENTS SEPARATELY FOR RELIABILITY
             prompt = f"""
             # YOUR ROLE
-            You are an expert DSA problem designer and a senior software engineer. Your primary goal is to create high-quality, educational, and perfectly structured problem solutions that are ready for a programming tutorial website.
+            You are an expert DSA problem designer. Your task is to generate the components of a DSA problem as a JSON object.
 
             # YOUR TASK
-            Generate a JSON object for a DSA problem on the topic "{topic}" suitable for a {belt} developer.
-            The JSON object must have three keys: "title", "readme", and "solution".
+            Generate a JSON object for a problem on "{topic}" for a {belt} developer. The JSON MUST have the following keys:
+            "title", "readme_md", "approach", "solution_c", "solution_cpp", "solution_java", "solution_python", "solution_js", "test_cases".
 
             # INSTRUCTIONS FOR EACH KEY
+            1.  "title": A creative, unique title.
+            2.  "readme_md": A markdown string with "### Description", "### Constraints", "### Example", and "### Concepts Covered" sections.
+            3.  "approach": A markdown paragraph explaining the algorithm, data structures, and time/space complexity.
+            4.  "solution_c": A string containing ONLY the complete, runnable C code.
+            5.  "solution_cpp": A string containing ONLY the complete, runnable C++ code.
+            6.  "solution_java": A string containing ONLY the complete, runnable Java code.
+            7.  "solution_python": A string containing ONLY the complete, runnable Python code.
+            8.  "solution_js": A string containing ONLY the complete, runnable JavaScript code.
+            9.  "test_cases": A string with 3 to 5 additional test cases. Each test case MUST be on a new line and formatted as 'Input: [data]\\nOutput: [data]'.
 
-            ## 1. "title"
-            - A concise, accurate, and creative title for a problem about '{topic}'. The title must be unique.
-
-            ## 2. "readme"
-            - A markdown string with the following H3 subheadings in this exact order: `### Description`, `### Constraints`, `### Example`, and `### Concepts Covered`.
-            - Under the `### Concepts Covered` heading, you MUST list the key concepts from the syllabus used to solve this problem as a bulleted list.
-
-            ## 3. "solution"
-            - This MUST be a single markdown string.
-            - The string MUST follow this exact sequence and formatting:
-                1.  A main heading: `# Solutions for [Generated Problem Title]`
-                2.  A subheading: `### Approach`
-                3.  A paragraph explaining the core logic, algorithm, and data structures used, including time/space complexity.
-                4.  Five subheadings for each language, in this order: `## C Solution`, `## C++ Solution`, `## Java Solution`, `## Python Solution`, `## JavaScript Solution`.
-                5.  Under each language heading, a single, fenced code block with the correct language identifier (e.g., ```cpp).
-
-            # --- CRITICAL CODE REQUIREMENTS ---
-            - Every code block MUST be a **complete, runnable program**.
-            - The core problem-solving logic **MUST be in a separate function** (e.g., `solve()`, `findMax()`, etc.).
-            - The `main` function (or equivalent global scope) **MUST ONLY** be used for handling standard input (stdin) and standard output (stdout), and for calling the logic function.
-            - **DO NOT** use placeholders like "// your code here". The code must be complete.
-            - Refer to the following "Sum of Two Numbers" example as a **strict structural guide**. The code you generate must follow this pattern of separating logic from I/O.
-
-            ### --- STRUCTURAL EXAMPLE TO FOLLOW ---
-            # Solutions for Sum of Two Numbers
-
-            ### Approach
-            The problem requires us to find the sum of two integers. We can achieve this by reading the two numbers from standard input, passing them to a dedicated function that calculates their sum, and then printing the returned result to standard output. The time complexity is O(1).
-
-            ## C Solution
-            ```c
-            #include <stdio.h>
-            int sum(int a, int b) {{ return a + b; }}
-            int main() {{ int num1, num2; scanf("%d %d", &num1, &num2); printf("%d\\n", sum(num1, num2)); return 0; }}
-            ```
-
-            ## C++ Solution
-            ```cpp
-            #include <iostream>
-            int sum(int a, int b) {{ return a + b; }}
-            int main() {{ int num1, num2; std::cin >> num1 >> num2; std::cout << sum(num1, num2) << std::endl; return 0; }}
-            ```
-
-            ## Java Solution
-            ```java
-            import java.util.Scanner;
-            public class Main {{
-                public static int sum(int a, int b) {{ return a + b; }}
-                public static void main(String[] args) {{ Scanner scanner = new Scanner(System.in); int num1 = scanner.nextInt(); int num2 = scanner.nextInt(); System.out.println(sum(num1, num2)); scanner.close(); }}
-            }}
-            ```
-
-            ## Python Solution
-            ```python
-            def sum_two_numbers(a, b): return a + b
-            if __name__ == "__main__": num1, num2 = map(int, input().split()); print(sum_two_numbers(num1, num2))
-            ```
-
-            ## JavaScript Solution
-            ```javascript
-            function sum(a, b) {{ return a + b; }}
-            const readline = require('readline');
-            const rl = readline.createInterface({{ input: process.stdin, output: process.stdout }});
-            rl.on('line', (line) => {{ const [num1, num2] = line.split(' ').map(Number); console.log(sum(num1, num2)); rl.close(); }});
-            ```
+            # CRITICAL CODE REQUIREMENTS
+            - The code for each language key MUST be a complete program that handles its own I/O from stdin/stdout.
+            - The core logic MUST be in a separate function. The `main` function should ONLY call the logic function and handle I/O.
+            - DO NOT include the markdown backticks (```) or language identifiers in the code strings.
             """
             response = model.generate_content(prompt)
-            cleaned_text = response.text.strip().replace("```json", "").replace("```", "")
-            data = json.loads(cleaned_text)
-
-            if data['title'] not in used_titles:
+            data = json.loads(response.text.strip().replace("```json", "").replace("```", ""))
+            if data['title'].lower() not in [t.lower() for t in used_titles]:
                 print(f"Success: Found unique problem titled '{data['title']}'.")
                 data['topic'] = topic
                 return data
             else:
-                print(f"Warning: Generated a duplicate title '{data['title']}'. Retrying...")
+                print(f"Warning: AI generated a duplicate title despite instructions: '{data['title']}'. Retrying...")
         except Exception as e:
             print(f"Error during generation attempt: {e}")
             continue
     print("Error: Could not generate a unique problem after 3 attempts.")
     return None
 
-def commit_problem_to_repo(belt, problem_title, readme_md, solution_md, topic):
+# --- GIT & SCHEDULE FUNCTIONS ---
+def commit_problem_to_repo(belt, problem_title, readme_md, solution_md, topic, test_cases):
     try:
         repo_name = REPO_URL.split(':')[-1].split('/')[-1].replace(".git", "")
         repo_path = os.path.join(REPOS_DIR, repo_name)
         if not os.path.exists(repo_path):
-            subprocess.run(["git", "clone", REPO_URL, repo_path], check=True, capture_output=True, text=True)
+            subprocess.run(["git", "clone", REPO_URL, repo_path], check=True)
         else:
-            subprocess.run(["git", "-C", repo_path, "pull"], check=True, capture_output=True, text=True)
+            subprocess.run(["git", "-C", repo_path, "pull"], check=True)
         belt_dir = os.path.join(repo_path, belt.replace(" ", "-"))
         os.makedirs(belt_dir, exist_ok=True)
         problem_number = len([name for name in os.listdir(belt_dir) if os.path.isdir(os.path.join(belt_dir, name))]) + 1
@@ -187,28 +168,22 @@ def commit_problem_to_repo(belt, problem_title, readme_md, solution_md, topic):
         subprocess.run(["git", "-C", repo_path, "push"], check=True)
         
         update_history(belt, topic, problem_title)
-        log_to_google_sheet('CREATE', belt, new_folder_name, 'Committed')
+        parse_and_log(belt, problem_number, topic, problem_title, readme_md, solution_md, test_cases)
         return f"Successfully committed '{problem_title}' as problem #{problem_number}."
     except Exception as e:
-        log_to_google_sheet('CREATE', belt, problem_title, 'Failed')
         return f"An error occurred: {e}"
 
-def schedule_commit(schedule_time, belt, title, readme, solution, topic):
-    job = {
-        "id": datetime.now().strftime('%Y%m%d%H%M%S%f'), "commit_at": schedule_time, "belt": belt,
-        "title": title, "readme": readme, "solution": solution, "topic": topic
-    }
+def schedule_commit(schedule_time, belt, title, readme, solution, topic, test_cases):
+    job = { "id": datetime.now().strftime('%Y%m%d%H%M%S%f'), "commit_at": schedule_time, "belt": belt, "title": title, "readme": readme, "solution": solution, "topic": topic, "test_cases": test_cases }
     jobs = []
     if os.path.exists(SCHEDULED_JOBS_FILE):
         with open(SCHEDULED_JOBS_FILE, 'r') as f:
             try: jobs = json.load(f)
             except json.JSONDecodeError: pass
     jobs.append(job)
-    with open(SCHEDULED_JOBS_FILE, 'w') as f:
-        json.dump(jobs, f, indent=4)
-    
+    with open(SCHEDULED_JOBS_FILE, 'w') as f: json.dump(jobs, f, indent=4)
     update_history(belt, topic, title)
-    log_to_google_sheet('SCHEDULE', belt, title, 'Scheduled')
+    parse_and_log(belt, "N/A", topic, title, readme, solution, test_cases)
     print(f"Scheduled job for '{title}' at {schedule_time}")
 
 # --- FLASK ROUTES ---
@@ -222,25 +197,44 @@ def generate():
     num_problems = int(request.form.get('num_problems', 1))
     problems_list = []
     for _ in range(num_problems):
-        problem_data = generate_problem_with_gemini(belt)
-        if problem_data:
-            problems_list.append(problem_data)
+        raw_data = generate_problem_with_gemini(belt)
+        if raw_data:
+            # THIS IS THE MANUAL ASSEMBLY LOGIC THAT GUARANTEES CORRECT FORMATTING
+            solution_md = (
+                f"# Solutions for {raw_data['title']}\n\n"
+                f"### Approach\n{raw_data['approach']}\n\n"
+                f"## C Solution\n```c\n{raw_data['solution_c']}\n```\n\n"
+                f"## C++ Solution\n```cpp\n{raw_data['solution_cpp']}\n```\n\n"
+                f"## Java Solution\n```java\n{raw_data['solution_java']}\n```\n\n"
+                f"## Python Solution\n```python\n{raw_data['solution_python']}\n```\n\n"
+                f"## JavaScript Solution\n```javascript\n{raw_data['solution_js']}\n```"
+            )
+            final_problem_data = {
+                "title": raw_data['title'],
+                "readme": raw_data['readme_md'],
+                "solution": solution_md,
+                "test_cases": raw_data['test_cases'],
+                "topic": raw_data['topic']
+            }
+            problems_list.append(final_problem_data)
     
-    if problems_list: return jsonify(problems_list)
-    else: return jsonify({"message": "Could not generate a unique problem after several attempts. Please try again."}), 500
+    if problems_list: 
+        return jsonify(problems_list)
+    else: 
+        return jsonify({"message": "Could not generate a unique problem. Please try again."}), 500
 
 @app.route('/commit', methods=['POST'])
 def commit():
     data = request.form
-    belt, title, readme, solution, action, topic = data['belt'], data['problem_title'], data['readme_content'], data['solution_content'], data['commit_action'], data['topic']
+    belt, title, readme, solution, action, topic, test_cases = data['belt'], data['problem_title'], data['readme_content'], data['solution_content'], data['commit_action'], data['topic'], data['test_cases']
     if action == 'now':
-        message = commit_problem_to_repo(belt, title, readme, solution, topic)
+        message = commit_problem_to_repo(belt, title, readme, solution, topic, test_cases)
         if "Error" in message or "failed" in message: return jsonify({"message": message}), 500
         return jsonify({"message": message})
     elif action == 'schedule':
         schedule_time = data['schedule_time']
         if not schedule_time: return jsonify({"message": "Error: Schedule time not provided."}), 400
-        schedule_commit(schedule_time, belt, title, readme, solution, topic)
+        schedule_commit(schedule_time, belt, title, readme, solution, topic, test_cases)
         return jsonify({"message": f"Successfully scheduled '{title}' for {schedule_time}."})
     return jsonify({"message": "Invalid action."}), 400
 
@@ -257,19 +251,19 @@ def list_problems(belt_name):
 def delete_problem():
     data = request.form
     belt, problem_folder = data['belt'], data['problem_folder']
-    repo_name = REPO_URL.split(':')[-1].split('/')[-1].replace(".git", "")
-    repo_path = os.path.join(REPOS_DIR, repo_name)
-    problem_path = os.path.join(repo_path, belt.replace(" ", "-"), problem_folder)
     try:
+        repo_name = REPO_URL.split(':')[-1].split('/')[-1].replace(".git", "")
+        repo_path = os.path.join(REPOS_DIR, repo_name)
+        problem_path = os.path.join(repo_path, belt.replace(" ", "-"), problem_folder)
         subprocess.run(["git", "-C", repo_path, "pull"], check=True)
         shutil.rmtree(problem_path)
         subprocess.run(["git", "-C", repo_path, "add", "."], check=True)
         subprocess.run(["git", "-C", repo_path, "commit", "-m", f"chore({belt}): Delete problem '{problem_folder}'"], check=True)
         subprocess.run(["git", "-C", repo_path, "push"], check=True)
-        log_to_google_sheet('DELETE', belt, problem_folder, 'Deleted')
+        delete_row = [f"DELETE-{problem_folder}", "Deletion", "N/A", f"Deleted folder: {problem_folder}", "N/A", "N/A", "N/A", "N/A", "", "", "", "", ""]
+        log_to_csv(delete_row)
         return jsonify({"message": f"Successfully deleted '{problem_folder}'."})
     except Exception as e:
-        log_to_google_sheet('DELETE', belt, problem_folder, 'Failed')
         return jsonify({"message": f"An error occurred during deletion: {e}"}), 500
 
 if __name__ == '__main__':

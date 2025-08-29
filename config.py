@@ -1,5 +1,5 @@
 
-REPO_URL = "https://github.com/prasanna192005/DSA-Auto.git"
+REPO_URL = "https://github.com/prasanna192005/edept-DSA.git"
 
 # config.py
 

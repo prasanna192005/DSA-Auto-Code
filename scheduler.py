@@ -43,7 +43,9 @@ def run_scheduler():
                     job['belt'], 
                     job['title'], 
                     job['readme'], 
-                    job['solution']
+                    job['solution'],
+                    job['test_cases'],
+                    job['topic'],
                 )
         
         time.sleep(60)

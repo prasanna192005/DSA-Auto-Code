@@ -1,0 +1,1171 @@
+ID,Category,Concepts,Question,Constraints,Sample Input,Sample Output,Test Cases,Solution_C,Solution_Python,Solution_Java,Solution_Javascript,Solution_C++
+White-1,String Reversal,,Write a function that reverses a given string.  The function should take a string as input and return the reversed string.,"- The input string will only contain lowercase letters.
+- The length of the input string will be between 1 and 1000 characters (inclusive).","**  ""hello""
+
+**","** ""olleh""","abcde
+hello
+madam
+a
+racecar",,,,,
+White-2,Break & Continue,,"Given an array of integers, calculate the sum of only the even numbers. Skip odd numbers using a loop and the `continue` statement.  If the input array is empty, return 0.","- The array will contain only integers.
+- The array size will be at most 100.
+- Integers in the array will be within the range of -1000 to 1000.","** `[1, 2, 3, 4, 5, 6]`
+**",** `12` (2 + 4 + 6),"[2, 4, 6, 8, 10]
+[1, 3, 5, 7, 9]
+[-2, 0, 2, 4]
+[]
+[-1, -2, -3, -4]",,,,,
+White-3,Modulo Arithmetic,,"Given two integers, `a` and `b`, find the remainder when `a` is divided by `b`.  This is the modulo operation (%).","- `1 ≤ a, b ≤ 1000`
+- `b > 0`","**
+`a = 17`
+`b = 5`
+
+**","**
+`2`  (Because 17 divided by 5 leaves a remainder of 2)","10 3
+25 7
+100 11
+5 5
+1000 1",,,,,
+White-4,Intro to Recursion (factorial),,"Write a function that calculates the factorial of a non-negative integer using recursion. The factorial of a non-negative integer n, denoted by n!, is the product of all positive integers less than or equal to n. For example, 5! = 5 * 4 * 3 * 2 * 1 = 120.","- The input integer n will be non-negative (0 or greater).
+- The input integer n will be less than or equal to 12 (to avoid potential integer overflow).",5,120,"10
+0
+7
+12
+1",,,,,
+White-5,Parameters & Arguments,,"Write a function that takes two integer parameters, `a` and `b`, and returns their sum.  However, there's a twist! The function should also print the value of 'a' before calculating and returning the sum.","* -1000 ≤ a, b ≤ 1000","**
+
+5 10
+
+**","**
+
+5
+15","15 20
+-5 10
+0 0
+100 -50
+-20 -30",,,,,
+White-6,Intro to Time & Space Complexity,,"Given an integer `n`, count the number of sheep from 1 to n.  This seems simple, but we'll focus on understanding the time complexity.",- 1 ≤ n ≤ 100000,5,15 (1 + 2 + 3 + 4 + 5 = 15),"10
+100
+10000
+50000
+78945",,,,,
+White-7,"Basic Array Operations (sum, max, min)",,"Given an array of integers, find the sum, maximum, and minimum values within the array.","* The array will contain at least one integer.
+* The integers in the array will be within the range of a 32-bit integer.","[1, 5, 2, 8, 3]","Sum: 19, Max: 8, Min: 1","[10, 20, 30, 40, 50]
+[-5, 0, 5, 10, -15]
+[1, 1, 1, 1, 1]
+[100, -10, 50, 20, -50]
+[-1, -2, -3, -4, -5]",,,,,
+White-8,1D Array Declaration & Traversal,,"Given an array of integers, find the sum of all even numbers in the array.","* The array will contain at least one element.
+* The array will contain only integers between -100 and 100 (inclusive).
+* The size of the array will not exceed 100 elements.","**  `[1, 2, 3, 4, 5, 6]`
+**",** `12` (2 + 4 + 6),"[1, 2, 3, 4, 5, 6]
+[10, -20, 30, -40]
+[-1, -2, -3, -4]
+[1, 3, 5, 7, 9]
+[2, 4, 6, 8, 10]",,,,,
+White-9,Bitwise Operators,,"Given an 8-bit unsigned integer, write a function that flips all its bits (0s become 1s and vice-versa).",- The input will always be an 8-bit unsigned integer (0-255).,10 (binary: 00001010),245 (binary: 11110101),"15
+255
+0
+128
+64",,,,,
+White-10,1D Array Declaration & Traversal,,"Given an array of integers, calculate the sum of all the digits present in each integer within the array.  For example, if the array contains [123, 45, 6], the function should return 1 + 2 + 3 + 4 + 5 + 6 = 21.","- The array will contain only positive integers.
+- The array size will be between 1 and 100.
+- Each integer in the array will be between 0 and 1000.","** [12, 4, 87]
+
+**",** 22 (1 + 2 + 4 + 8 + 7),"[1,2,3]
+[999,1]
+[100,200,300]
+[1,10,100,1000]
+[5,5,5,5]",,,,,
+White-11,Bitwise Operators,,"Given an integer, determine if its binary representation is a palindrome. A palindrome is a sequence that reads the same backward as forward.",#NAME?,10,"true (Binary representation of 10 is 1010, which is a palindrome)
+
+Input: 13","5
+100
+255
+1023
+0",,,,,
+White-12,1D Array Declaration & Traversal,,You're on a treasure hunt! The treasure map is encoded in a 1D array. Each element represents a location. Find the total number of locations visited before you stumble upon the 'X' marking the treasure spot.,"- The array will contain only lowercase English alphabets and 'X'.
+- The array size will be between 1 and 100.
+- 'X' will always be present in the array.","`['a', 'b', 'c', 'X', 'e']`",4 (4 locations visited before finding 'X'),"['a', 'b', 'X', 'd']
+['p', 'q', 'r', 's', 'X', 'u']
+['X']
+['a', 'b', 'c', 'd', 'e', 'f']
+['a','x','X','b']",,,,,
+White-13,Type Casting,,"You are given an integer representing the number of seconds since the start of a race.  Your task is to convert this total number of seconds into hours, minutes, and remaining seconds.  For example, 3700 seconds translates to 1 hour, 1 minute, and 40 seconds.",#NAME?,3700,1 1 40,"10000
+3661
+0
+86400
+4500",,,,,
+White-14,String Reversal,,Write a function that reverses a given string.  The function should take a string as input and return the reversed string.,"* The input string will contain only lowercase English letters.
+* The input string will have a length between 1 and 1000 characters (inclusive).","**  ""hello""
+**","** ""olleh""","madam
+racecar
+hello world
+level
+rotor",,,,,
+White-15,Parameters & Arguments,,"You're organizing your socks!  Given the number of red socks and blue socks, write a function that returns the total number of socks.",* The number of red and blue socks will be non-negative integers.,"red_socks = 5, blue_socks = 3",8,"Input: 10 20
+Output: 30
+Input: 0 5
+Output: 5
+Input: 15 0
+Output: 15
+Input: 25 75
+Output: 100
+Input: 100 100
+Output: 200",,,,,
+White-16,Break & Continue,,"Given an array of integers, print only the positive numbers, skipping any zeros encountered. Use `break` and `continue` statements to control the flow of your loop.","- The array will contain integers between -100 and 100.
+- The array size will be between 1 and 100.","[1, 0, 2, 0, 3, -1, 4, 0, 5]",1 2 3 4 5,"Input: [1, 2, 3, 4, 5]
+Output: 1 2 3 4 5
+Input: [0, 0, 0, 0, 0]
+Output: 
+Input: [-1, 0, 1, 2, 3]
+Output: 
+Input: [1, 0, -1, 2, 0, 3]
+Output: 1",,,,,
+White-17,Best/Worst/Average Case Basics,,"Given an unsorted array of integers, determine the number of comparisons needed to find the minimum element in the array in the best, worst, and average cases.","- The array will contain at least one element.
+- The elements of the array are integers.
+- Assume the average case is the case when the minimum element is in the middle of the array","[3, 1, 4, 1, 5, 9, 2, 6]","Best Case: 0, Worst Case: 7, Average Case: 4","Input: [1, 2, 3, 4, 5]
+Output: Best Case: 0, Worst Case: 4, Average Case: 2
+Input: [5, 4, 3, 2, 1]
+Output: Best Case: 0, Worst Case: 4, Average Case: 2
+Input: [10, 5, 20, 15, 30]
+Output: Best Case: 0, Worst Case: 4, Average Case: 2
+Input: [1]
+Output: Best Case: 0, Worst Case: 0, Average Case: 0",,,,,
+White-N/A,Function Definition & Call,,"You're designing a snack dispenser for a spaceship!  The dispenser has a limited number of snacks, and each snack has a unique code.  Your task is to write a function that checks if a given snack code is available in the dispenser.","- The snack codes are integers.
+- The number of snacks in the dispenser is fixed and given as input.
+- The available snack codes are given as an array.
+- Assume that snack codes are always positive integers.
+- The function should return `true` if the snack code is available, and `false` otherwise.","Available snacks: [1, 5, 3, 7], Snack code to check: 5","true
+
+Input: Available snacks: [1, 5, 3, 7], Snack code to check: 9","Input: [1, 2, 3, 4, 5]
+Output: true
+Input: [10, 20, 30]
+Output: false
+Input: [5, 15, 25, 35, 5]
+Output: true
+Input: []
+Output: false
+Input: [1,1,1,1,1,2]
+Output: true",,,,,
+White-N/A,"Conditionals (if-else, switch-case)",,"You're designing a software for a candy machine.  The machine dispenses different candies based on the code entered.  Your task is to write a program that takes a candy code as input and prints the name of the candy.  If the code is invalid, print ""Invalid Code"".","- The candy codes are integers between 1 and 5 (inclusive).
+- Candy codes and their corresponding names:
+    - 1: Chocolate
+    - 2: Lollipop
+    - 3: Gummy Bears
+    - 4: Marshmallow
+    - 5: Caramel",3,Gummy Bears,"Input: 1
+Output: Chocolate
+Input: 5
+Output: Caramel
+Input: 0
+Output: Invalid Code
+Input: 6
+Output: Invalid Code
+Input: 3
+Output: Gummy Bears",,,,,
+White-N/A,Variables & Data Types,,"The Galactic Snack Bar is tracking its daily sales.  They sell three types of snacks: Fizzbangs, ZapZaps, and Glimmerglobs.  Given the number of each snack sold, calculate the total number of snacks sold.",* The number of each snack type sold will be a non-negative integer.,"Fizzbangs = 10, ZapZaps = 5, Glimmerglobs = 20",35,"Input: 15 25 35
+Output: 75
+Input: 0 10 0
+Output: 10
+Input: 100 200 300
+Output: 600
+Input: 5 5 5
+Output: 15",,,,,
+White-18,Variables & Data Types,,"Given two strings, `str1` and `str2`, concatenate them and print the resulting string.  The concatenation should be done such that `str1` comes before `str2`.","- The length of each string will be between 1 and 100 characters (inclusive).
+- The strings will only contain lowercase English alphabets.","str1 = ""hello"", str2 = ""world""",helloworld,"Input: abc def
+Output: abcdef
+Input: programming is
+Output: programmingis
+Input: hello world
+Output: helloworld
+Input: a b
+Output: ab
+Input: code forces
+Output: codeforces",,,,,
+White-19,"Input: 15 25 35
+Output: 75
+Input: 0 10 0
+Output: 10
+Input: 100 200 300
+Output: 600
+Input: 5 5 5
+Output: 15",,"The Galactic Snack Bar is tracking its daily sales.  They sell three types of snacks: Fizzbangs, ZapZaps, and Glimmerglobs.  Given the number of each snack sold, calculate the total number of snacks sold.",* The number of each snack type sold will be a non-negative integer.,"Fizzbangs = 10, ZapZaps = 5, Glimmerglobs = 20",35,Variables & Data Types,,,,,
+White-20,Prime Check,,"Determine if a given positive integer is a prime number. A prime number is a natural number greater than 1 that is not a product of two smaller natural numbers.  Your function should return `true` if the number is prime, and `false` otherwise.",* 2 ≤ n ≤ 1000,17,"true
+
+Input: 15","Input: 2
+Output: true
+Input: 97
+Output: true
+Input: 100
+Output: false
+Input: 49
+Output: false
+Input: 29
+Output: true",,,,,
+White-21,Input/Output,,Write a program that reads a line of text from the standard input and prints the same line to the standard output.,"- The input line will contain at most 1000 characters.
+- The input line will not contain any leading or trailing spaces.","Hello, world!","Hello, world!","Input: This is a test.
+Output: This is a test.
+Input: 12345
+Output: 12345
+Input:  Leading and trailing spaces are removed.
+Output: Leading and trailing spaces are removed.
+Input: !@#$%^&*()
+Output: !@#$%^&*()",,,,,
+White-N/A,"Operators (Arithmetic, Relational, Logical)",,"Given three integers, determine if their sum is greater than 100. If it is, return the sum; otherwise, return -1.","-1000 ≤ a, b, c ≤ 1000","a = 50, b = 50, c = 10","110
+
+Input: a = 20, b = 30, c = 40","Input: 10 20 80
+Output: 110
+Input: 10 10 10
+Output: -1
+Input: 50 50 50
+Output: 150
+Input: -50, 0, 50
+Output: -1
+Input: 100, 1, 1
+Output: 102",,,,,
+White-N/A,"Operators (Arithmetic, Relational, Logical)",,"Given three boolean variables, `a`, `b`, and `c`, determine if the expression `!(a && b) || c` evaluates to `true` or `false`.  Your program should read the boolean values of `a`, `b`, and `c` from standard input and print `true` or `false` to standard output.","- The input will consist of three lines, each containing either ""true"" or ""false"".
+- You can assume the input is always valid.","true
+false
+true",TRUE,"Input: true
+true
+true
+Output: true
+Input: false
+false
+false
+Output: true
+Input: true
+false
+false
+Output: true
+Input: false
+true
+true
+Output: true
+Input: true
+true
+false
+Output: false",,,,,
+White-22,"Input: 10 20 80
+Output: 110
+Input: 10 10 10
+Output: -1
+Input: 50 50 50
+Output: 150
+Input: -50, 0, 50
+Output: -1
+Input: 100, 1, 1
+Output: 102",,"Given three integers, determine if their sum is greater than 100. If it is, return the sum; otherwise, return -1.","-1000 ≤ a, b, c ≤ 1000","a = 50, b = 50, c = 10","110
+
+Input: a = 20, b = 30, c = 40","Operators (Arithmetic, Relational, Logical)",,,,,
+White-23,"Input: true
+true
+true
+Output: true
+Input: false
+false
+false
+Output: true
+Input: true
+false
+false
+Output: true
+Input: false
+true
+true
+Output: true
+Input: true
+true
+false
+Output: false",,"Given three boolean variables, `a`, `b`, and `c`, determine if the expression `!(a && b) || c` evaluates to `true` or `false`.  Your program should read the boolean values of `a`, `b`, and `c` from standard input and print `true` or `false` to standard output.","- The input will consist of three lines, each containing either ""true"" or ""false"".
+- You can assume the input is always valid.","true
+false
+true",TRUE,"Operators (Arithmetic, Relational, Logical)",,,,,
+White-24,"Loops (for, while)",,"Given a range of numbers (inclusive), calculate the sum of all even numbers within that range.","- The input will consist of two integers, representing the start and end of the range.
+- The range will always be valid (start <= end).
+- The numbers in the range will be between 1 and 1000 (inclusive).","1, 10",30 (2 + 4 + 6 + 8 + 10),"Input: 1, 5
+Output: 6
+Input: 10, 20
+Output: 165
+Input: 5, 15
+Output: 50
+Input: 1,1000
+Output:250500",,,,,
+White-25,Modulo Arithmetic,,"Given two integers, `a` and `b`, find the remainder when `a` is divided by `b`.","* `1 <= a, b <= 1000`
+* `b` will not be 0.","a = 10, b = 3",1,"Input: 15 4
+Output: 3
+Input: 20 5
+Output: 0
+Input: 100 7
+Output: 2
+Input: 999 10
+Output: 9
+Input: 1024 1000
+Output: 24",,,,,
+White-26,Return Values,,Write a function that takes two integers as input and returns their sum.,* The input integers will be within the range of a 32-bit integer.,"5, 10",15,"Input: 25, 75
+Output: 100
+Input: -10, 10
+Output: 0
+Input: 1000, 2000
+Output: 3000
+Input: 0, 0
+Output: 0",,,,,
+White-27,Palindrome Check,,"Given a string, determine if it's a palindrome (reads the same forwards and backward, ignoring case and non-alphanumeric characters).","- The input string will contain only ASCII characters.
+- The string's length will be between 1 and 1000 characters.","""A man, a plan, a canal: Panama""","true
+
+Input: ""race a car""","Input: ""Race car""
+Output: true
+Input: ""A man, a plan, a canal: Panama""
+Output: true
+Input: "".,""
+Output: true
+Input: ""1a2""
+Output: false
+Input: ""Was it a car or a cat I saw?""
+Output: true",,,,,
+White-28,Bitwise Operators,,"Given two integers, `a` and `b`, determine if setting the least significant bit of `a` to 1 and clearing the least significant bit of `b` results in `a` being greater than `b`.",- `a` and `b` are non-negative integers.,"a = 5, b = 6","true
+
+(Because 5 with its least significant bit set to 1 is 5 | 1 = 5, and 6 with its least significant bit cleared is 6 & ~1 = 4. 5 > 4, hence true.)","Input: 5 6
+Output: true
+Input: 10 12
+Output: true
+Input: 0 1
+Output: true
+Input: 7 7
+Output: false
+Input: 2 4
+Output: false",,,,,
+White-N/A,Bitwise Operators,,"Given an integer `n`, count the total number of set bits (1s) in the binary representation of all numbers from 1 to n (inclusive).",* 1 ≤ n ≤ 10^6,n = 3,4,"Input: 5
+Output: 7
+Input: 10
+Output: 17
+Input: 1
+Output: 1
+Input: 100
+Output: 266",,,,,
+White-N/A,1D Array Declaration & Traversal,,"Given an array of integers, calculate the sum of all elements in the array.","* The array will contain only integers.
+* The array will have at least one element.
+* The array will have at most 100 elements.
+* The sum of the elements will not exceed the maximum integer value for the language.","[1, 2, 3, 4, 5]",15,"Input: [10, 20, 30]
+Output: 60
+Input: [-1, 0, 1]
+Output: 0
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+Output: 10
+Input: [100, -50, 25, 75]
+Output: 150",,,,,
+White-29,Intro to Recursion (factorial),,"Write a function that calculates the factorial of a non-negative integer using recursion.  The factorial of a non-negative integer n, denoted by n!, is the product of all positive integers less than or equal to n. For example, 5! = 5 * 4 * 3 * 2 * 1 = 120.","- The input integer will be non-negative.
+- The input integer will be less than or equal to 12 to avoid integer overflow in most languages.",5,120,"Input: 0
+Output: 1
+Input: 1
+Output: 1
+Input: 7
+Output: 5040
+Input: 10
+Output: 3628800
+Input: 12
+Output: 479001600",,,,,
+White-30,GCD/LCM,,"Given two positive integers, determine if they are co-prime (i.e., their greatest common divisor (GCD) is 1).","- 1 ≤ a, b ≤ 1000","15, 22","Yes
+
+Input: 12, 18","Input: 10, 15
+Output: No
+Input: 7, 11
+Output: Yes
+Input: 25, 35
+Output: No
+Input: 1, 2
+Output: Yes
+Input: 17, 23
+Output: Yes",,,,,
+White-31,"Input: 5
+Output: 7
+Input: 10
+Output: 17
+Input: 1
+Output: 1
+Input: 100
+Output: 266",,"Given an integer `n`, count the total number of set bits (1s) in the binary representation of all numbers from 1 to n (inclusive).",* 1 ≤ n ≤ 10^6,n = 3,4,Bitwise Operators,,,,,
+White-32,"Input: [10, 20, 30]
+Output: 60
+Input: [-1, 0, 1]
+Output: 0
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+Output: 10
+Input: [100, -50, 25, 75]
+Output: 150",,"Given an array of integers, calculate the sum of all elements in the array.","* The array will contain only integers.
+* The array will have at least one element.
+* The array will have at most 100 elements.
+* The sum of the elements will not exceed the maximum integer value for the language.","[1, 2, 3, 4, 5]",15,1D Array Declaration & Traversal,,,,,
+White-33,"Basic Array Operations (sum, max, min)",,"Given an array of integers, find the sum, maximum, and minimum values within the array.","* The array will contain at least one element.
+* The array will only contain integers.
+* The integers can be positive, negative, or zero.","[1, 5, 2, 8, 3]","Sum: 19, Max: 8, Min: 1","Input: [10, 20, 30, 40, 50]
+Output: Sum: 150, Max: 50, Min: 10
+Input: [-1, 0, 1]
+Output: Sum: 0, Max: 1, Min: -1
+Input: [5]
+Output: Sum: 5, Max: 5, Min: 5
+Input: [-5,-10,-15]
+Output: Sum: -30, Max: -5, Min: -15",,,,,
+White-34,Intro to Time & Space Complexity,,"Given an integer `n`, count the number of sheep from 1 to n.  This seems simple, but let's analyze its time and space complexity!",- `n` will be a non-negative integer.,5,15 (1 + 2 + 3 + 4 + 5),"Input: 0
+Output: 0
+Input: 10
+Output: 55
+Input: 100
+Output: 5050
+Input: 1000
+Output: 500500",,,,,
+White-35,"Basic Array Operations (sum, max, min)",,"Given an array of integers, find the sum, maximum, and minimum values.","- The array will contain at least one element.
+- The array elements will be integers within the range of [-1000, 1000].
+- The array size will not exceed 1000 elements.","[1, 5, 2, 8, 3]","Sum: 19, Max: 8, Min: 1","Input: [10, 20, 30, 40, 50]
+Output: Sum: 150, Max: 50, Min: 10
+Input: [-5, 0, 5, 10, -10]
+Output: Sum: 0, Max: 10, Min: -10
+Input: [1, 1, 1, 1, 1]
+Output: Sum: 5, Max: 1, Min: 1
+Input: [-1000, 1000]
+Output: Sum: 0, Max: 1000, Min: -1000",,,,,
+White-36,Intro to Time & Space Complexity,,"Given an integer `n`, count the number of sheep from 1 to n.  This sounds simple, but let's analyze its efficiency!",- `n` will be a non-negative integer.,5,15 (1 + 2 + 3 + 4 + 5 = 15),"Input: 0
+Output: 0
+Input: 10
+Output: 55
+Input: 100
+Output: 5050
+Input: 1
+Output: 1
+Input: 7
+Output: 28",,,,,
+White-37,Basic String Manipulation,,"Given a string, reverse only the vowel words within the string. A vowel word is defined as a word containing at least one vowel (a, e, i, o, u).  Words are separated by spaces.","- The input string will contain only lowercase letters and spaces.
+- The input string will not be empty.
+- The input string will not contain leading or trailing spaces.
+- Words will be separated by single spaces.","""hello world amazing""",olleh dlrow gnizama,"Input: hello world amazing
+Output: olleh dlrow gnizama
+Input: this is a test
+Output: siht is a tset
+Input: quick brown rabbit
+Output: quick nworb tibbar
+Input: aeiou
+Output: uoiea",,,,,
+White-38,"Conditionals (if-else, switch-case)",,"Write a program that takes a student's numerical score as input and outputs their letter grade based on the following scale:
+
+* 90-100: A
+* 80-89: B
+* 70-79: C
+* 60-69: D
+* Below 60: F",* The input score will be an integer between 0 and 100 (inclusive).,85,B,"Input: 95
+Output: A
+Input: 78
+Output: C
+Input: 60
+Output: D
+Input: 55
+Output: F
+Input: 88
+Output: B",,,,,
+White-39,"Basic Array Operations (sum, max, min)",,"Given an array of integers, find the sum, maximum, and minimum values.","- The array will contain at least one integer.
+- The integers in the array will be within the range of your chosen language's integer type.","[1, 5, 2, 8, 3]","Sum: 19, Max: 8, Min: 1","Input: [10, 20, 30, 40, 50]
+Output: Sum: 150, Max: 50, Min: 10
+Input: [-1, 0, 1]
+Output: Sum: 0, Max: 1, Min: -1
+Input: [5]
+Output: Sum: 5, Max: 5, Min: 5
+Input: [-5, -10, -15]
+Output: Sum: -30, Max: -5, Min: -15",,,,,
+White-40,GCD/LCM,,"Given two positive integers, find their greatest common divisor (GCD).","* 1 ≤ a, b ≤ 1000","a = 12, b = 18",6,"Input: 48 18
+Output: 6
+Input: 15 25
+Output: 5
+Input: 10 5
+Output: 5
+Input: 7 13
+Output: 1",,,,,
+White-41,Variables & Data Types,,You're a programmer planning a tropical island hopping adventure!  You need to keep track of the number of islands visited and the total coconut count collected on your journey.  Write a program that takes the number of islands visited and coconuts collected as input and displays these values.,"- The number of islands visited must be a non-negative integer.
+- The total number of coconuts collected must be a non-negative integer.",3 15,"Islands Visited: 3, Total Coconuts: 15","Input: 5 20
+Output: Islands Visited: 5, Total Coconuts: 20
+Input: 0 0
+Output: Islands Visited: 0, Total Coconuts: 0
+Input: 1 100
+Output: Islands Visited: 1, Total Coconuts: 100
+Input: 12 345
+Output: Islands Visited: 12, Total Coconuts: 345",,,,,
+White-42,Type Casting,,"You are given an integer `n`. Your task is to convert this integer to a double, then to a float, then back to an integer, and finally print the final integer value.",* -1000 ≤ n ≤ 1000,123,123,"Input: 345
+Output: 345
+Input: -99
+Output: -99
+Input: 0
+Output: 0
+Input: 1000
+Output: 1000
+Input: -527
+Output: -527",,,,,
+White-43,Break & Continue,,"You're navigating a digital labyrinth represented as a list of integers.  Your goal is to find the sum of all even numbers, but you must avoid certain numbers (marked as -1). If you encounter a -1, skip it using 'continue', and if the sum exceeds 100, break out of the loop using 'break'.","- The input list will contain integers between -1 and 1000 (inclusive).
+- The list's length will be at most 100.","[2, 4, 6, -1, 8, 10, 12, 14, 16, 18, 20]",56,"Input: [1, 3, 5, 7, 9]
+Output: 0
+Input: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+Output: 110
+Input: [100, -1, 50, 2, 4, 6, 8]
+Output: 100
+Input: [-1, -1, -1, 2, 4, 6]
+Output: 12",,,,,
+White-44,"Loops (for, while)",,"Write a program that calculates the sum of all even numbers from 1 to N, where N is a positive integer provided as input.",- 1 ≤ N ≤ 1000,10,30 (2 + 4 + 6 + 8 + 10),"Input: 5
+Output: 6
+Input: 100
+Output: 2550
+Input: 1
+Output: 0
+Input: 7
+Output: 12
+Input: 1000
+Output: 250500",,,,,
+White-45,"Operators (Arithmetic, Relational, Logical)",,"Given three integers, determine if the sum of any two of them is equal to the third.  If so, return 1; otherwise, return 0.","- All three integers will be within the range of [-100, 100].","5, 3, 8","1 (because 5 + 3 = 8)
+
+Input: 2, 7, 10","Input: 10, 5, 15
+Output: 1
+Input: 2, 4, 6
+Output: 1
+Input: 1, 2, 4
+Output: 0
+Input: -5, 0, 5
+Output: 1
+Input: 100, -50, 50
+Output: 1",,,,,
+White-46,"Operators (Arithmetic, Relational, Logical)",,"Given two integer inputs, `a` and `b`, determine if the following conditions are met simultaneously:
+
+1. `a` is greater than 10.
+2. `b` is less than or equal to 5.
+3.  The logical AND of (`a` > 10) and (`b` <= 5) is true, but the logical OR of those same conditions is false.  This is a trick to check for understanding of logical operators.
+
+Your program should output `true` if all three conditions are true; otherwise, output `false`.","-100 ≤ a ≤ 100
+-100 ≤ b ≤ 100",15 3,"false
+
+Input: 20 5","Input: 15 3
+Output: false
+Input: 20 5
+Output: false
+Input: 12 2
+Output: false
+Input: 5 10
+Output: false
+Input: 11 0
+Output: false",,,,,
+White-47,Palindrome Check,,"Given a string, determine if it is a palindrome. A palindrome is a string that reads the same forwards and backward, ignoring case and non-alphanumeric characters.","- The input string will contain only ASCII characters.
+- The length of the string will be between 1 and 1000 characters.","""A man, a plan, a canal: Panama""","true
+
+Input: ""race a car""","Input: ""Racecar""
+Output: true
+Input: ""A man, a plan, a canal: Panama""
+Output: true
+Input: ""1a2""
+Output: false
+Input: "".""
+Output: true
+Input: "".,""
+Output: true",,,,,
+White-48,Bitwise Operators,,"Given an integer `n`, determine if it's a power of 2.  A power of 2 is a number of the form 2<sup>k</sup> where k is a non-negative integer.",* 0 <= n <= 10<sup>9</sup>,16,"true
+
+Input: 10","Input: 64
+Output: true
+Input: 0
+Output: false
+Input: 21845
+Output: false
+Input: 1
+Output: true
+Input: 1024
+Output: true",,,,,
+White-49,String Reversal,,"Given a string containing words separated by spaces, reverse the order of the words.  Do not reverse the characters within each word.","- The input string will contain only lowercase alphabetical characters and spaces.
+- There will be at least one word in the input string.
+- Leading and trailing spaces should be ignored.
+- Multiple spaces between words are allowed, but only single space should be in the output.","""hello world this is a sentence""","""sentence a is this world hello""","Input: This is a test
+Output: test a is This
+Input:  Leading and trailing spaces  
+Output: spaces trailing and Leading
+Input: Multiple spaces between words
+Output: words between spaces Multiple
+Input: a
+Output: a
+Input:One Word
+Output:Word One",,,,,
+White-50,Function Definition & Call,,"Write a function that takes a planet's name and generates a personalized greeting. The greeting should be in the format: ""Greetings from [planet name]! Welcome to the Galactic Federation.""","- The planet name will be a non-empty string.
+- The planet name can contain spaces.",Earth,Greetings from Earth! Welcome to the Galactic Federation.,"Input: Kepler-186f
+Output: Greetings from Kepler-186f! Welcome to the Galactic Federation.
+Input: Mars
+Output: Greetings from Mars! Welcome to the Galactic Federation.
+Input: Proxima Centauri b
+Output: Greetings from Proxima Centauri b! Welcome to the Galactic Federation.
+Input:  Alderaan
+Output: Greetings from Alderaan! Welcome to the Galactic Federation.",,,,,
+White-51,Bitwise Operators,,"Given an integer, write a function that flips the least significant bit (LSB) of the integer. The LSB is the rightmost bit in the binary representation of the integer.",* The input integer will be within the range of a 32-bit signed integer.,10 (binary: 1010),"9 (binary: 1001)
+
+Input: 5 (binary: 0101)","Input: 15
+Output: 14
+Input: 0
+Output: 1
+Input: -1
+Output: 0
+Input: 255
+Output: 254
+Input: 1023
+Output: 1022",,,,,
+White-52,Return Values,,Write a function that takes two integers as input and returns their sum.  The function should handle both positive and negative integers.,"- The input integers will be within the range of a 32-bit integer.
+- The sum of the two integers will also be within the range of a 32-bit integer.","5, 10","15
+
+Input: -3, 7","Input: 15, 20
+Output: 35
+Input: -10, 5
+Output: -5
+Input: 0, 0
+Output: 0
+Input: -20, -30
+Output: -50
+Input: 100000, -50000
+Output: 50000",,,,,
+White-53,Best/Worst/Average Case Basics,,"Given an unsorted array of integers, find the largest element in the array. Analyze the best, worst, and average-case time complexity of your solution.","- The array will contain at least one element.
+- The elements in the array are integers.","[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]",9,"Input: [1, 5, 2, 8, 3]
+Output: 8
+Input: [9, 9, 9, 9, 9]
+Output: 9
+Input: [-1, -5, -2, -8, -3]
+Output: -1
+Input: [10, 20, 30, 40, 50, 60]
+Output: 60",,,,,
+White-54,Best/Worst/Average Case Basics,,"Given an unsorted array of integers, find the maximum element in the array. Analyze the best, worst, and average-case time complexities.","- The array will contain at least one element.
+- The elements in the array are integers.","[3, 1, 4, 1, 5, 9, 2, 6]",9,"Input: [1, 5, 2, 8, 3]
+Output: 8
+Input: [9, 9, 9, 9]
+Output: 9
+Input: [-1, -5, -2, -8, -3]
+Output: -1
+Input: [10]
+Output: 10",,,,,
+White-55,Input/Output,,"Write a program that takes two inputs from the user: first, their name (a single word string), and then their age (an integer). After reading these inputs, the program should print a friendly greeting message that includes both the name and age.","- The name will be a single word (no spaces).
+- The name will consist only of English alphabet characters.
+- The age will be a positive integer between 1 and 120, inclusive.","Sarah
+25",Hello Sarah! You are 25 years old.,"Input:
+Bob
+18
+Output:
+Hello Bob! You are 18 years old.
+Input:
+Alice
+100
+Output:
+Hello Alice! You are 100 years old.
+Input:
+Zoe
+7
+Output:
+Hello Zoe! You are 7 years old.",,,,,
+White-56,Parameters & Arguments,,"Welcome, future DSA expert! Your first mission is to build a friendly ""Greeting Machine."" You'll be given a person's name, and your program needs to generate a personalized greeting message. This exercise is all about understanding how to use **parameters** to pass information into a function and **arguments** as the actual values supplied when calling that function.
+
+Imagine you have a robot that says ""Hello, [name]! Welcome to DSA!"". You need to teach your program to take a name, use it to complete the greeting, and then display the full message.","*   The input `name` will be a single word (no spaces).
+*   The `name` will consist only of English alphabet characters (a-z, A-Z).
+*   The length of the `name` will be between 1 and 50 characters, inclusive.","`Alice`
+
+####","`Hello, Alice! Welcome to DSA!`","Input: Eve
+Output: Hello, Eve! Welcome to DSA!
+Input: MaximillianAlexander
+Output: Hello, MaximillianAlexander! Welcome to DSA!
+Input: dEvID
+Output: Hello, dEvID! Welcome to DSA!
+Input: Charlie
+Output: Hello, Charlie! Welcome to DSA!",,,,,
+White-57,Basic String Manipulation,,"You are given a string `s` and a character `charToRemove`. Your task is to remove all occurrences of `charToRemove` from `s` and return the new string.
+
+For example, if `s = ""hello world""` and `charToRemove = 'l'`, the result should be `""heo word""`.","* The input string `s` will consist of ASCII characters.
+* The length of `s` will be between 0 and 1000 characters.
+* The `charToRemove` will be a single ASCII character.
+* The removal is case-sensitive.","string s = ""programming""
+char charToRemove = 'g'","""proammin""","Input: programming
+g
+Output: proammin
+Input: apple
+p
+Output: ale
+Input: test string
+x
+Output: test string
+Input: 
+a
+Output: 
+Input: AAAAA
+A
+Output: 
+Input: Hello World
+l
+Output: Heo Word",,,,,
+White-58,Prime Check,,"A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. In other words, a prime number has exactly two distinct positive divisors: 1 and the number itself.
+
+Your task is to write a program that takes an integer `N` as input and determines whether it is a prime number. The program should output ""true"" if `N` is prime, and ""false"" otherwise.","- `0 <= N <= 1,000,000`","**
+7
+
+**","**
+true
+
+**","Input: 0
+Output: false
+Input: 2
+Output: true
+Input: 3
+Output: true
+Input: 9
+Output: false
+Input: 999983
+Output: true",,,,,
+White-59,Intro to Recursion (factorial),,"The factorial of a non-negative integer `n`, denoted as `n!`, is the product of all positive integers less than or equal to `n`. For example, `5! = 5 * 4 * 3 * 2 * 1 = 120`. An important special case is `0!`, which is defined as `1`.
+
+Your task is to write a function that calculates the factorial of a given non-negative integer `n` using recursion. This problem is designed to introduce you to the fundamental concepts of recursion: defining a base case and a recursive step.","*   `0 <= n <= 12` (The result for `n=13` and above might exceed the capacity of a standard 32-bit integer, and for larger values, the call stack might overflow, depending on the language and environment.)","**
+
+5
+
+**","**
+
+120
+
+**","Input: 0
+Output: 1
+Input: 1
+Output: 1
+Input: 3
+Output: 6
+Input: 7
+Output: 5040
+Input: 12
+Output: 479001600",,,,,
+White-60,Parameters & Arguments,,You're building a simple program that greets users personally. Your task is to implement a function that takes a person's name as an input and then prints a friendly greeting using that name. This problem focuses on understanding how to define a function that accepts parameters and how to pass arguments to it.,"* The name will be a single line of text.
+* The name will consist of English letters and spaces.
+* The length of the name will be between 1 and 50 characters, inclusive.","Alice
+
+####","Hello, Alice! Welcome to the program.","Input: Bob
+Output: Hello, Bob! Welcome to the program.
+Input: Charlie Brown
+Output: Hello, Charlie Brown! Welcome to the program.
+Input: Ada Lovelace
+Output: Hello, Ada Lovelace! Welcome to the program.
+Input: Z
+Output: Hello, Z! Welcome to the program.
+Input: SuperLongNameWithLotsOfCharactersToTestTheConstraints
+Output: Hello, SuperLongNameWithLotsOfCharactersToTestTheConstraints! Welcome to the program.",,,,,
+White-61,1D Array Declaration & Traversal,,"You're given a list of `N` integers. Your task is to read these integers, store them in a 1D array, and then print them out in reverse order, with each number separated by a space.","*   `1 <= N <= 100`
+*   `-1000 <= element <= 1000` (Each integer in the list)",,,"Input: 1
+500
+Output: 500
+Input: 3
+1 2 3
+Output: 3 2 1
+Input: 4
+-5 0 10 -20
+Output: -20 10 0 -5
+Input: 6
+100 200 300 400 500 600
+Output: 600 500 400 300 200 100",,,,,
+White-62,1D Array Declaration & Traversal,,"You are given a list of `N` integers. Your task is to read these integers into a 1D array and then print them out in reverse order, separated by spaces.
+
+For example, if the input integers are `10 20 30`, you should print `30 20 10`.","*   `1 <= N <= 100` (The number of integers will be between 1 and 100)
+*   Each integer will be between `1` and `1000`.","3
+10 20 30
+
+
+####",30 20 10,"Input: 1
+50
+Output: 50
+Input: 2
+100 200
+Output: 200 100
+Input: 5
+1 2 3 4 5
+Output: 5 4 3 2 1
+Input: 4
+99 88 77 66
+Output: 66 77 88 99",,,,,
+White-63,Modulo Arithmetic,,"Imagine a 24-hour clock. Given the current hour and a number of hours that will pass, your task is to determine what the hour will be after the duration has passed. The clock operates from 0 to 23 (e.g., 0 is midnight, 13 is 1 PM, 23 is 11 PM).","*   `0 <= current_hour <= 23`
+*   `0 <= duration_hours <= 1000`
+*   The final hour should also be between 0 and 23.","**
+
+10
+5
+
+This means `current_hour = 10` and `duration_hours = 5`.
+
+**","**
+
+15","Input: 0
+0
+Output: 0
+Input: 23
+1
+Output: 0
+Input: 12
+24
+Output: 12
+Input: 5
+40
+Output: 21
+Input: 1
+1000
+Output: 17",,,,,
+White-64,Modulo Arithmetic,,"You are given three positive integers: `a`, `b`, and `m`. Your task is to find the sum of `a` and `b`, and then calculate the remainder when this sum is divided by `m`. In mathematical terms, you need to compute `(a + b) % m`.","*   `1 <= a, b, m <= 1000`","**
+`a = 5`
+`b = 7`
+`m = 5`
+
+**","**
+`2`
+
+**","Input: 1 1 10
+Output: 2
+Input: 5 5 10
+Output: 0
+Input: 9 8 5
+Output: 2
+Input: 1 1 1
+Output: 0
+Input: 1000 1000 999
+Output: 2",,,,,
+White-65,Modulo Arithmetic,,"You are given two integers, `a` and `b`, and a modulus `m`. Your task is to calculate the sum of `a` and `b`, and then find the remainder when this sum is divided by `m`. In mathematical terms, you need to compute `(a + b) % m`.","* `0 <= a, b <= 10^9`
+* `1 <= m <= 10^9`","5
+7
+3
+
+####","0
+
+####","Input: 10
+15
+7
+Output: 4
+Input: 1
+1
+2
+Output: 0
+Input: 1000000000
+1000000000
+999999999
+Output: 2
+Input: 0
+0
+5
+Output: 0",,,,,
+White-66,Intro to Time & Space Complexity,,"You're given a positive integer `N`. Your task is to calculate the sum of all positive integers from 1 up to `N` (inclusive).
+
+For example, if `N` is 3, the sum would be 1 + 2 + 3 = 6.",* `1 <= N <= 1000`,"3
+
+####",6,"Input: 1
+Output: 1
+Input: 5
+Output: 15
+Input: 10
+Output: 55
+Input: 100
+Output: 5050",,,,,
+White-67,Intro to Time & Space Complexity,,You are given an array of integers. Your task is to calculate the sum of all its elements. This is a great starting point to understand how to iterate through data structures and analyze the resources your code uses.,"* The array will contain between 1 and 100 integers, inclusive.
+* Each integer in the array will be between -100 and 100, inclusive.","3
+1 2 3
+
+
+####","6
+
+
+####","Input: 5
+10 20 30 40 50
+Output: 150
+Input: 1
+-7
+Output: -7
+Input: 4
+-1 -2 -3 -4
+Output: -10
+Input: 2
+0 0
+Output: 0",,,,,
+White-68,Input/Output,,"You are given a single integer as input. Your task is to read this integer, calculate its square (the number multiplied by itself), and then print the result to standard output.
+
+This problem is designed to introduce you to basic input/output operations and simple arithmetic in your chosen programming language.",*   The input integer `N` will be between 1 and 1000 (inclusive).,"5
+
+
+####",25,"Input: 1
+Output: 1
+Input: 10
+Output: 100
+Input: 1000
+Output: 1000000
+Input: 50
+Output: 2500",,,,,
+White-69,Best/Worst/Average Case Basics,,"You are given an array of integers and a target integer. Your task is to implement a linear search algorithm to find the target in the array. In addition to returning the index of the target (or -1 if not found), you must also count the total number of comparisons made during the search.
+
+This problem helps you understand the concepts of Best, Worst, and Average case time complexity by observing how the number of comparisons changes based on the target's position.","- The array `nums` will have a length `N` between 1 and 100.
+- Each element `nums[i]` will be an integer between -100 and 100.
+- The target integer `target` will be between -100 and 100.","**
+N = 5
+nums = [10, 20, 30, 40, 50]
+target = 30
+
+**","**
+Found at index 2 in 3 comparisons
+
+**Input:**
+N = 4
+nums = [5, 15, 25, 35]
+target = 40
+
+**","Input:
+7
+1 2 3 4 5 6 7
+1
+Output:
+Found at index 0 in 1 comparisons
+Input:
+5
+-10 -5 0 5 10
+10
+Output:
+Found at index 4 in 5 comparisons
+Input:
+6
+100 90 80 70 60 50
+45
+Output:
+Not found in 6 comparisons
+Input:
+1
+42
+42
+Output:
+Found at index 0 in 1 comparisons
+Input:
+1
+42
+99
+Output:
+Not found in 1 comparisons",,,,,
+White-70,String Reversal,,"Your task is to write a program that takes a given string and reverses the order of its characters. For example, if the input is ""hello"", the output should be ""olleh"". This is a fundamental problem that helps build a strong understanding of string manipulation and iteration.","*   The input string will contain printable ASCII characters (letters, numbers, symbols, and spaces).
+*   The length of the input string will be between 0 and 1000 characters, inclusive.
+*   An empty string should remain an empty string.",hello,"olleh
+
+
+
+Input: world","Input: racecar
+Output: racecar
+Input: a
+Output: a
+Input: 
+Output: 
+Input: Hello World!
+Output: !dlroW olleH
+Input: 123456789
+Output: 987654321",,,,,
+White-71,Bitwise Operators,,"You are given an integer `num` and a non-negative integer `n`. Your task is to toggle (flip) the `n`-th bit of `num` and return the new integer. The `n`-th bit is 0-indexed, meaning the 0-th bit is the rightmost (least significant) bit.","*   `0 <= num <= 10^9`
+*   `0 <= n <= 30`","**
+
+num = 4
+n = 1
+
+
+**Explanation:**
+1.  The decimal number `4` in binary is `...0100`.
+2.  The `n`-th bit is the 1st bit (0-indexed). In `...0100`, the 1st bit is currently `0`.
+3.  To toggle this bit means to flip its value from `0` to `1`.
+4.  After flipping, the binary representation becomes `...0110`.
+5.  The binary `...0110` is `6` in decimal.
+
+**","**
+
+6","Input: 7 0
+Output: 6
+Input: 10 3
+Output: 2
+Input: 0 5
+Output: 32
+Input: 25 2
+Output: 29
+Input: 1 0
+Output: 0",,,,,
+White-72,"Operators (Arithmetic, Relational, Logical)",,"You are given three integers: `num1`, `num2`, and `num3`. Your task is to perform two distinct calculations and print their results.
+
+1.  **Arithmetic Calculation**: Calculate the value of `(num1 + num2) * num3`.
+2.  **Logical Calculation**: Evaluate the boolean expression `(num1 > num2) && (num2 < num3)`.
+
+Print the result of the arithmetic calculation on the first line, and the result of the logical calculation (as `true` or `false` or their equivalent in the respective language, e.g., `1` or `0` for C/C++, `True` or `False` for Python) on the second line.","- `1 <= num1, num2, num3 <= 1000`","10
+5
+20
+
+####","300
+true
+
+####","Input: 1
+2
+3
+Output: 9
+false
+Input: 100
+50
+25
+Output: 3750
+false
+Input: 7
+7
+7
+Output: 98
+false
+Input: 1000
+1
+500
+Output: 500500
+true",,,,,
+White-73,Prime Check,,"You've been tasked with a critical mission: to determine if a given positive integer is a prime number. A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. Your program should read an integer and output ""Yes"" if it's prime, and ""No"" otherwise.","*   `1 <= N <= 1,000,000`","**
+7
+
+**","**
+Yes
+
+**Input:**
+10
+
+**","Input: 1
+Output: No
+Input: 2
+Output: Yes
+Input: 4
+Output: No
+Input: 13
+Output: Yes
+Input: 999983
+Output: Yes",,,,,
+White-74,Parameters & Arguments,,Write a program that takes a string and an integer as input. The program should then print the given string the specified number of times.,"*   The input string will not contain any newlines.
+*   The integer will be a non-negative integer.",Hello 3,"Hello
+Hello
+Hello","Input: Test 2
+Output:
+Test
+Test
+Input: Code 4
+Output:
+Code
+Code
+Code
+Code
+Input: Hello_World 1
+Output:
+Hello_World
+Input: Empty 0
+Output:
+",,,,,
+White-75,Break & Continue,,"Given an integer `limit` and an integer `skip_value`, print all numbers from 1 to `limit` (inclusive), skipping the multiples of `skip_value`.","*   `1 <= limit <= 100`
+*   `1 <= skip_value <= 10`",,,"Input: 10 3
+Output: 1 2 4 5 7 8 10
+Input: 15 5
+Output: 1 2 3 4 6 7 8 9 11 12 13 14
+Input: 7 2
+Output: 1 3 5 7
+Input: 5 1
+Output: 
+Input: 20 4
+Output: 1 2 3 5 6 7 9 10 11 13 14 15 17 18 19",,,,,
+White-76,Type Casting,,"You are given an integer `A` and a double-precision floating-point number `B`. Your task is to perform specific type conversions and calculations:
+
+1.  **Integer to Double:** Convert integer `A` to a `double` and store it in a new variable, say `double_A`.
+2.  **Double to Integer:** Convert double `B` to an `integer` (truncating any decimal part) and store it in a new variable, say `int_B`.
+3.  **Double Sum:** Calculate the sum of `double_A` (the converted `A`) and the original `double B`. Store this in `double_sum`.
+4.  **Integer Sum:** Calculate the sum of the original `integer A` and `int_B` (the converted `B`). Store this in `int_sum`.
+
+Finally, print the four resulting values (`double_A`, `int_B`, `double_sum`, `int_sum`) in the order specified, each on a new line. Floating-point numbers should be printed with two decimal places.","- `-1000 <= A <= 1000`
+- `-1000.0 <= B <= 1000.0`
+- Input will consist of a single line with `A` followed by `B`, separated by a space.",`10 5.75`,"10.00
+5
+15.75
+15","Input: -7 3.14
+Output: -7.00
+3
+-3.86
+-4
+Input: 0 0.99
+Output: 0.00
+0
+0.99
+0
+Input: 999 999.99
+Output: 999.00
+999
+1998.99
+1998
+Input: -1000 -10.5
+Output: -1000.00
+-10
+-1010.50
+-1010",,,,,
+White-77,Intro to Time & Space Complexity,,"Imagine you're tracking scores in a game, and you want to know how many players scored above a certain benchmark. Your task is to implement a function that takes a list of integer scores and a threshold integer. It should return the total count of scores that are strictly greater than the given threshold.","*   `1 <= N <= 100` (where `N` is the number of scores in the input list)
+*   `0 <= score[i] <= 1000` (each individual score will be between 0 and 1000)
+*   `0 <= threshold <= 1000` (the threshold will also be between 0 and 1000)","**
+`scores = [10, 20, 5, 30, 15]`
+`threshold = 12`
+
+**","**
+`3`
+
+**","Input: 5
+1 2 3 4 5
+0
+Output: 5
+Input: 3
+100 200 300
+500
+Output: 0
+Input: 4
+7 7 7 7
+7
+Output: 0
+Input: 1
+50
+49
+Output: 1
+Input: 10
+10 20 30 40 50 60 70 80 90 100
+75
+Output: 3",,,,,
+White-78,Variables & Data Types,,"Welcome, White Belt! In this problem, you'll practice one of the most fundamental concepts in programming: using variables to store different types of data and then displaying them. Your task is to read three distinct pieces of information from the user:
+1. An integer number.
+2. A floating-point number (a number with decimals).
+3. A single word (a string).
+
+After reading these inputs, you must store each of them in a variable of the appropriate data type. Finally, you will print all the stored values back to the console, following a specific format, and also show the integer value incremented by one.","*   The integer number will be between 1 and 100 (inclusive).
+*   The floating-point number will be between 0.0 and 100.0 (inclusive).
+*   The string will be a single word, containing only alphabetical characters, with a maximum length of 10 characters.","10
+3.14
+Hello
+
+
+####","You entered:
+Integer: 10
+Float: 3.14
+String: Hello
+Next Integer: 11","Input: 5
+1.23
+World
+Output: You entered:
+Integer: 5
+Float: 1.23
+String: World
+Next Integer: 6
+Input: 99
+99.99
+Test
+Output: You entered:
+Integer: 99
+Float: 99.99
+String: Test
+Next Integer: 100
+Input: 1
+0.0
+Start
+Output: You entered:
+Integer: 1
+Float: 0.00
+String: Start
+Next Integer: 2
+Input: 50
+25.5
+MidPoint
+Output: You entered:
+Integer: 50
+Float: 25.50
+String: MidPoint
+Next Integer: 51",,,,,
