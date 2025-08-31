@@ -1169,3 +1169,55 @@ Integer: 50
 Float: 25.50
 String: MidPoint
 Next Integer: 51",,,,,
+White-79,Intro to Recursion (factorial),,"Welcome to your first dive into the world of recursion! Your task is to calculate the factorial of a given non-negative integer `n`. The factorial of a non-negative integer `n`, denoted by `n!`, is the product of all positive integers less than or equal to `n`. For example, `5! = 5 × 4 × 3 × 2 × 1 = 120`. A special case is `0!`, which is defined as `1`.
+
+You must implement the factorial calculation **recursively**. This means your function should call itself to solve smaller sub-problems until it reaches a simple base case.","*   `0 <= n <= 12`
+*   The input `n` will always be a non-negative integer.
+*   The result will fit within a standard 64-bit integer type (like `long long` in C++ or `long` in Java).","**
+
+5
+
+
+**","**
+
+120","Input: 0
+Output: 1
+Input: 1
+Output: 1
+Input: 3
+Output: 6
+Input: 7
+Output: 5040
+Input: 10
+Output: 3628800",,,,,
+White-80,Function Definition & Call,,"You need to write a program that calculates a ""doubled sum"". Specifically, your program should read two integers, calculate their sum, and then multiply that sum by 2. This core logic must be encapsulated within a function. Your main program will read the inputs, call this function, and print the result.",- The input integers `num1` and `num2` will be between -1000 and 1000.,"5
+3",16,"Input: 10
+20
+Output: 60
+Input: -5
+-3
+Output: -16
+Input: 10
+-7
+Output: 6
+Input: 0
+0
+Output: 0
+Input: 15
+0
+Output: 30",,,,,
+White-81,Return Values,,"You've been hired by a magical shop that specializes in duplicating items! Your first task is to write a program that calculates the ""doubled value"" of any given integer.
+
+Specifically, you need to create a function that takes one integer as input, multiplies it by 2, and then returns the result. Your `main` (or equivalent) function should read an integer, call your duplicating function, and print the returned doubled value.","*   The input integer `N` will be between -1000 and 1000, inclusive.","5
+
+####","10
+
+
+####","Input: -7
+Output: -14
+Input: 0
+Output: 0
+Input: 500
+Output: 1000
+Input: -499
+Output: -998",,,,,
