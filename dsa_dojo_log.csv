@@ -1221,3 +1221,1452 @@ Input: 500
 Output: 1000
 Input: -499
 Output: -998",,,,,
+White-85,Type Casting,,"Welcome, White Belt coder! In this problem, you'll explore the fundamental concept of ""type casting,"" which is how you convert data from one type to another. You will be given two numbers: an integer and a floating-point number (decimal). Your task is to perform two specific type conversions and print the results.
+
+Specifically, you need to:
+1. Convert the given integer into a floating-point number.
+2. Convert the given floating-point number into an integer.
+
+Pay attention to how different languages handle these conversions and potential data loss when converting from a floating-point number to an integer.","- The input integer `N` will be within the range of standard integer types (e.g., -2 * 10^9 to 2 * 10^9).
+- The input floating-point number `D` will be within the range of standard double/float types (e.g., -10^18 to 10^18).
+- Inputs will always be valid numbers.","**
+15
+5.75
+
+**","**
+15.000000
+5
+
+_Note: The number of decimal places for the float output might vary slightly by language, but the value should be equivalent. We will aim for 6 decimal places where possible._","Input:
+-10
+-3.14
+Output:
+-10.000000
+-3
+Input:
+0
+0.0
+Output:
+0.000000
+0
+Input:
+2147483647
+12345.6789
+Output:
+2147483647.000000
+12345
+Input:
+99
+4.999999
+Output:
+99.000000
+4
+Input:
+-5
+9.123
+Output:
+-5.000000
+9",,,,,
+Yellow-2,Insertion Sort,,"You are given an unsorted array of integers. Your task is to sort this array in ascending order using the Insertion Sort algorithm.
+
+Insertion Sort works by taking one element at a time from the unsorted part and inserting it into its correct position within the already sorted part of the array. This process continues until all elements are in their sorted positions.","- `1 <= n <= 1000` (where `n` is the number of elements in the array)
+- `-1000 <= arr[i] <= 1000` (where `arr[i]` is an element in the array)
+- The input array will contain only integers.","6
+5 2 4 6 1 3
+
+####",1 2 3 4 5 6,"Input: 5
+1 2 3 4 5
+Output: 1 2 3 4 5
+Input: 5
+5 4 3 2 1
+Output: 1 2 3 4 5
+Input: 5
+4 2 1 4 3
+Output: 1 2 3 4 4
+Input: 1
+7
+Output: 7
+Input: 4
+-3 0 -1 2
+Output: -3 -1 0 2",,,,,
+White-88,"Operators (Arithmetic, Relational, Logical)",,"You are given two integers, `num1` and `num2`. Your task is to determine if both numbers collectively satisfy a specific set of criteria. You need to combine the results of several individual checks using logical operators.
+
+The conditions are:
+1.  `num1` must be an even number.
+2.  `num2` must be a positive number (strictly greater than 0).
+3.  The sum of `num1` and `num2` must be strictly less than 50.
+4.  The product of `num1` and `num2` must be strictly greater than 0.
+
+If all four conditions are met, your function should return `true`. Otherwise, it should return `false`.","*   `num1` and `num2` will be integers.
+*   `-100 <= num1, num2 <= 100`","**
+
+10
+5
+
+
+**","**
+
+true
+
+
+**","Input: 7
+10
+Output: false
+Input: 4
+-2
+Output: false
+Input: 20
+30
+Output: false
+Input: 8
+0
+Output: false
+Input: 2
+20
+Output: true",,,,,
+White-89,"Array, String",,"Given two string arrays word1 and word2, return true if the two arrays represent the same string, and false otherwise.
+
+A string is represented by an array if the array elements concatenated in order forms the string.
+
+Example 1:
+
+Input: word1 = [""ab"", ""c""], word2 = [""a"", ""bc""]
+Output: true
+Explanation:
+word1 represents string ""ab"" + ""c"" -> ""abc""
+word2 represents string ""a"" + ""bc"" -> ""abc""
+The strings are the same, so return true.
+
+Example 2:
+
+Input: word1 = [""a"", ""cb""], word2 = [""ab"", ""c""]
+Output: false
+
+Example 3:
+
+Input: word1  = [""abc"", ""d"", ""defg""], word2 = [""abcddefg""]
+Output: true
+
+Constraints:
+
+	1 3
+	1 3
+	1 3
+	word1[i] and word2[i] consist of lowercase letters.",,,,"[""ab"", ""c""]
+[""a"", ""bc""]
+[""a"", ""cb""]
+[""ab"", ""c""]
+[""abc"", ""d"", ""defg""]
+[""abcddefg""]",,,,,
+DELETE-89-check-if-two-string-arrays-are-equivalent,Deletion,N/A,Deleted folder: 89-check-if-two-string-arrays-are-equivalent,N/A,N/A,N/A,N/A,,,,,
+White-89,"Array, String, String Matching",,"Given an array of string words, return all strings in words that are a substring of another word. You can return the answer in any order.
+
+Example 1:
+
+Input: words = [""mass"",""as"",""hero"",""superhero""]
+Output: [""as"",""hero""]
+Explanation: ""as"" is substring of ""mass"" and ""hero"" is substring of ""superhero"".
+[""hero"",""as""] is also a valid answer.
+
+Example 2:
+
+Input: words = [""leetcode"",""et"",""code""]
+Output: [""et"",""code""]
+Explanation: ""et"", ""code"" are substring of ""leetcode"".
+
+Example 3:
+
+Input: words = [""blue"",""green"",""bu""]
+Output: []
+Explanation: No string of words is substring of another string.
+
+Constraints:
+
+	1 
+	1 
+	words[i] contains only lowercase English letters.
+	All the strings of words are unique.",,,,"[""mass"",""as"",""hero"",""superhero""]
+[""leetcode"",""et"",""code""]
+[""blue"",""green"",""bu""]",,,,,
+White-90,GCD/LCM,,"You are given two positive integers, `a` and `b`. Your task is to find their Greatest Common Divisor (GCD) and Least Common Multiple (LCM).
+
+The Greatest Common Divisor (GCD) of two integers is the largest positive integer that divides both numbers without leaving a remainder. For example, the GCD of 12 and 18 is 6.
+
+The Least Common Multiple (LCM) of two integers is the smallest positive integer that is a multiple of both numbers. For example, the LCM of 12 and 18 is 36.
+
+You need to output both GCD and LCM for the given pair of numbers.","*   `1 <= a, b <= 10^5`
+*   `a` and `b` are positive integers.","12 18
+
+####","GCD: 6
+LCM: 36","Input: 7 13
+Output: GCD: 1
+LCM: 91
+Input: 100 75
+Output: GCD: 25
+LCM: 300
+Input: 48 36
+Output: GCD: 12
+LCM: 144
+Input: 5 5
+Output: GCD: 5
+LCM: 5",,,,,
+White-91,"Loops (for, while)",,"You are tasked with writing a program that calculates the sum of all even numbers up to a given positive integer `N`, inclusive. For example, if `N` is 7, the even numbers within the range [1, 7] are 2, 4, and 6, and their sum is 12.",* `1 <= N <= 1000`,"**
+
+7
+
+**","**
+
+12","Input: 1
+Output: 0
+Input: 2
+Output: 2
+Input: 10
+Output: 30
+Input: 99
+Output: 2450
+Input: 1000
+Output: 250500",,,,,
+Yellow-3,2D Arrays / Matrix Operations,,"You are given a 2D integer array (matrix). Your task is to calculate the sum of all elements that lie on the perimeter of the matrix. The perimeter includes all elements in the first row, last row, first column, and last column. Be careful not to double-count elements that are part of multiple perimeter segments (i.e., the corner elements).","*   `1 <= rows, cols <= 100` (where `rows` is the number of rows and `cols` is the number of columns).
+*   `-1000 <= matrix[i][j] <= 1000` (elements can be positive, negative, or zero).","3 3
+1 2 3
+4 5 6
+7 8 9
+
+####","40
+
+
+####","Input: 1 1
+5
+Output: 5
+Input: 1 4
+10 20 30 40
+Output: 100
+Input: 4 1
+1
+2
+3
+4
+Output: 10
+Input: 2 2
+1 2
+3 4
+Output: 10
+Input: 4 3
+1 -2 3
+4 5 6
+7 8 9
+-10 11 -12
+Output: 1",,,,,
+Yellow-4,Sliding Window Intro,,You are given an array of integers `arr` and an integer `k`. Your task is to find the maximum sum of a subarray of `arr` that has a length exactly `k`. This means you need to consider all possible contiguous subarrays of size `k` and determine which one has the largest sum.,"*   `1 <= arr.length <= 10^5`
+*   `1 <= k <= arr.length`
+*   `0 <= arr[i] <= 1000` (Elements are non-negative to keep it simple for an intro problem)
+*   The sum of any subarray will fit within a standard integer type.","**
+
+6
+2 1 5 1 3 2
+3
+
+**","**
+
+9
+
+
+**","Input: 5
+1 2 3 4 5
+3
+Output: 12
+Input: 1
+100
+1
+Output: 100
+Input: 7
+10 2 3 4 5 6 7
+4
+Output: 22
+Input: 8
+1 1 1 1 1 1 1 1
+2
+Output: 2
+Input: 6
+1 2 3 4 5 0
+3
+Output: 12",,,,,
+Yellow-5,Doubly Linked List basics,,"You're tasked with enhancing a Doubly Linked List (DLL) by implementing a function to append a new node to its very end. Given the head and tail of an existing DLL (which might be empty) and an integer value, your goal is to create a new node with this value and add it as the new tail of the list. Remember to correctly update all `next` and `prev` pointers, including those of the old tail (if it exists) and the new node itself.","*   The input list can be empty.
+*   The number of nodes `N` in the initial list will be between `0` and `1000`.
+*   The value `V` to insert will be an integer between `-10^9` and `10^9`.
+*   The `head` and `tail` pointers should always correctly point to the beginning and end of the list, respectively, after the operation.","**
+
+1 2 3
+4
+
+(Initial DLL: `1 <-> 2 <-> 3`, Value to insert: `4`)
+
+**","**
+
+1 <-> 2 <-> 3 <-> 4
+
+
+#### Example 2:
+**Input:**
+
+EMPTY
+5
+
+(Initial DLL: `Empty List`, Value to insert: `5`)
+
+**","Input: 10
+20
+Output: 10 <-> 20
+Input: 1 2 3 4 5
+0
+Output: 1 <-> 2 <-> 3 <-> 4 <-> 5 <-> 0
+Input: -5 -4 -3
+-2
+Output: -5 <-> -4 <-> -3 <-> -2
+Input: 7
+7
+Output: 7 <-> 7",,,,,
+Yellow-6,Stack Implementation (Array/LL),,"Your mission is to implement a basic Stack data structure that supports four fundamental operations: `push`, `pop`, `top`, and `isEmpty`. You will receive a sequence of commands, and your program must process them, outputting results for `pop`, `top`, and `isEmpty` operations.
+
+The stack should adhere to the Last-In, First-Out (LIFO) principle. For operations that attempt to `pop` or retrieve `top` from an empty stack, a specific error value (`-1`) should be returned. Similarly, `push` operations should handle the case where the stack is at its maximum capacity.","*   The stack will have a maximum capacity of `1000` elements.
+*   The number of operations `N` will be between `1` and `1000`.
+*   Values pushed onto the stack will be integers between `-10^9` and `10^9`.
+*   Operations will be one of the following strings:
+    *   `push <value>`: Adds `value` to the top of the stack.
+    *   `pop`: Removes and returns the top element.
+    *   `top`: Returns the top element without removing it.
+    *   `isEmpty`: Returns `true` if the stack is empty, `false` otherwise.","8
+push 10
+push 20
+pop
+top
+isEmpty
+pop
+pop
+isEmpty
+
+
+####","20
+10
+false
+10
+-1
+true","Input: 3
+pop
+top
+isEmpty
+Output: -1
+-1
+true
+Input: 12
+push 1
+push 2
+push 3
+push 4
+push 5
+push 6
+top
+pop
+top
+pop
+top
+pop
+isEmpty
+Output: 5
+5
+4
+4
+3
+3
+false
+Input: 7
+push 100
+pop
+isEmpty
+push 200
+top
+pop
+isEmpty
+Output: 100
+true
+200
+200
+true",,,,,
+Yellow-7,Bubble Sort,,"You are given an array of integers. Your task is to sort this array in ascending order using the Bubble Sort algorithm.
+
+Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until no swaps are needed, which indicates that the list is sorted.","*   `1 <= N <= 1000` (where N is the number of elements in the array)
+*   `-10^9 <= array[i] <= 10^9`
+*   The array may contain duplicate elements.","**
+
+5
+5 1 4 2 8
+
+
+**","**
+
+1 2 4 5 8","Input: 5
+1 2 3 4 5
+Output: 1 2 3 4 5
+Input: 5
+5 4 3 2 1
+Output: 1 2 3 4 5
+Input: 7
+3 1 4 1 5 9 2
+Output: 1 1 2 3 4 5 9
+Input: 1
+42
+Output: 42
+Input: 2
+7 3
+Output: 3 7",,,,,
+Yellow-8,Bubble Sort,,"You've been given an array of integers. Your task is to sort this array in ascending order using the Bubble Sort algorithm. Bubble sort works by repeatedly stepping through the list, comparing adjacent elements and swapping them if they are in the wrong order. The pass through the list is repeated until no swaps are needed, which indicates that the list is sorted.","*   The number of elements `n` in the array will be between 1 and 1000.
+*   Each element `arr[i]` will be an integer between -10000 and 10000.","`[5, 1, 4, 2, 8]`","`[1, 2, 4, 5, 8]`
+
+**","Input: 5
+1 2 3 4 5
+Output: 1 2 3 4 5
+Input: 5
+5 4 3 2 1
+Output: 1 2 3 4 5
+Input: 8
+3 1 4 1 5 9 2 6
+Output: 1 1 2 3 4 5 6 9
+Input: 1
+7
+Output: 7
+Input: 5
+-5 0 -2 3 1
+Output: -5 -2 0 1 3",,,,,
+Yellow-9,Bubble Sort,,"You are tasked with sorting an array of integers in ascending order using the Bubble Sort algorithm. Bubble Sort is a simple comparison-based sorting algorithm. It works by repeatedly stepping through the list, comparing adjacent elements and swapping them if they are in the wrong order. The pass through the list is repeated until no swaps are needed, which indicates that the list is sorted.
+
+Your program should read an integer `N`, followed by `N` integers representing the elements of the array. It should then apply Bubble Sort and print the sorted array.","*   `1 <= N <= 100`
+*   `0 <= arr[i] <= 1000`","**
+
+5
+5 1 4 2 8
+
+
+**","**
+
+1 2 4 5 8","Input: 1
+7
+Output: 7
+Input: 4
+4 3 2 1
+Output: 1 2 3 4
+Input: 6
+5 2 8 2 5 1
+Output: 1 2 2 5 5 8
+Input: 5
+10 20 30 40 50
+Output: 10 20 30 40 50
+Input: 9
+99 11 77 33 55 22 88 44 66
+Output: 11 22 33 44 55 66 77 88 99",,,,,
+Yellow-10,Selection Sort,,You are given an array of integers. Your task is to sort this array in ascending order using the Selection Sort algorithm. Selection Sort works by repeatedly finding the minimum element from the unsorted part and putting it at the beginning of the unsorted part.,"* `1 <= n <= 1000` (where `n` is the number of elements in the array)
+* `-1000 <= arr[i] <= 1000`
+* The array may contain duplicate elements.","**
+`[64, 25, 12, 22, 11]`
+
+**","**
+`[11, 12, 22, 25, 64]`
+
+**","Input: 5
+1 2 3 4 5
+Output: 1 2 3 4 5
+Input: 7
+5 4 3 2 1 0 -1
+Output: -1 0 1 2 3 4 5
+Input: 6
+4 2 1 4 3 5
+Output: 1 2 3 4 4 5
+Input: 4
+-5 -2 0 -10
+Output: -10 -5 -2 0
+Input: 1
+7
+Output: 7",,,,,
+White-92,Intro to Time & Space Complexity,,"You are given a list (or array) of whole numbers. Your task is to find the single largest number within this list. For example, if the list is `[3, 1, 7, 4, 2]`, the largest number is `7`.","*   The input array will contain at least one element.
+*   The number of elements in the array (N) will be between 1 and 1000.
+*   Each element in the array will be an integer between -1000 and 1000.","**
+
+5
+5 2 9 1 7
+
+
+**","**
+
+9","Input: 5
+10 20 5 30 15
+Output: 30
+Input: 3
+-5 -1 -10
+Output: -1
+Input: 1
+100
+Output: 100
+Input: 7
+7 7 7 7 7 7 7
+Output: 7
+Input: 4
+-10 0 10 -20
+Output: 10",,,,,
+White-93,LeetCode,,,,,,"Input: [1,2,0]
+Output: [0,1,2],Input: [2,0,1,0]
+Output: [0,0,1,2],Input: [0,1,2,0,1,2]
+Output: [0,0,1,1,2,2],Input: [2,1,0,1,2,0]
+Output: [0,0,1,1,2,2],Input: []
+Output: []",,,,,
+,,,,,,,,,,,,
+White-93,1D Array Declaration & Traversal,,"Given an integer array, traverse the array and print each element.","- The array will contain at least one element.
+- The array will contain only integers.
+- The maximum size of the array is 100.","[1, 2, 3, 4, 5]",1 2 3 4 5,"Input: [1, 2, 3]
+Output: 1 2 3,Input: [10, 20, 30, 40, 50]
+Output: 10 20 30 40 50,Input: [-1, 0, 1]
+Output: -1 0 1,Input: [5, 4, 3, 2, 1]
+Output: 5 4 3 2 1",,,,,
+Yellow-11,Naive Pattern Search,"- String manipulation
+- Basic iteration
+- Algorithm implementation
+- Pattern matching","Implement a naive pattern searching algorithm to find all occurrences of a pattern within a text string.  The algorithm should iterate through the text and compare each character to the pattern. If a mismatch occurs, it moves to the next character in the text. If a match is found, the index of the match is recorded.","- The text and pattern will only contain lowercase English alphabet characters ('a' - 'z').
+- The pattern's length will be less than or equal to the text's length.
+- The pattern can appear multiple times in the text, possibly overlapping.",,,"Input: text = ""abcabcabc"", pattern = ""abc""
+Output: [0, 3, 6],Input: text = ""abababab"", pattern = ""aba""
+Output: [0, 2, 4],Input: text = ""hello world"", pattern = ""world""
+Output: [6],Input: text = ""aaaa"", pattern = ""aa""
+Output: [0, 1, 2],Input: text = ""mississippi"", pattern = ""issi""
+Output: [4]",,,,,
+Yellow-11,Naive Pattern Search,,"Implement a naive pattern searching algorithm to find all occurrences of a pattern within a text string.  The algorithm should iterate through the text and compare each character to the pattern. If a mismatch occurs, it moves to the next character in the text. If a match is found, the index of the match is recorded.","- The text and pattern will only contain lowercase English alphabet characters ('a' - 'z').
+- The pattern's length will be less than or equal to the text's length.
+- The pattern can appear multiple times in the text, possibly overlapping.",,,"Input: text = ""abcabcabc"", pattern = ""abc""
+Output: [0, 3, 6],Input: text = ""abababab"", pattern = ""aba""
+Output: [0, 2, 4],Input: text = ""hello world"", pattern = ""world""
+Output: [6],Input: text = ""aaaa"", pattern = ""aa""
+Output: [0, 1, 2],Input: text = ""mississippi"", pattern = ""issi""
+Output: [4]",,,,,
+Yellow-12,Recursive Power Function,"- Recursion
+- Handling negative exponents
+- Floating-point arithmetic",Write a function that calculates x raised to the power of n (xⁿ) recursively.  Handle both positive and negative exponents.,"- -100 ≤ x ≤ 100
+- -10 ≤ n ≤ 10
+- x != 0 when n < 0","x = 2, n = 3","8
+
+Input: x = 5, n = -2","Input: 2 3
+Output: 8.00
+Input: 5 -2
+Output: 0.04
+Input: 3 0
+Output: 1.00
+Input: -2 3
+Output: -8.00
+Input: 10 2
+Output: 100.00",,,,,
+Yellow-12,Recursive Power Function,,Write a function that calculates x raised to the power of n (xⁿ) recursively.  Handle both positive and negative exponents.,"- -100 ≤ x ≤ 100
+- -10 ≤ n ≤ 10
+- x != 0 when n < 0","x = 2, n = 3","8
+
+Input: x = 5, n = -2","Input: 2 3
+Output: 8.00
+Input: 5 -2
+Output: 0.04
+Input: 3 0
+Output: 1.00
+Input: -2 3
+Output: -8.00
+Input: 10 2
+Output: 100.00",,,,,
+Yellow-14,Binary Search,"*   **Binary Search**: This problem asks for the *minimum* `k` that satisfies a certain condition. The time it takes to eat all bananas is a monotonically decreasing function with respect to `k` (i.e., faster `k` means less time). This property makes it a perfect candidate for binary search on the answer space.
+*   **Ceiling Division**: When calculating the time taken to eat a pile of `p` bananas at speed `k`, if `p` is not perfectly divisible by `k`, Koko still spends a full hour on the remaining bananas. This is equivalent to `ceil(p / k)`. In integer arithmetic, `ceil(a / b)` can be calculated as `(a + b - 1) / b` for positive integers `a` and `b`.
+*   **Time Complexity Analysis**: Understanding how to calculate the overall time taken for an algorithm, considering the number of operations.
+*   **Space Complexity Analysis**: Understanding the memory usage of an algorithm, excluding the input storage.","Koko loves to eat bananas. There are `n` piles of bananas, and the `i`-th pile has `piles[i]` bananas. Koko has to eat all the bananas within `h` hours.
+
+Koko decides her eating speed `k` (bananas per hour). Each hour, she chooses one pile and eats `k` bananas from it. If a pile has less than `k` bananas, she eats all of them instead and will not eat any more bananas during that hour. She cannot start eating from a different pile in the same hour.
+
+Koko wants to eat all the bananas, but she also wants to be slow enough to avoid suspicion. Your task is to find the minimum integer eating speed `k` such that she can eat all the bananas within `h` hours.","* `1 <= piles.length <= 10^4`
+* `1 <= piles[i] <= 10^9`
+* `piles.length <= h <= 10^9`","piles = [3,6,7,11]
+h = 8",4,"Input: 4
+3 6 7 11
+8
+Output: 4,Input: 5
+30 11 23 4 20
+5
+Output: 30,Input: 5
+30 11 23 4 20
+6
+Output: 23,Input: 1
+1000000000
+1
+Output: 1000000000,Input: 4
+1 1 1 999999999
+10
+Output: 142857143",,,,,
+Yellow-15,Frequency Count / Anagrams,"- Frequency Counting
+- Character Arrays / Hash Maps
+- String Manipulation","An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once. For example, ""listen"" is an anagram of ""silent"".
+
+Your task is to implement a function that determines if two given strings are anagrams of each other. The strings will consist only of lowercase English letters.","- Both input strings, `s1` and `s2`, will contain only lowercase English letters ('a'-'z').
+- The length of `s1` and `s2` will be between 0 and 10^5 characters, inclusive.","s1 = ""rat""
+s2 = ""art""",TRUE,"Input: listen
+silent
+Output: true
+Input: hello
+world
+Output: false
+Input: a
+a
+Output: true
+Input: abc
+bca
+Output: true
+Input: abc
+ab
+Output: false
+Input: """"
+""""
+Output: true","#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define ALPHABET_SIZE 26
+
+// Function to check if two strings are anagrams
+bool areAnagrams(const char* s1, const char* s2) {
+    int len1 = strlen(s1);
+    int len2 = strlen(s2);
+
+    // If lengths are different, they cannot be anagrams
+    if (len1 != len2) {
+        return false;
+    }
+
+    // Frequency array for lowercase English letters
+    int counts[ALPHABET_SIZE] = {0}; // Initialize all to 0
+
+    // Increment counts for characters in s1
+    for (int i = 0; i < len1; i++) {
+        counts[s1[i] - 'a']++;
+    }
+
+    // Decrement counts for characters in s2
+    for (int i = 0; i < len2; i++) {
+        counts[s2[i] - 'a']--;
+    }
+
+    // Check if all counts are zero
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        if (counts[i] != 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    char s1_buffer[100001]; // Max length + 1 for null terminator
+    char s2_buffer[100001];
+
+    // Read input strings
+    if (scanf(""%s"", s1_buffer) != 1) return 1;
+    if (scanf(""%s"", s2_buffer) != 1) return 1;
+
+    // Call the core logic function
+    if (areAnagrams(s1_buffer, s2_buffer)) {
+        printf(""true\n"");
+    } else {
+        printf(""false\n"");
+    }
+
+    return 0;
+}","def are_anagrams(s1: str, s2: str) -> bool:
+    # If lengths are different, they cannot be anagrams
+    if len(s1) != len(s2):
+        return False
+
+    # Frequency array (list) for lowercase English letters
+    counts = [0] * 26
+
+    # Increment counts for characters in s1
+    for char_code in map(ord, s1):
+        counts[char_code - ord('a')] += 1
+
+    # Decrement counts for characters in s2
+    for char_code in map(ord, s2):
+        counts[char_code - ord('a')] -= 1
+
+    # Check if all counts are zero
+    for count in counts:
+        if count != 0:
+            return False
+
+    return True
+
+def main():
+    s1 = input()
+    s2 = input()
+
+    # Call the core logic function
+    if are_anagrams(s1, s2):
+        print(""true"")
+    else:
+        print(""false"")
+
+if __name__ == ""__main__"":
+    main()","import java.util.Scanner;
+
+public class Solution {
+
+    // Function to check if two strings are anagrams
+    public static boolean areAnagrams(String s1, String s2) {
+        // If lengths are different, they cannot be anagrams
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+
+        // Frequency array for lowercase English letters
+        int[] counts = new int[26]; // Initialize all to 0 by default
+
+        // Increment counts for characters in s1
+        for (char c : s1.toCharArray()) {
+            counts[c - 'a']++;
+        }
+
+        // Decrement counts for characters in s2
+        for (char c : s2.toCharArray()) {
+            counts[c - 'a']--;
+        }
+
+        // Check if all counts are zero
+        for (int count : counts) {
+            if (count != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Read input strings
+        String s1 = scanner.next();
+        String s2 = scanner.next();
+
+        // Call the core logic function
+        if (areAnagrams(s1, s2)) {
+            System.out.println(""true"");
+        } else {
+            System.out.println(""false"");
+        }
+
+        scanner.close();
+    }
+}","// Function to check if two strings are anagrams
+function areAnagrams(s1, s2) {
+    // If lengths are different, they cannot be anagrams
+    if (s1.length !== s2.length) {
+        return false;
+    }
+
+    // Frequency array for lowercase English letters
+    const counts = new Array(26).fill(0);
+
+    // Increment counts for characters in s1
+    for (let i = 0; i < s1.length; i++) {
+        counts[s1.charCodeAt(i) - 'a'.charCodeAt(0)]++;
+    }
+
+    // Decrement counts for characters in s2
+    for (let i = 0; i < s2.length; i++) {
+        counts[s2.charCodeAt(i) - 'a'.charCodeAt(0)]--;
+    }
+
+    // Check if all counts are zero
+    for (let i = 0; i < counts.length; i++) {
+        if (counts[i] !== 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// Main function to handle I/O
+function main() {
+    const readline = require('readline');
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    let lines = [];
+    rl.on('line', (line) => {
+        lines.push(line);
+    }).on('close', () => {
+        const s1 = lines[0];
+        const s2 = lines[1];
+
+        // Call the core logic function
+        if (areAnagrams(s1, s2)) {
+            console.log(""true"");
+        } else {
+            console.log(""false"");
+        }
+    });
+}
+
+// Invoke the main function
+main();","#include <iostream>
+#include <string>
+#include <vector>
+
+// Function to check if two strings are anagrams
+bool areAnagrams(const std::string& s1, const std::string& s2) {
+    // If lengths are different, they cannot be anagrams
+    if (s1.length() != s2.length()) {
+        return false;
+    }
+
+    // Frequency array for lowercase English letters
+    std::vector<int> counts(26, 0); // Initialize all to 0
+
+    // Increment counts for characters in s1
+    for (char c : s1) {
+        counts[c - 'a']++;
+    }
+
+    // Decrement counts for characters in s2
+    for (char c : s2) {
+        counts[c - 'a']--;
+    }
+
+    // Check if all counts are zero
+    for (int count : counts) {
+        if (count != 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    std::ios_base::sync_with_stdio(false); // Optimize C++ I/O
+    std::cin.tie(NULL);
+
+    std::string s1, s2;
+
+    // Read input strings
+    std::cin >> s1 >> s2;
+
+    // Call the core logic function
+    if (areAnagrams(s1, s2)) {
+        std::cout << ""true\n"";
+    } else {
+        std::cout << ""false\n"";
+    }
+
+    return 0;
+}"
+Yellow-16,LeetCode,"*   **Arrays**: Understanding how to store and access collections of data.
+*   **Sorted Arrays**: Leveraging the property that elements are in order to optimize solutions.
+*   **Iteration**: Traversing through an array to examine each element.
+*   **Counting**: Keeping track of how many elements satisfy a certain condition.
+*   **Binary Search (Advanced)**: For larger inputs, a more efficient search algorithm can be used to quickly find an element or a position in a sorted array based on a condition. This problem can be optimally solved using binary search by cleverly identifying a monotonic property related to missing numbers.","You are given a **strictly increasing** array `arr` of positive integers and an integer `k`.
+
+Your task is to find the `k`-th positive integer that is **missing** from the array. Positive integers start from `1`.
+
+For example, if `arr = [2,3,4,7,11]` and `k = 5`:
+The positive integers are `1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, ...`
+Numbers present in `arr`: `2, 3, 4, 7, 11`
+Missing positive integers in order: `1, 5, 6, 8, 9, 10, 12, ...`
+The 1st missing is `1`.
+The 2nd missing is `5`.
+The 3rd missing is `6`.
+The 4th missing is `8`.
+The 5th missing is `9`.
+So, the output for this example would be `9`.","*   `1 <= arr.length <= 1000`
+*   `1 <= arr[i] <= 1000 + k`
+*   `1 <= k <= 1000`
+*   `arr` is sorted in strictly increasing order.
+*   All elements in `arr` are distinct.","arr = [2,3,4,7,11], k = 5",9,"Input: 5
+2 3 4 7 11
+5
+Output: 9,Input: 2
+10 20
+5
+Output: 5,Input: 4
+1 2 3 4
+2
+Output: 6,Input: 1
+1
+1
+Output: 2,Input: 1
+2
+1
+Output: 1","#include <stdio.h>
+#include <stdlib.h>
+
+int findKthPositive(int* arr, int arrSize, int k) {
+    int low = 0;
+    int high = arrSize - 1;
+    
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        // Count of missing numbers before arr[mid]
+        // If all numbers from 1 to arr[mid] were present, there would be arr[mid] numbers.
+        // But we only have (mid + 1) numbers (arr[0] to arr[mid]).
+        // So, arr[mid] - (mid + 1) gives the count of missing numbers.
+        if (arr[mid] - (mid + 1) < k) {
+            low = mid + 1; // Not enough missing numbers, look in the right half
+        } else {
+            high = mid - 1; // Enough missing numbers, try to find an earlier position
+        }
+    }
+    
+    // After the loop, 'low' will be the index where the k-th missing number would be.
+    // The k-th missing number is simply 'low + k'.
+    return low + k;
+}
+
+int main() {
+    int arr_size, k;
+
+    // Read arr_size
+    scanf(""%d"", &arr_size);
+
+    // Allocate memory for the array
+    int* arr = (int*)malloc(arr_size * sizeof(int));
+
+    // Read array elements
+    for (int i = 0; i < arr_size; i++) {
+        scanf(""%d"", &arr[i]);
+    }
+
+    // Read k
+    scanf(""%d"", &k);
+
+    // Call the function and print the result
+    int result = findKthPositive(arr, arr_size, k);
+    printf(""%d\n"", result);
+
+    // Free allocated memory
+    free(arr);
+
+    return 0;
+}","class Solution:
+    def findKthPositive(self, arr: list[int], k: int) -> int:
+        low = 0
+        high = len(arr) - 1
+        
+        while low <= high:
+            mid = low + (high - low) // 2
+            # Count of missing numbers before arr[mid]
+            # If all numbers from 1 to arr[mid] were present, there would be arr[mid] numbers.
+            # But we only have (mid + 1) numbers (arr[0] to arr[mid]).
+            # So, arr[mid] - (mid + 1) gives the count of missing numbers.
+            if arr[mid] - (mid + 1) < k:
+                low = mid + 1  # Not enough missing numbers, look in the right half
+            else:
+                high = mid - 1 # Enough missing numbers, try to find an earlier position
+            
+        # After the loop, 'low' will be the index where the k-th missing number would be.
+        # The k-th missing number is simply 'low + k'.
+        return low + k
+
+def main():
+    # Read array size
+    n = int(input())
+    # Read array elements
+    arr = list(map(int, input().split()))
+    # Read k
+    k = int(input())
+
+    sol = Solution()
+    result = sol.findKthPositive(arr, k)
+    print(result)
+
+if __name__ == ""__main__"":
+    main()","import java.util.Scanner;
+
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        int low = 0;
+        int high = arr.length - 1;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            // Count of missing numbers before arr[mid]
+            // If all numbers from 1 to arr[mid] were present, there would be arr[mid] numbers.
+            // But we only have (mid + 1) numbers (arr[0] to arr[mid]).
+            // So, arr[mid] - (mid + 1) gives the count of missing numbers.
+            if (arr[mid] - (mid + 1) < k) {
+                low = mid + 1; // Not enough missing numbers, look in the right half
+            } else {
+                high = mid - 1; // Enough missing numbers, try to find an earlier position
+            }
+        }
+        
+        // After the loop, 'low' will be the index where the k-th missing number would be.
+        // The k-th missing number is simply 'low + k'.
+        return low + k;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Read array size
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        // Read array elements
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        // Read k
+        int k = scanner.nextInt();
+
+        Solution sol = new Solution();
+        int result = sol.findKthPositive(arr, k);
+        System.out.println(result);
+
+        scanner.close();
+    }
+}","/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number}
+ */
+var findKthPositive = function(arr, k) {
+    let low = 0;
+    let high = arr.length - 1;
+    
+    while (low <= high) {
+        let mid = Math.floor(low + (high - low) / 2);
+        // Count of missing numbers before arr[mid]
+        // If all numbers from 1 to arr[mid] were present, there would be arr[mid] numbers.
+        // But we only have (mid + 1) numbers (arr[0] to arr[mid]).
+        // So, arr[mid] - (mid + 1) gives the count of missing numbers.
+        if (arr[mid] - (mid + 1) < k) {
+            low = mid + 1; // Not enough missing numbers, look in the right half
+        } else {
+            high = mid - 1; // Enough missing numbers, try to find an earlier position
+        }
+    }
+    
+    // After the loop, 'low' will be the index where the k-th missing number would be.
+    // The k-th missing number is simply 'low + k'.
+    return low + k;
+};
+
+// Main function for handling input/output
+function main() {
+    const readline = require('readline');
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    let inputLines = [];
+    rl.on('line', (line) => {
+        inputLines.push(line);
+    }).on('close', () => {
+        let n = parseInt(inputLines[0]);
+        let arr = inputLines[1].split(' ').map(Number);
+        let k = parseInt(inputLines[2]);
+
+        let result = findKthPositive(arr, k);
+        console.log(result);
+    });
+}
+
+// Call main to start the program
+if (require.main === module) {
+    main();
+}","#include <iostream>
+#include <vector>
+#include <numeric>
+
+class Solution {
+public:
+    int findKthPositive(std::vector<int>& arr, int k) {
+        int low = 0;
+        int high = arr.size() - 1;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            // Count of missing numbers before arr[mid]
+            // If all numbers from 1 to arr[mid] were present, there would be arr[mid] numbers.
+            // But we only have (mid + 1) numbers (arr[0] to arr[mid]).
+            // So, arr[mid] - (mid + 1) gives the count of missing numbers.
+            if (arr[mid] - (mid + 1) < k) {
+                low = mid + 1; // Not enough missing numbers, look in the right half
+            } else {
+                high = mid - 1; // Enough missing numbers, try to find an earlier position
+            }
+        }
+        
+        // After the loop, 'low' will be the index where the k-th missing number would be.
+        // The k-th missing number is simply 'low + k'.
+        return low + k;
+    }
+};
+
+int main() {
+    int n, k;
+    std::cin >> n; // Read array size
+
+    std::vector<int> arr(n);
+    for (int i = 0; i < n; ++i) {
+        std::cin >> arr[i]; // Read array elements
+    }
+
+    std::cin >> k; // Read k
+
+    Solution sol;
+    int result = sol.findKthPositive(arr, k);
+    std::cout << result << std::endl;
+
+    return 0;
+}"
+White-95,Basic String Manipulation,"*   String iteration
+*   Conditional logic (if/else statements)
+*   Character case checking (e.g., `is_lower`, `is_upper`)
+*   Character case conversion (e.g., `to_lower`, `to_upper`)","Your task is to implement a function that takes a string as input and returns a new string where the case of each alphabetic character is swapped. This means all lowercase letters should become uppercase, and all uppercase letters should become lowercase. Non-alphabetic characters (numbers, symbols, spaces) should remain unchanged.","*   The input string will have a length between 0 and 100 characters, inclusive.
+*   The string will consist of ASCII characters.","** `Hello World!`
+**",** `hELLO wORLD!`,"Input: DSA CHALLENGE
+Output: dsa challenge
+Input: programmingisfun
+Output: PROGRAMMINGISFUN
+Input: 123Abc_DEF456
+Output: 123aBC_def456
+Input: 
+Output: 
+Input: !@#$%^&*()
+Output: !@#$%^&*()","#include <stdio.h>
+#include <string.h>
+#include <ctype.h> // For islower, isupper, tolower, toupper
+#include <stdlib.h> // For malloc, free
+
+// Function to swap the case of characters in a string
+char* swapCase(const char* s) {
+    if (s == NULL) {
+        return NULL;
+    }
+
+    size_t len = strlen(s);
+    char* result = (char*)malloc(sizeof(char) * (len + 1)); // +1 for null terminator
+    if (result == NULL) {
+        return NULL; // Memory allocation failed
+    }
+
+    for (size_t i = 0; i < len; i++) {
+        if (islower((unsigned char)s[i])) {
+            result[i] = (char)toupper((unsigned char)s[i]);
+        } else if (isupper((unsigned char)s[i])) {
+            result[i] = (char)tolower((unsigned char)s[i]);
+        } else {
+            result[i] = s[i];
+        }
+    }
+    result[len] = '\0'; // Null-terminate the result string
+    return result;
+}
+
+int main() {
+    char input[101]; // Max 100 chars + null terminator
+    if (fgets(input, sizeof(input), stdin) == NULL) {
+        return 1; // Error reading input
+    }
+
+    // Remove trailing newline character if present
+    input[strcspn(input, ""\n"")] = 0;
+
+    char* output = swapCase(input);
+    if (output != NULL) {
+        printf(""%s\n"", output);
+        free(output); // Free allocated memory
+    } else {
+        // Handle error (e.g., malloc failed)
+        return 1;
+    }
+
+    return 0;
+}","def swapCase(s: str) -> str:
+    """"""
+    Swaps the case of each alphabetic character in a string.
+    Lowercase letters become uppercase, and uppercase letters become lowercase.
+    Non-alphabetic characters remain unchanged.
+    """"""
+    result_chars = []
+    for char in s:
+        if char.islower():
+            result_chars.append(char.upper())
+        elif char.isupper():
+            result_chars.append(char.lower())
+        else:
+            result_chars.append(char)
+    return """".join(result_chars)
+
+if __name__ == ""__main__"":
+    input_string = input()
+    output_string = swapCase(input_string)
+    print(output_string)","import java.util.Scanner;
+
+public class Solution {
+
+    // Function to swap the case of characters in a string
+    public static String swapCase(String s) {
+        if (s == null || s.isEmpty()) {
+            return s;
+        }
+
+        StringBuilder result = new StringBuilder(s.length());
+        for (char c : s.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                result.append(Character.toUpperCase(c));
+            } else if (Character.isUpperCase(c)) {
+                result.append(Character.toLowerCase(c));
+            } else {
+                result.append(c);
+            }
+        }
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        String output = swapCase(input);
+        System.out.println(output);
+        scanner.close();
+    }
+}","function swapCase(s) {
+    if (!s) {
+        return s;
+    }
+
+    let result = '';
+    for (let i = 0; i < s.length; i++) {
+        const char = s[i];
+        // Check if the character is an alphabetic character
+        if (char >= 'a' && char <= 'z') {
+            result += char.toUpperCase();
+        } else if (char >= 'A' && char <= 'Z') {
+            result += char.toLowerCase();
+        } else {
+            result += char;
+        }
+    }
+    return result;
+}
+
+// Read input from stdin
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.on('line', (line) => {
+    const output = swapCase(line);
+    console.log(output);
+    rl.close();
+});","#include <iostream>
+#include <string>
+#include <cctype> // For islower, isupper, tolower, toupper
+
+// Function to swap the case of characters in a string
+std::string swapCase(const std::string& s) {
+    std::string result = """";
+    for (char c : s) {
+        if (std::islower(c)) {
+            result += static_cast<char>(std::toupper(c));
+        } else if (std::isupper(c)) {
+            result += static_cast<char>(std::tolower(c));
+        } else {
+            result += c;
+        }
+    }
+    return result;
+}
+
+int main() {
+    std::string input;
+    std::getline(std::cin, input);
+    std::string output = swapCase(input);
+    std::cout << output << std::endl;
+    return 0;
+}"
+White-96,Basic String Manipulation,"*   String iteration
+*   Character comparison
+*   Basic loops (for, while)
+*   Variables for counting",You will be given a string `s` and a single character `c`. Your task is to count how many times the character `c` appears in the string `s`. The count should be case-sensitive.,"*   The input string `s` will consist of printable ASCII characters (excluding spaces).
+*   The length of `s` will be between 1 and 1000 characters.
+*   The target character `c` will be a single printable ASCII character.
+*   The count is case-sensitive (e.g., 'a' is different from 'A').","s = ""programming""
+c = 'g'","2
+
+#### Example 2:","Input: programming
+g
+Output: 2
+
+Input: Apple
+a
+Output: 0
+
+Input: Mississippi
+i
+Output: 4
+
+Input: hello
+z
+Output: 0
+
+Input: AAAAA
+A
+Output: 5","#include <stdio.h>
+#include <string.h>
+
+// Function to count occurrences of a character in a string
+int countChar(const char* s, char c) {
+    int count = 0;
+    int len = strlen(s);
+    for (int i = 0; i < len; i++) {
+        if (s[i] == c) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int main() {
+    char s[1001]; // Max length 1000 + null terminator
+    char c;
+
+    // Read the string (assumes no spaces based on constraints)
+    scanf(""%s"", s);
+
+    // Read the character, with a space before %c to consume any leftover whitespace (like newline)
+    scanf("" %c"", &c);
+
+    int result = countChar(s, c);
+
+    printf(""%d\n"", result);
+
+    return 0;
+}","def count_char(s: str, c: str) -> int:
+    """"""
+    Counts the occurrences of a character in a string.
+    """"""
+    count = 0
+    for char in s:
+        if char == c:
+            count += 1
+    return count
+
+if __name__ == ""__main__"":
+    # Read the string (assumes no spaces based on constraints)
+    s = input()
+
+    # Read the character (input() reads a line, so c will be a string of length 1)
+    c = input()
+
+    result = count_char(s, c)
+
+    print(result)","import java.util.Scanner;
+
+public class Solution {
+
+    // Function to count occurrences of a character in a string
+    public int countChar(String s, char c) {
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == c) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Read the string (assumes no spaces based on constraints)
+        String s = scanner.next();
+
+        // Read the character
+        // scanner.next() reads the next token as a string, .charAt(0) takes its first character
+        char c = scanner.next().charAt(0);
+
+        Solution sol = new Solution();
+        int result = sol.countChar(s, c);
+
+        System.out.println(result);
+
+        scanner.close();
+    }
+}","function countChar(s, c) {
+    let count = 0;
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === c) {
+            count++;
+        }
+    }
+    return count;
+}
+
+// --- Standard competitive programming structure for JS on Node.js --- 
+// Read all input lines
+const inputLines = [];
+require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+}).on('line', line => {
+    inputLines.push(line);
+}).on('close', () => {
+    // Once all input is read, call main logic
+    main(inputLines);
+});
+
+function main(inputLines) {
+    const s = inputLines[0]; // First line is the string
+    const c = inputLines[1]; // Second line is the character (as a string of length 1)
+    
+    const result = countChar(s, c);
+    console.log(result);
+}","#include <iostream>
+#include <string>
+#include <vector>
+
+// Function to count occurrences of a character in a string
+int countChar(const std::string& s, char c) {
+    int count = 0;
+    for (char current_char : s) { // Use a range-based for loop for elegant iteration
+        if (current_char == c) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int main() {
+    std::string s;
+    char c;
+
+    // Read the string (assumes no spaces based on constraints)
+    std::cin >> s;
+
+    // Read the character
+    std::cin >> c;
+
+    int result = countChar(s, c);
+
+    std::cout << result << std::endl;
+
+    return 0;
+}",4

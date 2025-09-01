@@ -6,84 +6,99 @@
     <title>DSA Dojo Automator</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <style>
+        /* --- CUSTOM VIBE: "ZEN CODER'S DOJO" --- */
         :root {
-            --color-background: #111827; /* Slate 900 */
-            --color-surface: #1f2937;    /* Slate 800 */
-            --color-border: #374151;     /* Slate 700 */
-            --color-text-main: #d1d5db;  /* Slate 300 */
-            --color-text-headings: #f9fafb; /* Slate 50 */
-            --color-primary: #f59e0b;    /* Amber 500 */
-            --color-primary-hover: #fbbf24; /* Amber 400 */
-            --color-success-bg: #10B981; /* Emerald 500 */
-            --color-error-bg: #EF4444;  /* Red 500 */
+            /* Color Palette */
+            --c-bg: #0d1117; /* GitHub Dark BG */
+            --c-surface: #161b22; /* GitHub Dark Surface */
+            --c-border: #30363d;
+            --c-text: #c9d1d9;
+            --c-heading: #f0f6fc;
+            --c-primary: #58a6ff; /* GitHub Blue */
+            --c-primary-hover: #79c0ff;
+            --c-secondary: #8b949e;
+            --c-success: #3fb950;
+            --c-error: #f85149;
+            --c-success-glow: rgba(63, 185, 80, 0.3);
+            --c-error-glow: rgba(248, 81, 73, 0.3);
 
+            /* Pico.css Overrides */
             --pico-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            --pico-background-color: var(--color-background);
-            --pico-color: var(--color-text-main);
-            --pico-h1-color: var(--color-text-headings);
-            --pico-h2-color: var(--color-text-headings);
-            --pico-h3-color: var(--color-text-headings);
-            --pico-card-background-color: var(--color-surface);
-            --pico-card-border-radius: 0.75rem;
-            --pico-border-radius: 0.5rem;
-            --pico-form-element-background-color: #374151;
-            --pico-form-element-border-color: var(--color-border);
-            --pico-form-element-focus-border-color: var(--color-primary);
-            --pico-primary: var(--color-primary);
-            --pico-primary-hover: var(--color-primary-hover);
-            --pico-primary-focus: var(--color-primary);
-            --pico-primary-inverse: #111827;
+            --pico-background-color: var(--c-bg);
+            --pico-color: var(--c-text);
+            --pico-h1-color: var(--c-heading);
+            --pico-h2-color: var(--c-heading);
+            --pico-h3-color: var(--c-heading);
+            --pico-card-background-color: transparent;
+            --pico-card-border-radius: 8px;
+            --pico-border-radius: 6px;
+            --pico-form-element-background-color: var(--c-bg);
+            --pico-form-element-border-color: var(--c-border);
+            --pico-form-element-focus-border-color: var(--c-primary);
+            --pico-primary: var(--c-primary);
+            --pico-primary-hover: var(--c-primary-hover);
+            --pico-primary-focus: var(--c-primary);
+            --pico-primary-inverse: #0d1117;
         }
 
         body { font-feature-settings: "cv02","cv03","cv04","cv11"; }
-        main.container { padding: 2rem 1rem; }
-        article { border: 1px solid var(--color-border); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        button, a[role="button"] { transition: all 0.2s ease-in-out; }
-        button:hover, a[role="button"]:hover { transform: translateY(-2px); }
-        button:disabled { cursor: not-allowed; }
-
-        header { text-align: center; margin-bottom: 3rem; }
-        header h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
+        main.container { padding: 2rem 1rem; max-width: 960px; }
+        article {
+            background-color: var(--c-surface);
+            border: 1px solid var(--c-border);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
+        button, a.tab-link { transition: all 0.2s ease-in-out; }
+        button:hover, a.tab-link:hover { transform: translateY(-2px); }
+        button:disabled { cursor: not-allowed; opacity: 0.5; }
+        button { font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 
-        .tab-nav { display: flex; justify-content: center; border-bottom: 1px solid var(--color-border); margin-bottom: 2rem; }
+        header { text-align: center; margin-bottom: 2.5rem; }
+        header h1 {
+            font-size: 2.5rem; font-weight: 700;
+            text-shadow: 0 0 15px rgba(88, 166, 255, 0.3);
+        }
+        header p { color: var(--c-secondary); }
+
+        .tab-nav { display: flex; justify-content: center; border-bottom: 1px solid var(--c-border); margin-bottom: 2.5rem; }
         .tab-link {
             padding: 0.75rem 1.25rem; border: none; background: none; cursor: pointer;
-            border-bottom: 3px solid transparent; margin-bottom: -2px; color: var(--color-text-main);
-            transition: all 0.2s ease-in-out; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+            border-bottom: 3px solid transparent; margin-bottom: -2px; color: var(--c-secondary);
+            text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
         }
-        .tab-link:hover { color: var(--color-text-headings); }
         .tab-link.active { border-bottom-color: var(--pico-primary); font-weight: 600; color: var(--pico-primary); }
         .hidden { display: none; }
 
-        #status-message-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 0.5rem; }
+        #status-message-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
         .status-message {
-            padding: 1rem 1.2rem; border-radius: var(--pico-border-radius); color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3); animation: slideIn 0.4s ease-out forwards; border: none;
+            padding: 1rem 1.25rem; border-radius: var(--pico-border-radius); color: #ffffff;
+            background: var(--c-surface); border: 1px solid var(--c-border);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4); animation: slideUp 0.4s ease-out forwards;
         }
-        .success { background-color: var(--color-success-bg); }
-        .error { background-color: var(--color-error-bg); }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+        .success { border-left: 4px solid var(--c-success); box-shadow: 0 6px 20px var(--c-success-glow); }
+        .error { border-left: 4px solid var(--c-error); box-shadow: 0 6px 20px var(--c-error-glow); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
 
         .loader-container { text-align: center; margin: 3rem 0; }
         .loader {
-            border: 4px solid #374151; border-top: 4px solid var(--color-primary);
+            border: 4px solid var(--c-border); border-top: 4px solid var(--c-primary);
             border-radius: 50%; width: 40px; height: 40px;
             animation: spin 0.8s linear infinite; margin: auto;
         }
         @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+
+        textarea { height: 220px; font-family: monospace; font-size: 0.9em; }
+        select, input { transition: all 0.2s ease; }
+        select:focus, input:focus, textarea:focus {
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+        }
     </style>
 </head>
 <body>
     <main class="container">
         <header>
             <h1> DSA Dojo Automator</h1>
-          
+            <p>Generate • Manage • Commit DSA Problems Effortlessly</p>
         </header>
 
         <div id="status-message-container"></div>
@@ -104,6 +119,7 @@
             <p style="margin-top:0.8rem;">Working... please wait</p>
         </div>
 
+        <!-- Create Tab -->
         <section id="create-tab" class="tab-panel">
             <article>
                 <form id="generate-form">
@@ -117,13 +133,22 @@
                             <option value="Blue Belt">Blue Belt</option>
                             <option value="Purple Belt">Purple Belt</option>
                         </select></label>
-                        <label>Source <select name="source">
+                        <label>Source <select id="source-selector" name="source">
                             <option value="ai">Generate with AI</option>
+                            <option value="leetcode">From LeetCode URL</option>
                             <option value="custom">Custom Template</option>
                         </select></label>
-                        <label>Quantity <input type="number" name="num_problems" value="1" min="1" max="5"></label>
+                        <label id="quantity-label">Quantity <input type="number" name="num_problems" value="1" min="1" max="5"></label>
                     </div>
-                    <button type="submit"> Generate Problem(s)</button>
+                    <div id="leetcode-section" class="hidden">
+                        <label for="leetcode-url">LeetCode Problem URL
+                            <input type="url" id="leetcode-url" name="leetcode_url" placeholder="https://leetcode.com/problems/two-sum/">
+                        </label>
+                    </div>
+                    <button type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
+                        Generate Problem
+                    </button>
                 </form>
             </article>
 
@@ -138,7 +163,9 @@
                         <input type="hidden" name="belt" id="verify-belt">
                         <input type="hidden" name="topic" id="verify-topic">
                         <input type="hidden" name="test_cases" id="verify-test-cases">
+                        <input type="hidden" name="qc_score" id="verify-qc-score">
                         <label>Problem Title <input type="text" name="problem_title" id="problem_title" required></label>
+                        <label>QC Score (1–5) <input type="number" name="qc_score_display" id="qc_score_display" min="1" max="5" readonly></label>
                         <div class="grid">
                             <label>Readme Content (Markdown) <textarea name="readme_content" id="readme_content" required></textarea></label>
                             <label>Solution Content (Markdown) <textarea name="solution_content" id="solution_content" required></textarea></label>
@@ -151,12 +178,16 @@
                         <div id="schedule-section" class="hidden">
                             <label>Schedule Time <input type="datetime-local" name="schedule_time" id="schedule_time"></label>
                         </div>
-                        <button type="submit">✅ Approve & Commit</button>
+                        <button type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Approve & Commit
+                        </button>
                     </form>
                 </article>
             </section>
         </section>
 
+        <!-- Manage Tab -->
         <section id="manage-tab" class="tab-panel hidden">
             <article>
                 <p>Select a belt to see its problems. Deleting a problem will leave a gap in the numbering.</p>
@@ -176,7 +207,10 @@
                             <option value="">-- First select a belt --</option>
                         </select></label>
                     </div>
-                    <button type="submit" id="delete-btn" class="secondary" disabled>🗑️ Delete Problem</button>
+                    <button type="submit" id="delete-btn" class="secondary" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        Delete Problem
+                    </button>
                 </form>
             </article>
         </section>
@@ -194,9 +228,12 @@
         const problemSelector = document.getElementById('problem-selector');
         const deleteBeltSelector = document.getElementById('delete-belt');
         const deleteProblemSelector = document.getElementById('delete-problem-folder');
-        const deleteBtn = document.getElementById('delete-btn');
         const tabLinks = document.querySelectorAll('.tab-link');
         const tabPanels = document.querySelectorAll('.tab-panel');
+        const sourceSelector = document.getElementById('source-selector');
+        const quantityLabel = document.getElementById('quantity-label');
+        const leetcodeSection = document.getElementById('leetcode-section');
+        const leetcodeUrlInput = document.getElementById('leetcode-url');
 
         // ---GLOBAL STATE---
         let generatedProblems = [];
@@ -219,27 +256,35 @@
             document.getElementById('readme_content').value = problem.readme;
             document.getElementById('solution_content').value = problem.solution;
             document.getElementById('verify-test-cases').value = problem.test_cases || "";
+            document.getElementById('verify-qc-score').value = problem.qc_score || 1;
+            document.getElementById('qc_score_display').value = problem.qc_score || 1;
         }
-        
+
         async function fetchProblemsForBelt(beltName) {
+            const deleteBtn = deleteForm.querySelector('button');
             deleteProblemSelector.innerHTML = '<option value="">Loading...</option>';
             deleteProblemSelector.disabled = true;
             deleteBtn.disabled = true;
 
-            const response = await fetch(`/problems/${beltName}`);
-            if (response.ok) {
-                const problems = await response.json();
-                deleteProblemSelector.innerHTML = '';
-                if (problems.length > 0) {
-                    deleteProblemSelector.add(new Option('-- Select a problem --', '', true, true));
-                    problems.forEach(problem => deleteProblemSelector.add(new Option(problem, problem)));
-                    deleteProblemSelector.disabled = false;
-                    deleteBtn.disabled = false;
+            try {
+                const response = await fetch(`/problems/${beltName}`);
+                if (response.ok) {
+                    const problems = await response.json();
+                    deleteProblemSelector.innerHTML = '';
+                    if (problems.length > 0) {
+                        deleteProblemSelector.add(new Option('-- Select a problem --', '', true, true));
+                        problems.forEach(problem => deleteProblemSelector.add(new Option(problem, problem)));
+                        deleteProblemSelector.disabled = false;
+                        deleteBtn.disabled = false;
+                    } else {
+                        deleteProblemSelector.innerHTML = '<option value="">-- No problems found --</option>';
+                    }
                 } else {
-                    deleteProblemSelector.innerHTML = '<option value="">-- No problems found --</option>';
+                    deleteProblemSelector.innerHTML = '<option value="">-- Error loading --</option>';
                 }
-            } else {
-                deleteProblemSelector.innerHTML = '<option value="">-- Error loading --</option>';
+            } catch (error) {
+                console.error('Error fetching problems:', error);
+                deleteProblemSelector.innerHTML = '<option value="">-- Network error --</option>';
             }
         }
 
@@ -255,12 +300,26 @@
             setTimeout(() => { if (messageDiv) messageDiv.remove(); }, duration);
         }
 
+        function updateSourceView() {
+            const source = sourceSelector.value;
+            quantityLabel.classList.toggle('hidden', source !== 'ai');
+            leetcodeSection.classList.toggle('hidden', source !== 'leetcode');
+            leetcodeUrlInput.required = (source === 'leetcode');
+        }
+
         // ---EVENT LISTENERS---
         tabLinks.forEach(link => link.addEventListener('click', switchTab));
         problemSelector.addEventListener('change', (e) => populateVerificationForm(e.target.value));
+        sourceSelector.addEventListener('change', updateSourceView);
+        document.addEventListener('DOMContentLoaded', updateSourceView);
 
         generateForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (sourceSelector.value === 'leetcode' && !leetcodeUrlInput.value.includes('leetcode.com/problems/')) {
+                displayMessage('Please enter a valid LeetCode problem URL (e.g., https://leetcode.com/problems/two-sum/).', 'error');
+                return;
+            }
+
             const btn = e.currentTarget.querySelector('button');
             btn.disabled = true;
             btn.setAttribute('aria-busy', 'true');
@@ -269,27 +328,39 @@
             problemSelectorContainer.classList.add('hidden');
             statusContainer.innerHTML = '';
 
-            const formData = new FormData(generateForm);
-            const response = await fetch('/generate', { method: 'POST', body: formData });
+            try {
+                const formData = new FormData(generateForm);
+                const response = await fetch('/generate', { method: 'POST', body: formData });
+                console.log('Generate response:', await response.clone().json());
+                loader.classList.add('hidden');
+                btn.disabled = false;
+                btn.removeAttribute('aria-busy');
 
-            loader.classList.add('hidden');
-            btn.disabled = false;
-            btn.removeAttribute('aria-busy');
-            
-            if (response.ok) {
-                generatedProblems = await response.json();
-                if (generatedProblems && generatedProblems.length > 0) {
-                    problemSelector.innerHTML = '';
-                    generatedProblems.forEach((p, i) => problemSelector.add(new Option(p.title || `Problem ${i + 1}`, i)));
-                    problemSelectorContainer.classList.remove('hidden');
-                    verificationSection.classList.remove('hidden');
-                    document.getElementById('verify-belt').value = formData.get('belt');
-                    populateVerificationForm(0);
-                } else { 
+                if (response.ok) {
+                    generatedProblems = await response.json();
+                    if (generatedProblems && generatedProblems.length > 0) {
+                        problemSelector.innerHTML = '';
+                        generatedProblems.forEach((p, i) => problemSelector.add(new Option(p.title || `Problem ${i + 1}`, i)));
+                        problemSelectorContainer.classList.remove('hidden');
+                        verificationSection.classList.remove('hidden');
+                        document.getElementById('verify-belt').value = formData.get('belt');
+                        populateVerificationForm(0);
+                        displayMessage('Successfully generated problem(s).', 'success');
+                    } else {
+                        const result = await response.json();
+                        displayMessage(result.message || 'No problems generated.', 'error');
+                    }
+                } else {
                     const result = await response.json();
-                    displayMessage(result.message || 'AI generated no problems.', 'error');
+                    displayMessage(result.message || 'Error generating problems.', 'error');
                 }
-            } else { displayMessage('Error generating problems. Check server console.', 'error'); }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                loader.classList.add('hidden');
+                btn.disabled = false;
+                btn.removeAttribute('aria-busy');
+                displayMessage('Network error occurred. Please check your connection.', 'error');
+            }
         });
 
         commitForm.addEventListener('submit', async (e) => {
@@ -298,27 +369,35 @@
             btn.disabled = true;
             btn.setAttribute('aria-busy', 'true');
 
-            const formData = new FormData(commitForm);
-            const response = await fetch('/commit', { method: 'POST', body: formData });
-            
-            btn.disabled = false;
-            btn.removeAttribute('aria-busy');
-            const result = await response.json();
-            
-            if (response.ok) {
-                displayMessage(result.message, 'success');
-                const committedIndex = parseInt(problemSelector.value);
-                generatedProblems.splice(committedIndex, 1);
+            try {
+                const formData = new FormData(commitForm);
+                const response = await fetch('/commit', { method: 'POST', body: formData });
+                btn.disabled = false;
+                btn.removeAttribute('aria-busy');
+                const result = await response.json();
 
-                if (generatedProblems.length > 0) {
-                    problemSelector.innerHTML = '';
-                    generatedProblems.forEach((p, i) => problemSelector.add(new Option(p.title || `Problem ${i + 1}`, i)));
-                    populateVerificationForm(0);
+                if (response.ok) {
+                    displayMessage(result.message, 'success');
+                    const committedIndex = parseInt(problemSelector.value, 10);
+                    generatedProblems.splice(committedIndex, 1);
+
+                    if (generatedProblems.length > 0) {
+                        problemSelector.innerHTML = '';
+                        generatedProblems.forEach((p, i) => problemSelector.add(new Option(p.title || `Problem ${i + 1}`, i)));
+                        populateVerificationForm(0);
+                    } else {
+                        verificationSection.classList.add('hidden');
+                        problemSelectorContainer.classList.add('hidden');
+                    }
                 } else {
-                    verificationSection.classList.add('hidden');
-                    problemSelectorContainer.classList.add('hidden');
+                    displayMessage(result.message, 'error');
                 }
-            } else { displayMessage(result.message, 'error'); }
+            } catch (error) {
+                console.error('Commit error:', error);
+                btn.disabled = false;
+                btn.removeAttribute('aria-busy');
+                displayMessage('Network error occurred during commit.', 'error');
+            }
         });
 
         deleteBeltSelector.addEventListener('change', (e) => {
@@ -334,17 +413,25 @@
             btn.disabled = true;
             btn.setAttribute('aria-busy', 'true');
 
-            const formData = new FormData(deleteForm);
-            const response = await fetch('/delete', { method: 'POST', body: formData });
-            
-            btn.disabled = false;
-            btn.removeAttribute('aria-busy');
-            const result = await response.json();
-            
-            if (response.ok) {
-                displayMessage(result.message, 'success');
-                fetchProblemsForBelt(deleteBeltSelector.value);
-            } else { displayMessage(result.message, 'error'); }
+            try {
+                const formData = new FormData(deleteForm);
+                const response = await fetch('/delete', { method: 'POST', body: formData });
+                btn.disabled = false;
+                btn.removeAttribute('aria-busy');
+                const result = await response.json();
+
+                if (response.ok) {
+                    displayMessage(result.message, 'success');
+                    fetchProblemsForBelt(deleteBeltSelector.value);
+                } else {
+                    displayMessage(result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                btn.disabled = false;
+                btn.removeAttribute('aria-busy');
+                displayMessage('Network error occurred during deletion.', 'error');
+            }
         });
     </script>
 </body>
