@@ -11,6 +11,7 @@ from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 import google.generativeai as genai
 from config import BELT_SYLLABUS, REPO_URL
+from collections import Counter
 
 # --- SETUP ---
 load_dotenv()
@@ -23,6 +24,16 @@ HISTORY_FILE = "generation_history.json"
 LOG_CSV_FILE = "dsa_dojo_log.csv"
 csv_lock = Lock()
 os.makedirs(REPOS_DIR, exist_ok=True)
+
+belt_map = {
+    'White': 'White Belt',
+    'Yellow': 'Yellow Belt',
+    'Orange': 'Orange Belt',
+    'Red': 'Red Belt',
+    'Green': 'Green Belt',
+    'Blue': 'Blue Belt',
+    'Purple': 'Purple Belt'
+}
 
 # --- CSV LOGGER ---
 def log_to_csv(row_data):
@@ -52,8 +63,6 @@ def parse_and_log(belt, problem_number, topic, title, readme_md, solution_md, te
             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
             return match.group(1).strip() if match else "Not provided"
 
-        # print(f"Parsing solution_md:\n{solution_md}")
-
         readme_headings = ['### Description', '### Constraints', '### Example', '### Concepts Covered']
         question = parse_section(readme_md, '### Description', readme_headings[1:])
         constraints = parse_section(readme_md, '### Constraints', readme_headings[2:])
@@ -75,8 +84,6 @@ def parse_and_log(belt, problem_number, topic, title, readme_md, solution_md, te
         sol_java = parse_code(solution_md, sol_headings[2])
         sol_python = parse_code(solution_md, sol_headings[3])
         sol_js = parse_code(solution_md, sol_headings[4])
-
-        # print(f"Parsed solutions: C={sol_c}, C++={sol_cpp}, Java={sol_java}, Python={sol_python}, JS={sol_js}")
 
         row_data = [
             f"{belt.split(' ')[0]}-{problem_number}", topic, concepts, question, constraints, 
@@ -133,36 +140,80 @@ def generate_qc_score(belt, raw_data):
         You are an expert DSA problem evaluator tasked with assigning a Quality-Creativity (QC) score to a problem.
 
         # YOUR TASK
-        Evaluate the following DSA problem for a {belt} developer and assign a QC score from 1 to 5 based on the criteria below. Return only a JSON object with a single key "qc_score" containing an integer from 1 to 5.
+        Evaluate the following DSA problem for a {belt} developer and assign a QC score from 1 to 5 based on the criteria below. Return a JSON object with two keys: "qc_score" (float from 1 to 5, the average of the criteria scores) and "criteria_scores" (an object with integer scores for each criterion).
 
         # PROBLEM DATA
         {problem_data}
 
         # EVALUATION CRITERIA (each weighted at 20%)
-        1. **Quality (20%)**: Assess clarity, completeness, and correctness. Check if `readme_md` has clear sections ("### Description", "### Constraints", "### Example", "### Concepts Covered"), solutions are complete and correct, and test cases cover edge cases. Score 1 (poorly written, incomplete) to 5 (clear, complete, correct).
-        2. **Creativity (20%)**: Assess originality. For AI-generated problems, check if the title and description are unique compared to these used titles: [{used_titles}]. For LeetCode problems, evaluate if the adaptation adds unique context. Score 1 (highly similar) to 5 (highly original).
-        3. **Relevance to Belt (20%)**: Check if the problem aligns with the belt’s syllabus: {belt_concepts}. Ensure complexity (from `approach`) suits the belt (e.g., O(n) for White Belt). Score 1 (irrelevant or too easy/hard) to 5 (perfectly aligned).
-        4. **Use of Concepts (20%)**: Verify if the problem effectively uses concepts listed in `Concepts Covered` and demonstrated in solutions. Score 1 (concepts mentioned but not used) to 5 (concepts deeply integrated).
-        5. **Interrelatedness (20%)**: Assess if the problem builds on or complements existing problems in the belt’s history: [{used_titles}]. Score 1 (isolated) to 5 (strong connection).
+        1. **Quality (20%)**: Assess clarity, completeness, and correctness.
+           - Score 1: Missing sections, unclear description, incorrect or incomplete solutions, no test cases.
+           - Score 2: Some sections present but vague, solutions have minor errors, test cases incomplete.
+           - Score 3: All sections present but lack detail, solutions functional but suboptimal, test cases cover basic cases.
+           - Score 4: Clear sections, correct and efficient solutions, test cases cover most edge cases.
+           - Score 5: Exceptionally clear, complete, and correct with comprehensive test cases.
+        2. **Creativity (20%)**: Assess originality compared to used titles: [{used_titles}].
+           - Score 1: Nearly identical to an existing title or problem.
+           - Score 2: Similar to existing problems with minor tweaks.
+           - Score 3: Moderately original but follows common patterns.
+           - Score 4: Unique with creative twists on standard problems.
+           - Score 5: Highly original, novel problem structure or context.
+        3. **Relevance to Belt (20%)**: Check alignment with syllabus: {belt_concepts} and complexity.
+           - Score 1: Irrelevant or far too easy/hard for the belt.
+           - Score 2: Partially relevant or slightly off in complexity.
+           - Score 3: Relevant but complexity slightly misaligned.
+           - Score 4: Well-aligned with syllabus and appropriate complexity.
+           - Score 5: Perfectly tailored to the belt’s syllabus and complexity.
+        4. **Use of Concepts (20%)**: Verify if concepts in `Concepts Covered` are used effectively.
+           - Score 1: Concepts listed but not used in problem or solutions.
+           - Score 2: Concepts minimally used or poorly demonstrated.
+           - Score 3: Concepts used but not deeply integrated.
+           - Score 4: Concepts well-integrated in problem and solutions.
+           - Score 5: Concepts deeply and creatively applied.
+        5. **Interrelatedness (20%)**: Assess connection to existing problems: [{used_titles}].
+           - Score 1: Completely isolated, no connection to prior problems.
+           - Score 2: Weak connection, minimal relevance to prior problems.
+           - Score 3: Moderate connection, builds on some prior problems.
+           - Score 4: Strong connection, complements prior problems well.
+           - Score 5: Exceptional synergy with existing problems.
 
         # SCORING
-        - Assign a score (1–5) for each criterion.
-        - Compute the final QC score as the rounded average of the five scores.
-        - Return: ```json\n{{"qc_score": <integer>}}\n```
+        - Assign an integer score (1–5) for each criterion based on the above guidelines.
+        - Compute the final QC score as the average of the five scores (float, e.g., 3.4, 4.2).
+        - Return: ```json\n{{"qc_score": <float>, "criteria_scores": {{"quality": <int>, "creativity": <int>, "relevance": <int>, "use_of_concepts": <int>, "interrelatedness": <int>}}}}\n```
 
         # EXAMPLE
         For a problem with scores Quality=4, Creativity=3, Relevance=5, Use of Concepts=4, Interrelatedness=3:
-        Final QC score = round((4+3+5+4+3)/5) = 4
-        Return: ```json\n{{"qc_score": 4}}\n```
+        Final QC score = (4+3+5+4+3)/5 = 3.8
+        Return: ```json\n{{"qc_score": 3.8, "criteria_scores": {{"quality": 4, "creativity": 3, "relevance": 5, "use_of_concepts": 4, "interrelatedness": 3}}}}\n```
         """
         response = model.generate_content(prompt)
         response_text = response.text.strip().replace("```json", "").replace("```", "")
-        print(f"QC score response: {response_text}")
-        data = json.loads(response_text)
-        return data.get("qc_score", 1)
+        print(f"QC score raw response: {response_text}")
+        try:
+            data = json.loads(response_text)
+        except json.JSONDecodeError as e:
+            print(f"JSON parsing error: {e}")
+            return 1.0, {"quality": 1, "creativity": 1, "relevance": 1, "use_of_concepts": 1, "interrelatedness": 1}
+        criteria_scores = data.get("criteria_scores", {})
+        scores = [
+            criteria_scores.get("quality", 1),
+            criteria_scores.get("creativity", 1),
+            criteria_scores.get("relevance", 1),
+            criteria_scores.get("use_of_concepts", 1),
+            criteria_scores.get("interrelatedness", 1)
+        ]
+        print(f"Criteria scores: Quality={scores[0]}, Creativity={scores[1]}, Relevance={scores[2]}, "
+              f"Use of Concepts={scores[3]}, Interrelatedness={scores[4]}")
+        calculated_qc_score = sum(scores) / len(scores)
+        model_qc_score = data.get("qc_score", calculated_qc_score)
+        print(f"Model QC score: {model_qc_score}, Calculated QC score: {calculated_qc_score}")
+        if abs(calculated_qc_score - model_qc_score) > 0.01:
+            print(f"Warning: Model QC score ({model_qc_score}) differs from calculated QC score ({calculated_qc_score})")
+        return calculated_qc_score, criteria_scores
     except Exception as e:
         print(f"Error generating QC score: {e}")
-        return 1  # Default to 1 if evaluation fails
+        return 1.0, {"quality": 1, "creativity": 1, "relevance": 1, "use_of_concepts": 1, "interrelatedness": 1}
 
 # --- GENERATION FUNCTIONS ---
 def generate_problem_with_gemini(belt):
@@ -212,13 +263,15 @@ def generate_problem_with_gemini(belt):
             """
             response = model.generate_content(prompt)
             response_text = response.text.strip().replace("```json", "").replace("```", "")
-            # print(f"Gemini response for AI generation: {response_text}")
             data = json.loads(response_text)
             if not all(key in data for key in ["title", "readme_md", "approach", "solution_c", "solution_cpp", "solution_java", "solution_python", "solution_js", "test_cases"]):
                 raise ValueError("Incomplete JSON response from Gemini")
             if data['title'].lower() not in [t.lower() for t in used_titles]:
                 data['topic'] = topic
-                data['qc_score'] = generate_qc_score(belt, data)
+                qc_score, criteria_scores = generate_qc_score(belt, data)
+                data['qc_score'] = qc_score
+                data['criteria_scores'] = criteria_scores
+                print(f"AI-generated problem: {data['title']}, QC Score: {qc_score}, Criteria: {criteria_scores}")
                 return data
         except Exception as e:
             print(f"Error during AI generation attempt: {e}")
@@ -246,15 +299,52 @@ def generate_problem_from_leetcode(problem_name, belt):
         """
         response = model.generate_content(prompt)
         response_text = response.text.strip().replace("```json", "").replace("```", "")
-        # print(f"Gemini response for LeetCode: {response_text}")
         data = json.loads(response_text)
         if not all(key in data for key in ["title", "readme_md", "approach", "solution_c", "solution_cpp", "solution_java", "solution_python", "solution_js", "test_cases"]):
             raise ValueError("Incomplete JSON response from Gemini")
         data['topic'] = "LeetCode"
-        data['qc_score'] = generate_qc_score(belt, data)
+        qc_score, criteria_scores = generate_qc_score(belt, data)
+        data['qc_score'] = qc_score
+        data['criteria_scores'] = criteria_scores
+        print(f"LeetCode problem: {data['title']}, QC Score: {qc_score}, Criteria: {criteria_scores}")
         return data
     except Exception as e:
         print(f"Error generating LeetCode problem: {e}")
+        return None
+
+def generate_problem_from_geeksforgeeks(problem_name, belt):
+    print(f"Recreating GeeksforGeeks problem: {problem_name}")
+    try:
+        prompt = f"""
+        # YOUR ROLE
+        You are an expert DSA problem designer tasked with recreating a GeeksforGeeks problem.
+
+        # YOUR TASK
+        Generate a JSON object for the GeeksforGeeks problem titled "{problem_name}" for a {belt} developer. The JSON MUST include these keys:
+        - "title": The exact GeeksforGeeks title (e.g., "Find a Pair with Given Sum").
+        - "readme_md": Markdown with sections: "### Description", "### Constraints", "### Example", "### Concepts Covered" (tailored for {belt} level).
+        - "approach": A markdown paragraph explaining the optimal algorithm and time/space complexity.
+        - "solution_c", "solution_cpp", "solution_java", "solution_python", "solution_js": Complete, runnable code for each language, with logic in a separate function and I/O handled in main.
+        - "test_cases": 3-5 test cases formatted as 'Input: [data]\\nOutput: [data]' (one per line).
+
+        # CRITICAL CODE REQUIREMENTS
+        - Code must be raw, runnable, and exclude markdown backticks (```).
+        - Code must handle I/O via stdin/stdout.
+        - Ensure the title matches "{problem_name}" exactly.
+        """
+        response = model.generate_content(prompt)
+        response_text = response.text.strip().replace("```json", "").replace("```", "")
+        data = json.loads(response_text)
+        if not all(key in data for key in ["title", "readme_md", "approach", "solution_c", "solution_cpp", "solution_java", "solution_python", "solution_js", "test_cases"]):
+            raise ValueError("Incomplete JSON response from Gemini")
+        data['topic'] = "GeeksforGeeks"
+        qc_score, criteria_scores = generate_qc_score(belt, data)
+        data['qc_score'] = qc_score
+        data['criteria_scores'] = criteria_scores
+        print(f"GeeksforGeeks problem: {data['title']}, QC Score: {qc_score}, Criteria: {criteria_scores}")
+        return data
+    except Exception as e:
+        print(f"Error generating GeeksforGeeks problem: {e}")
         return None
 
 # --- GIT & SCHEDULE FUNCTIONS ---
@@ -341,6 +431,17 @@ def generate():
             else:
                 print("Invalid LeetCode URL")
                 return jsonify({"message": "Invalid LeetCode URL. Please provide a URL like https://leetcode.com/problems/two-sum/."}), 400
+        elif source == 'geeksforgeeks':
+            url = request.form.get('leetcode_url')  # Same input field used for both LeetCode and GFG
+            print(f"GeeksforGeeks URL: {url}")
+            if url and 'geeksforgeeks.org/problems/' in url:
+                slug = url.strip('/').split('/problems/')[-1].split('/')[0]
+                problem_name = ' '.join(word.capitalize() for word in slug.split('-'))
+                print(f"Extracted slug: {slug}, problem_name: {problem_name}")
+                raw_data = generate_problem_from_geeksforgeeks(problem_name, belt)
+            else:
+                print("Invalid GeeksforGeeks URL")
+                return jsonify({"message": "Invalid GeeksforGeeks URL. Please provide a URL like https://www.geeksforgeeks.org/problems/two-sum."}), 400
         elif source == 'ai':
             raw_data = generate_problem_with_gemini(belt)
         elif source == 'custom':
@@ -355,7 +456,14 @@ def generate():
                 "solution_java": "", 
                 "solution_python": "", 
                 "solution_js": "",
-                "qc_score": 1
+                "qc_score": 1.0,
+                "criteria_scores": {
+                    "quality": 1,
+                    "creativity": 1,
+                    "relevance": 1,
+                    "use_of_concepts": 1,
+                    "interrelatedness": 1
+                }
             }
 
         if raw_data:
@@ -366,7 +474,14 @@ def generate():
             raw_data.setdefault('solution_java', '// Code not provided.')
             raw_data.setdefault('solution_python', '# Code not provided.')
             raw_data.setdefault('solution_js', '// Code not provided.')
-            raw_data.setdefault('qc_score', 1)
+            raw_data.setdefault('qc_score', 1.0)
+            raw_data.setdefault('criteria_scores', {
+                "quality": 1,
+                "creativity": 1,
+                "relevance": 1,
+                "use_of_concepts": 1,
+                "interrelatedness": 1
+            })
             solution_md = (
                 f"# Solutions for {raw_data['title']}\n\n"
                 f"### Approach\n{raw_data.get('approach', 'Approach not provided.')}\n\n"
@@ -383,7 +498,8 @@ def generate():
                 "solution": solution_md,
                 "test_cases": raw_data.get('test_cases', ''),
                 "topic": raw_data['topic'],
-                "qc_score": raw_data['qc_score']
+                "qc_score": float(raw_data['qc_score']),
+                "criteria_scores": raw_data['criteria_scores']
             }
             problems_list.append(final_problem_data)
     
@@ -403,16 +519,23 @@ def commit():
         data['commit_action'], 
         data['topic'], 
         data['test_cases'], 
-        data.get('qc_score', '1')
+        data.get('qc_score', '1.0')
     )
+    try:
+        qc_score = float(qc_score)
+        if not (1.0 <= qc_score <= 5.0):
+            return jsonify({"message": "QC score must be between 1.0 and 5.0."}), 400
+    except ValueError:
+        return jsonify({"message": "Invalid QC score format. Please enter a number between 1.0 and 5.0."}), 400
+
     if action == 'now':
-        message = commit_problem_to_repo(belt, title, readme, solution, topic, test_cases, int(qc_score))
+        message = commit_problem_to_repo(belt, title, readme, solution, topic, test_cases, qc_score)
         if "Error" in message or "failed" in message: return jsonify({"message": message}), 500
         return jsonify({"message": message})
     elif action == 'schedule':
         schedule_time = data['schedule_time']
         if not schedule_time: return jsonify({"message": "Error: Schedule time not provided."}), 400
-        message = schedule_commit(schedule_time, belt, title, readme, solution, topic, test_cases, int(qc_score))
+        message = schedule_commit(schedule_time, belt, title, readme, solution, topic, test_cases, qc_score)
         if "Error" in message or "failed" in message: return jsonify({"message": message}), 500
         return jsonify({"message": message})
     return jsonify({"message": "Invalid action."}), 400
@@ -444,6 +567,41 @@ def delete_problem():
         return jsonify({"message": f"Successfully deleted '{problem_folder}'."})
     except Exception as e:
         return jsonify({"message": f"An error occurred during deletion: {e}"}), 500
+
+@app.route('/analytics', methods=['GET'])
+def analytics():
+    belt_filter = request.args.get('belt', '')
+    data = []
+    if os.path.exists(LOG_CSV_FILE):
+        with open(LOG_CSV_FILE, 'r', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                if row['ID'].startswith('DELETE-'):
+                    continue
+                id_parts = row['ID'].split('-', 1)
+                belt_short = id_parts[0]
+                belt = belt_map.get(belt_short, belt_short + ' Belt')
+                row['Belt'] = belt
+                concepts = [c.strip() for c in row['Concepts'].replace('-', '').split(',') if c.strip()]
+                row['ConceptsList'] = concepts
+                if not belt_filter or belt == belt_filter:
+                    data.append(row)
+    
+    belts_count = Counter(d['Belt'] for d in data)
+    topics_count = Counter(d['Category'] for d in data)
+    all_concepts = [c for d in data for c in d['ConceptsList']]
+    concepts_count = Counter(all_concepts)
+    top_concepts = dict(concepts_count.most_common(10))
+    
+    response = {
+        'problems': data,
+        'charts': {
+            'belts': dict(belts_count),
+            'topics': dict(topics_count),
+            'top_concepts': top_concepts
+        }
+    }
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

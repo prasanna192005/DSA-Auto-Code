@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>DSA Dojo Automator</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* --- CUSTOM VIBE: "ZEN CODER'S DOJO" --- */
         :root {
@@ -97,7 +98,7 @@
 <body>
     <main class="container">
         <header>
-            <h1> DSA Dojo Automator</h1>
+            <h1>DSA Dojo Automator</h1>
             <p>Generate • Manage • Commit DSA Problems Effortlessly</p>
         </header>
 
@@ -111,6 +112,10 @@
             <a href="#" class="tab-link" data-tab="manage-tab">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                 Manage Problems
+            </a>
+            <a href="#" class="tab-link" data-tab="analytics-tab">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                Analytics
             </a>
         </nav>
 
@@ -136,13 +141,14 @@
                         <label>Source <select id="source-selector" name="source">
                             <option value="ai">Generate with AI</option>
                             <option value="leetcode">From LeetCode URL</option>
+                            <option value="geeksforgeeks">From GeeksforGeeks URL</option>
                             <option value="custom">Custom Template</option>
                         </select></label>
                         <label id="quantity-label">Quantity <input type="number" name="num_problems" value="1" min="1" max="5"></label>
                     </div>
                     <div id="leetcode-section" class="hidden">
-                        <label for="leetcode-url">LeetCode Problem URL
-                            <input type="url" id="leetcode-url" name="leetcode_url" placeholder="https://leetcode.com/problems/two-sum/">
+                        <label for="leetcode-url">Problem URL
+                            <input type="url" id="leetcode-url" name="leetcode_url" placeholder="e.g., https://leetcode.com/problems/two-sum/ or https://www.geeksforgeeks.org/problems/two-sum">
                         </label>
                     </div>
                     <button type="submit">
@@ -165,7 +171,14 @@
                         <input type="hidden" name="test_cases" id="verify-test-cases">
                         <input type="hidden" name="qc_score" id="verify-qc-score">
                         <label>Problem Title <input type="text" name="problem_title" id="problem_title" required></label>
-                        <label>QC Score (1–5) <input type="number" name="qc_score_display" id="qc_score_display" min="1" max="5" readonly></label>
+                        <label>QC Score (1.0–5.0) <input type="number" name="qc_score_display" id="qc_score_display" min="1.0" max="5.0" step="0.1" required></label>
+                        <div class="grid">
+                            <label>Quality Score <input type="number" id="quality_score" min="1" max="5" readonly></label>
+                            <label>Creativity Score <input type="number" id="creativity_score" min="1" max="5" readonly></label>
+                            <label>Relevance Score <input type="number" id="relevance_score" min="1" max="5" readonly></label>
+                            <label>Use of Concepts Score <input type="number" id="use_of_concepts_score" min="1" max="5" readonly></label>
+                            <label>Interrelatedness Score <input type="number" id="interrelatedness_score" min="1" max="5" readonly></label>
+                        </div>
                         <div class="grid">
                             <label>Readme Content (Markdown) <textarea name="readme_content" id="readme_content" required></textarea></label>
                             <label>Solution Content (Markdown) <textarea name="solution_content" id="solution_content" required></textarea></label>
@@ -214,6 +227,57 @@
                 </form>
             </article>
         </section>
+
+        <!-- Analytics Tab -->
+        <section id="analytics-tab" class="tab-panel hidden">
+            <article>
+                <h2>DSA Problems Analytics</h2>
+                <div class="grid">
+                    <label>Filter by Belt 
+                        <select id="belt-filter">
+                            <option value="">All Belts</option>
+                            <option value="White Belt">White Belt</option>
+                            <option value="Yellow Belt">Yellow Belt</option>
+                            <option value="Orange Belt">Orange Belt</option>
+                            <option value="Red Belt">Red Belt</option>
+                            <option value="Green Belt">Green Belt</option>
+                            <option value="Blue Belt">Blue Belt</option>
+                            <option value="Purple Belt">Purple Belt</option>
+                        </select>
+                    </label>
+                    <label>Search Topic/Concepts 
+                        <input type="text" id="search-input" placeholder="e.g., Arrays, Sorting">
+                    </label>
+                </div>
+                <table id="problems-table">
+                    <thead>
+                        <tr>
+                            <th>Belt</th>
+                            <th>ID</th>
+                            <th>Topic</th>
+                            <th>Concepts</th>
+                            <th>Title</th>
+                            <th>QC Score</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="grid" style="margin-top: 2rem;">
+                    <div>
+                        <h3>Problems per Belt</h3>
+                        <canvas id="belts-chart" height="200"></canvas>
+                    </div>
+                    <div>
+                        <h3>Topics by Belt</h3>
+                        <canvas id="topics-chart" height="200"></canvas>
+                    </div>
+                    <div>
+                        <h3>Concepts by Belt</h3>
+                        <canvas id="concepts-chart" height="200"></canvas>
+                    </div>
+                </div>
+            </article>
+        </section>
     </main>
 
     <script>
@@ -237,6 +301,7 @@
 
         // ---GLOBAL STATE---
         let generatedProblems = [];
+        let beltsChartInstance, topicsChartInstance, conceptsChartInstance;
 
         // ---FUNCTIONS---
         function switchTab(e) {
@@ -246,6 +311,9 @@
             e.currentTarget.classList.add('active');
             tabPanels.forEach(panel => panel.classList.toggle('hidden', panel.id !== targetTab));
             statusContainer.innerHTML = '';
+            if (targetTab === 'analytics-tab') {
+                loadAnalytics();
+            }
         }
 
         function populateVerificationForm(index) {
@@ -256,8 +324,13 @@
             document.getElementById('readme_content').value = problem.readme;
             document.getElementById('solution_content').value = problem.solution;
             document.getElementById('verify-test-cases').value = problem.test_cases || "";
-            document.getElementById('verify-qc-score').value = problem.qc_score || 1;
-            document.getElementById('qc_score_display').value = problem.qc_score || 1;
+            document.getElementById('verify-qc-score').value = problem.qc_score || 1.0;
+            document.getElementById('qc_score_display').value = problem.qc_score || 1.0;
+            document.getElementById('quality_score').value = problem.criteria_scores?.quality || 1;
+            document.getElementById('creativity_score').value = problem.criteria_scores?.creativity || 1;
+            document.getElementById('relevance_score').value = problem.criteria_scores?.relevance || 1;
+            document.getElementById('use_of_concepts_score').value = problem.criteria_scores?.use_of_concepts || 1;
+            document.getElementById('interrelatedness_score').value = problem.criteria_scores?.interrelatedness || 1;
         }
 
         async function fetchProblemsForBelt(beltName) {
@@ -303,11 +376,99 @@
         function updateSourceView() {
             const source = sourceSelector.value;
             quantityLabel.classList.toggle('hidden', source !== 'ai');
-            leetcodeSection.classList.toggle('hidden', source !== 'leetcode');
-            leetcodeUrlInput.required = (source === 'leetcode');
+            leetcodeSection.classList.toggle('hidden', !['leetcode', 'geeksforgeeks'].includes(source));
+            leetcodeUrlInput.required = ['leetcode', 'geeksforgeeks'].includes(source);
         }
 
-        // ---EVENT LISTENERS---
+        // --- ANALYTICS LOGIC ---
+        async function loadAnalytics() {
+            try {
+                const selectedBelt = document.getElementById('belt-filter').value;
+                const url = selectedBelt ? `/analytics?belt=${encodeURIComponent(selectedBelt)}` : '/analytics';
+                const response = await fetch(url);
+                if (response.ok) {
+                    const analyticsData = await response.json();
+                    renderTable(analyticsData.problems);
+                    renderCharts(analyticsData.charts);
+                } else {
+                    displayMessage('Error loading analytics data.', 'error');
+                }
+            } catch (error) {
+                console.error('Error fetching analytics:', error);
+                displayMessage('Network error loading analytics.', 'error');
+            }
+        }
+
+        function renderTable(problems) {
+            const problemsTableBody = document.querySelector('#problems-table tbody');
+            problemsTableBody.innerHTML = '';
+            problems.forEach(p => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${p.Belt}</td>
+                    <td>${p.ID}</td>
+                    <td>${p.Category}</td>
+                    <td>${p.Concepts}</td>
+                    <td>${p.Question.substring(0, 50)}${p.Question.length > 50 ? '...' : ''}</td>
+                    <td>${p.QC_Score}</td>
+                `;
+                problemsTableBody.appendChild(row);
+            });
+        }
+
+        function filterTable() {
+            const selectedBelt = document.getElementById('belt-filter').value;
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            loadAnalytics();
+        }
+
+        function renderCharts(charts) {
+            // Destroy existing charts to prevent overlap
+            if (beltsChartInstance) beltsChartInstance.destroy();
+            if (topicsChartInstance) topicsChartInstance.destroy();
+            if (conceptsChartInstance) conceptsChartInstance.destroy();
+
+            // Belts Bar Chart
+            beltsChartInstance = new Chart(document.getElementById('belts-chart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(charts.belts),
+                    datasets: [{ label: 'Problems Count', data: Object.values(charts.belts), backgroundColor: 'rgba(88, 166, 255, 0.6)' }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // Topics Doughnut Chart
+            const topicsLabels = Object.keys(charts.topics);
+            topicsChartInstance = new Chart(document.getElementById('topics-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: topicsLabels.length ? topicsLabels : ['No Topics'],
+                    datasets: [{ 
+                        data: topicsLabels.length ? Object.values(charts.topics) : [1], 
+                        backgroundColor: topicsLabels.length ? topicsLabels.map(() => `hsl(${Math.random()*360}, 70%, 60%)`) : ['rgba(88, 166, 255, 0.2)']
+                    }]
+                },
+                options: { plugins: { legend: { position: 'right' } } }
+            });
+
+            // Concepts Bar Chart
+            const conceptsLabels = Object.keys(charts.top_concepts);
+            conceptsChartInstance = new Chart(document.getElementById('concepts-chart'), {
+                type: 'bar',
+                data: {
+                    labels: conceptsLabels.length ? conceptsLabels : ['No Concepts'],
+                    datasets: [{ 
+                        label: 'Usage Count', 
+                        data: conceptsLabels.length ? Object.values(charts.top_concepts) : [1], 
+                        backgroundColor: 'rgba(63, 185, 80, 0.6)' 
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        // --- EVENT LISTENERS ---
         tabLinks.forEach(link => link.addEventListener('click', switchTab));
         problemSelector.addEventListener('change', (e) => populateVerificationForm(e.target.value));
         sourceSelector.addEventListener('change', updateSourceView);
@@ -315,8 +476,9 @@
 
         generateForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (sourceSelector.value === 'leetcode' && !leetcodeUrlInput.value.includes('leetcode.com/problems/')) {
-                displayMessage('Please enter a valid LeetCode problem URL (e.g., https://leetcode.com/problems/two-sum/).', 'error');
+            const source = sourceSelector.value;
+            if (['leetcode', 'geeksforgeeks'].includes(source) && !leetcodeUrlInput.value.includes(source === 'leetcode' ? 'leetcode.com/problems/' : 'geeksforgeeks.org/problems/')) {
+                displayMessage(`Please enter a valid ${source === 'leetcode' ? 'LeetCode' : 'GeeksforGeeks'} problem URL (e.g., https://${source === 'leetcode' ? 'leetcode.com/problems/two-sum/' : 'www.geeksforgeeks.org/problems/two-sum'}).`, 'error');
                 return;
             }
 
@@ -331,7 +493,6 @@
             try {
                 const formData = new FormData(generateForm);
                 const response = await fetch('/generate', { method: 'POST', body: formData });
-                console.log('Generate response:', await response.clone().json());
                 loader.classList.add('hidden');
                 btn.disabled = false;
                 btn.removeAttribute('aria-busy');
@@ -371,6 +532,14 @@
 
             try {
                 const formData = new FormData(commitForm);
+                const qcScore = parseFloat(formData.get('qc_score_display'));
+                if (isNaN(qcScore) || qcScore < 1.0 || qcScore > 5.0) {
+                    displayMessage('QC Score must be a number between 1.0 and 5.0.', 'error');
+                    btn.disabled = false;
+                    btn.removeAttribute('aria-busy');
+                    return;
+                }
+                formData.set('qc_score', qcScore);
                 const response = await fetch('/commit', { method: 'POST', body: formData });
                 btn.disabled = false;
                 btn.removeAttribute('aria-busy');
@@ -433,6 +602,10 @@
                 displayMessage('Network error occurred during deletion.', 'error');
             }
         });
+
+        // Analytics Event Listeners
+        document.getElementById('belt-filter').addEventListener('change', filterTable);
+        document.getElementById('search-input').addEventListener('input', filterTable);
     </script>
 </body>
 </html>
