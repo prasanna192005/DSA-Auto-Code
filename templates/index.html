@@ -183,6 +183,11 @@
                             <label>Readme Content (Markdown) <textarea name="readme_content" id="readme_content" required></textarea></label>
                             <label>Solution Content (Markdown) <textarea name="solution_content" id="solution_content" required></textarea></label>
                         </div>
+                        <label>Modification Prompt (for AI refinement) <textarea id="mod_prompt" placeholder="e.g., Make the problem more creative by adding a real-world scenario. Or: Increase complexity by requiring O(n) time."></textarea></label>
+                        <button type="button" id="modify-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
+                            Modify with Gemini
+                        </button>
                         <fieldset>
                             <legend>Commit Action</legend>
                             <label><input type="radio" name="commit_action" value="now" onclick="toggleSchedule(false)" checked> Commit Now</label>
@@ -524,7 +529,7 @@
             }
         });
 
-        commitForm.addEventListener('submit', async (e) => {
+        commitForm.addEventListener('submit', async (e) => {    
             e.preventDefault();
             const btn = e.currentTarget.querySelector('button');
             btn.disabled = true;
@@ -566,6 +571,43 @@
                 btn.disabled = false;
                 btn.removeAttribute('aria-busy');
                 displayMessage('Network error occurred during commit.', 'error');
+            }
+        });
+
+        document.getElementById('modify-btn').addEventListener('click', async () => {
+            const modPrompt = document.getElementById('mod_prompt').value.trim();
+            if (!modPrompt) {
+                displayMessage('Please enter a modification prompt.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('modify-btn');
+            btn.disabled = true;
+            btn.setAttribute('aria-busy', 'true');
+
+            try {
+                const formData = new FormData(commitForm);
+                formData.append('mod_prompt', modPrompt);
+                const response = await fetch('/modify', { method: 'POST', body: formData });
+                btn.disabled = false;
+                btn.removeAttribute('aria-busy');
+
+                if (response.ok) {
+                    const updatedProblem = await response.json();
+                    const index = parseInt(problemSelector.value, 10);
+                    generatedProblems[index] = updatedProblem;
+                    populateVerificationForm(index);
+                    document.getElementById('mod_prompt').value = '';
+                    displayMessage('Problem successfully modified.', 'success');
+                } else {
+                    const result = await response.json();
+                    displayMessage(result.message || 'Error modifying problem.', 'error');
+                }
+            } catch (error) {
+                console.error('Modify error:', error);
+                btn.disabled = false;
+                btn.removeAttribute('aria-busy');
+                displayMessage('Network error during modification.', 'error');
             }
         });
 
