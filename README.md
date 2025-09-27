@@ -6,6 +6,7 @@ Overview
 As a Problem Designer at a startup, I often need to design, manage, and track large sets of DSA problems. Doing this manually — updating GitHub repositories, syncing CSV sheets, and ensuring no problem is repeated — was slowing me down.
 
 To solve this, I built DSA Dojo Automator:
+Because designing problems shouldn’t feel like solving logistics.
 A tool that automates GitHub commits, manages CSV sheets, and ensures non-repetitive problem generation from a structured syllabus, with support for adding custom problems.
 
 Problem it Solves
